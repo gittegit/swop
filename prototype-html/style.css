@@ -131,7 +131,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   height: 50px !important;
   min-width: 50px;
   border-radius: 50%;
-  background-color: #f7154c;
+  background-color: #F39016;
   color: #ffffff;
 }
 .swop-status-switch-icons p i {
@@ -146,5 +146,5 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   margin-bottom: 0.75rem;
 }
 .swop-change {
-  color: #f7154c;
+  color: #F39016;
 }
