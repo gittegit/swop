@@ -45,7 +45,7 @@ form:not(:last-child) {
 
 .navigation {
   border-bottom: 1px;
-  border-bottom: 1px solid rgba(0,0,0,0.15);
+  border-bottom: 1px solid #efefef;
   position: fixed;
   top: 0;
   left: 0;
