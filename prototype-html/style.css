@@ -19,6 +19,9 @@
   align-items: center;
   justify-content: flex-end;
 }
+.spacer {
+  height: 0.75rem;
+}
 
 /* ---- Bulma Modifikationen ---- */
 .field:not(:last-child) {
