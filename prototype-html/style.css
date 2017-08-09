@@ -74,7 +74,7 @@ form:not(:last-child) {
   background-color: #ffffff;
 }
 @media only screen and (min-width: 768px) {
-.main-content .columns .column {
+.is-form {
   padding: 2.25rem;
   border: 1px solid #efefef;
 }
