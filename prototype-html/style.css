@@ -251,6 +251,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   margin-bottom: 1.5rem;
 }
 
+
+/* ---- Rettungsring ---- */
+.swoppy-img-small {
+  height: 6rem;
+  float: right;
+}
+
+
 /* Swop Accepted - Farben müssen knallen */
 .swop-accepted.swop-card {
   background-color: #F5A644 !important;
