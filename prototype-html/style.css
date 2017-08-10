@@ -159,16 +159,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 /*Beschriftungen (Fragen und Aufforderungen von swop)*/
 .task-description
 {
-  margin: 3rem;
+  margin: 10%;
   text-align: center;
 }
 
 .task-description-title
 {
-  margin-left: 3rem;
-  margin-right: 3rem;
-  margin-bottom: 3rem;
-  margin-top: 1rem;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 10%;
+  margin-top: 7%;
   text-align: center;
   font-weight: bolder;
 }
@@ -180,6 +180,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 
 /* Eingabe von Veranstaltungen wenn Vorschläge gefunden wurden */
 .input-sugg {
+
+}
+
+/*Formular zur Eigabe von course-id und course-name (Initial)*/
+.new-course {
 
 }
 
