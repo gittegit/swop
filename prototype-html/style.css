@@ -111,15 +111,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 /* LogIn and SignIn */
 .main-content-fullscreen {
   padding-top: 0.75rem;
-  padding-bottom: 10rem;
-  height: 100vh;
-  overflow-y: scroll;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #ffffff;
+  padding-bottom: 3rem;
 }
 @media only screen and (min-width: 768px) {
 .main-content-fullscreen .columns .column {
@@ -131,6 +123,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 .swoppy-img-big {
   height: 5.5rem;
 }
+
+.fullscreen-under-logo {
+  margin-top: -1.25rem;
+}
+.registrierung .task-description {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+.registrierung .task-description-title {
+  margin-bottom: 1rem !important;
+}
+
 
 
 /* ---- Swop-Dialog ---- */
