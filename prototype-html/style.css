@@ -274,6 +274,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   box-shadow: none !important;
   color: #ffffff;
 }
+.swop-accepted .field .control .is-left i {
+  color: #ffffff !important;
+}
 .swop-accepted .field .control .icon {
   color: #ffffff;
 }
