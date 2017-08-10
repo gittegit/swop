@@ -91,20 +91,10 @@ form:not(:last-child) {
   bottom: 0;
   z-index: 8999;
   margin-bottom: 0 !important;
-}
-.gradient-helper {
-    padding: 1.5rem 0;
-  background-color: #ffffff;
-}
-.floating-footer:before {
-  content:"";
-  display: block;
-  height: 5rem;
-  width: 100%;
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&0+0,1+100 */
-background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&0+0,1+50,1+100 */
+background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
 }
 
@@ -231,4 +221,51 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 }
 .swop-change {
   color: #F39016;
+  font-weight: bold;
+}
+.swop-card {
+  margin-bottom: 1.5rem;
+}
+
+/* Swop Accepted - Farben müssen knallen */
+.swop-accepted.swop-card {
+  background-color: #F5A644 !important;
+}
+.swop-accepted .card-header {
+    background-color: #F39016;
+}
+.swop-accepted.swop-card p, .swop-accepted.swop-card p strong, .swop-accepted.swop-card a {
+  color: #ffffff !important;
+}
+.swop-accepted .swop-status-icon {
+  background-color: #ffffff;
+  color: #F39016;
+}
+.swop-accepted .swop-change {
+  color: rgba(0,0,0,0.3);
+}
+.swop-accepted .field .control input {
+  background-color: #F5A644;
+  border-color: #ffffff;
+  box-shadow: none !important;
+  color: #ffffff;
+}
+.swop-accepted .field .control .icon {
+  color: #ffffff;
+}
+.swop-accepted .clipboard-button i {
+  color: #F39016 !important;
+}
+.swop-accepted .card-footer {
+  border-color: #ffffff;
+}
+.swop-accepted .card-footer .card-footer-item {
+  border-color: #ffffff !important;
+}
+.swop-accepted .card-content {
+}
+
+/* Kleine Helferchen */
+.card-content-disabled {
+  display: none !important;
 }
