@@ -63,6 +63,9 @@ form:not(:last-child) {
 .navbar-end {
   display: flex;
 }
+.navbar-item, .navbar-link {
+  padding: 1.5rem 1rem;
+}
 
 /* ---- Main Content Section ---- */
 .main-content {
