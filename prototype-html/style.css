@@ -179,20 +179,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   font-weight: bolder;
 }
 
-/* Eingabe von Veranstaltungen bevor Vorschläge gefunden wurden */
-.input-no-sugg {
-
-}
-
-/* Eingabe von Veranstaltungen wenn Vorschläge gefunden wurden */
-.input-sugg {
-
-}
 
 .course-id {
   display: inline-block;
-  width: 100px;
-  max-width: 100px;
+  width: 90px;
+  max-width: 90px;
 }
 
 .dropdown, .dropdown .control, .dropdown-menu, .dropdown-item {
