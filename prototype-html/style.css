@@ -24,6 +24,9 @@
 }
 
 /* ---- Bulma Modifikationen ---- */
+.modal  {
+  z-index: 9999;
+}
 .field:not(:last-child) {
   margin-bottom: 0.75rem;
 }
@@ -54,7 +57,7 @@ form:not(:last-child) {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 9999;
+  z-index: 8999;
   background-color: #ffffff;
 }
 .navigation .container {
@@ -242,6 +245,35 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   margin-bottom: 1.5rem;
 }
 
+/*--- Modale Dialoge ---*/
+.important-modal, .title {
+  background-color: #F39016;
+  color: #ffffff !important;
+}
+
+.important-modal .button {
+  background-color: #ffffff;
+  color: #F39016;
+}
+
+.important-modal .button:hover {
+  background-color: #F39016;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+
+.important-modal .is-white {
+  color: #ffffff;
+}
+
+.important-modal .is-white:hover {
+  color: rgba(0,0,0,0.3);
+}
+
+.modal .container {
+  width: auto;
+}
+
 
 /* ---- Rettungsring ---- */
 .swoppy-img-small {
@@ -250,7 +282,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 }
 
 
-/* Swop Accepted - Farben müssen knallen */
+/* Swop Accepted - Farben müssen knallen 💥 */
 .swop-accepted.swop-card {
   background-color: #F5A644 !important;
 }
