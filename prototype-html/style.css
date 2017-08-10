@@ -246,7 +246,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 }
 
 /*--- Modale Dialoge ---*/
-.important-modal, .title {
+.important-modal, .important-modal .title {
   background-color: #F39016;
   color: #ffffff !important;
 }
