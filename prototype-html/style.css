@@ -104,9 +104,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   padding-bottom: 3rem;
 }
 @media only screen and (min-width: 768px) {
-.main-content-fullscreen .columns .column {
-  padding: 2.25rem;
-  border: 1px solid #efefef;
+.main-content-fullscreen {
+  padding-top: 3rem !important;
 }
 }
 
