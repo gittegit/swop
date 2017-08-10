@@ -179,6 +179,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   font-weight: bolder;
 }
 
+/* Eingabe von Veranstaltungen bevor Vorschläge gefunden wurden */
+.input-no-sugg {
+
+}
+
+/* Eingabe von Veranstaltungen wenn Vorschläge gefunden wurden */
+.input-sugg {
+
+}
+
 /* ---- Dashboard ---- */
 .swop-card .card-header {
   display: flex;

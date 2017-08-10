@@ -20,7 +20,7 @@
                 <!-- Leere Kolumne -->
                 <div class="column is-one-third"></div>
                 <div class="column is-one-third">
-                    <h1 class="logo has-text-centered"><img class="swoppy-img" src="assets/img/swoppy.png" alt="swop-logo"></h1></div>
+                    <h1 class="logo has-text-centered"><img class="swoppy-img" src="assets/img/swop-logo.svg" alt="swop-logo"></h1></div>
                 <div class="column is-one-third">
                     <nav class="navbar ">
                         <div class="navbar-end">
@@ -63,15 +63,29 @@
                   <h4 class="description is-6">Aus welcher Veranstaltung möchtest du <strong>heraus</strong> wechseln?</h4>
                 </div>
 
-                  <form class="old-course">
-                    <div class="field">
-                        <p class="control  ">
-                            <input class="input" type="text" placeholder="Deine aktuelle Veranstaltung">
-                        </p>
-                        <p class="help is-success">Dein Passwort wurde erfolgreich geändert!</p>
-                  
+                    <form class="old-course">
+
+                    <!-- Texteingabe ohne Vorschläge -->
+                    <!--
+                    <div class="field input-no-sugg">
+                    <div class="control is-fullwidth">
+                          <textarea class="textarea" type="text" placeholder="Deine aktuelle Veranstaltung" rows="1" ></textarea>
                     </div>
+                    </div>
+                    -->
+
+                    <!-- Texteingabe mit Vorschlägen -->
+                    <div class="field input-sugg">
+                    <div class="control is-fullwidth">
+                          <textarea class="textarea" type="text" placeholder="Deine aktuelle Veranstaltung" rows="4" ></textarea>
+                    </div>
+                    </div>
+
+
                       </form>
+
+
+
 
                         <!-- <p class="subtitle">Gib mir hier den Namen oder die ID der Dir zugeordneten Veranstaltung.</p> !-->
 
