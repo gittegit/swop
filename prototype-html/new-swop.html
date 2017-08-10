@@ -63,12 +63,7 @@
                   <h4 class="description is-6">Aus welcher Veranstaltung möchtest du <strong>heraus</strong> wechseln?</h4>
                 </div>
 
-                  <form class="old-course">
-                    <div class="field">
-                        <p class="control  ">
-                            <input class="input" type="text" placeholder="Deine aktuelle Veranstaltung">
-                        </p>
-                        <p class="help is-success">Dein Passwort wurde erfolgreich geändert!</p>
+
 
                     <!-- Texteingabe ohne Vorschläge -->
 
@@ -77,32 +72,29 @@
                           <textarea class="textarea" type="text" placeholder="Deine aktuelle Veranstaltung" rows="1" ></textarea>
                     </div>
                     </div>
-                  -->
+                    -->
 
-                    <div class="field dropdown is-active ">
-                      <div class="dropdown-trigger">
-                        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                          <span>64-</span>
-                          <span class="icon is-small">
-                            <i class="fa fa-angle-down" aria-hidden="true"></i>
-                          </span>
-                        </button>
-                      </div>
+                    <div class="field dropdown is-active">
+                      <p class="control is-loading">
+                          <input class="input" type="text" placeholder="Deine aktuelle Veranstaltung" value="64-">
+                      </p>
+
+
                       <div class="dropdown-menu" id="dropdown-menu" role="menu">
                         <div class="dropdown-content">
                           <a href="#" class="dropdown-item">
-                            64-144 | Praktikum Datenbanken und verteilte Systeme
+                            <span class="course-id">64-144-284</span> Praktikum Datenbanken und verteilte Systeme
                           </a>
                           <a class="dropdown-item">
-                              64-200 | Vorlesung Grundlagen des Interaktionsdesign
+                            <span class="course-id">64-144-3</span> Vorlesung Grundlagen des Interaktionsdesign
                             </a>
                             <a href="#" class="dropdown-item is-active">
-                              	64-201 | Übungen zu Interaktionsdesign Gr.05
+                              	<span class="course-id">64-144-93</span>  Übungen zu Interaktionsdesign <strong>Gr.05</strong>
                             </a>
 
                             <hr class="dropdown-divider">
                             <a href="#" class="dropdown-item">
-                              Meine veranstaltung ist nicht dabei
+                              Meine Veranstaltung ist nicht dabei
                             </a>
                           </div>
                         </div>
@@ -110,16 +102,6 @@
 
 
 
-                    <!-- Texteingabe mit Vorschlägen -->
-
-                    <!--
-                    <div class="field input-sugg">
-                    <div class="control is-fullwidth is-medium is-loading">
-                          <textarea class="textarea" type="text" placeholder="Deine aktuelle Veranstaltung" rows="4" ></textarea>
-                          <p class="help">+ Untergruppe hinzufügen</p>
-                    </div>
-                    </div>
-                  -->
 
 
                     <!-- Neue Veranstaltung anlegen -->
