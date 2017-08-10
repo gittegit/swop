@@ -37,6 +37,10 @@ form:not(:last-child) {
   margin-bottom: 0 !important;
 }
 
+.is-active strong {
+  color: #ffffff;
+}
+
 /* ---- Navigation Section ---- */
 .swoppy-img {
   height: 4rem;
@@ -182,10 +186,23 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 
 }
 
-/*Formular zur Eigabe von course-id und course-name (Initial)*/
-.new-course {
-
+.course-id {
+  display: inline-block;
+  width: 100px;
+  max-width: 100px;
 }
+
+.dropdown, .dropdown .control, .dropdown-menu, .dropdown-item {
+  min-width: 100% !important;
+  max-width: 100%;
+}
+
+.dropdown-item {
+  overflow-x: hidden;
+}
+
+
+
 
 /* ---- Dashboard ---- */
 .swop-card .card-header {
