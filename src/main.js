@@ -2,12 +2,13 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Buefy from 'buefy'
 import db from 'baqend'
 import App from './App'
 import router from './router'
 
 db.connect('restless-bolt-1').then(() => {
-  Vue.use(VueRouter)
+  Vue.use(VueRouter, Buefy.default)
 
   /* eslint-disable no-new */
   new Vue({
