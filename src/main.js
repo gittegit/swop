@@ -6,14 +6,15 @@ import db from 'baqend'
 import App from './App'
 import router from './router'
 
-db.connect('app-starter')
+db.connect('restless-bolt-1').then(() => {
+  Vue.use(VueRouter)
 
-Vue.use(VueRouter)
-
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: { App }
+  /* eslint-disable no-new */
+  new Vue({
+    el: '#app',
+    router,
+    template: '<App/>',
+    components: { App }
+  })
 })
+

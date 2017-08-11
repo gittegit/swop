@@ -38,9 +38,7 @@ export default {
     }
   },
   created () {
-    db.ready(() => {
-      this.isLoggedIn = !!db.User.me
-    })
+    console.log(db.User.me)
   }
 }
 </script>
