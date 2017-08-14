@@ -3,9 +3,11 @@
   <div class="row">
     <div class="panel-heading">
       Kurse
+      <input type="text" v-model="search">
     </div>
-    <div class="panel-body">
-      {{ course }}
+    <div  v-for="course in courses" class="panel-body">
+      {{ course }}<br />
+      {{ course.name }}
     </div>
   </div>
 </div>
@@ -19,7 +21,8 @@
     data () {
       return {
         username: null,
-        course: []
+        search: '',
+        courses: []
       }
     },
     created () {
@@ -27,38 +30,20 @@
       db.Course.find().resultList().then((result) => {
         var courseNames = []
         result.forEach((course) => {
-          var singleCourse = [
-            course.id,
-            course.name
-          ]
+          var singleCourse
+          singleCourse['id'] = course.id
+          singleCourse['name'] = course.name
           courseNames.push(singleCourse)
         })
-        this.course = courseNames
+        this.courses = courseNames
       })
-      console.log(this.course)
+      console.log(this.courses)
     },
-    methods: {
-//      created () {
-//        db.Course.find().resultList((result) => {
-//          if (!result) {
-//            db.log.debug('gitte:', {result: result})
-//            console.log('leer')
-//          } else {
-//            db.log.debug('gitte:', {result: result})
-//            console.log(result)
-//            result.forEach((course) => {
-//              this.course.push(course)
-//              console.log(this.course)
-//            })
-//          }
-//        })
-//      },
-      beforeRouteEnter (to, from, next) {
-        if (!db.User.me) {
-          next('signup')
-        } else {
-          next()
-        }
+    beforeRouteEnter (to, from, next) {
+      if (!db.User.me) {
+        next('signup')
+      } else {
+        next()
       }
     }
   }
