@@ -12,7 +12,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import 'bootstrap';
 
   [v-cloak] {
     display: none;
