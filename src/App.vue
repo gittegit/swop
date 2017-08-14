@@ -12,15 +12,184 @@ export default {
 </script>
 
 <style lang="scss">
-  @import 'bootstrap';
+/*
+:'######::'##:::::'##::'#######::'########::
+'##... ##: ##:'##: ##:'##.... ##: ##.... ##:
+ ##:::..:: ##: ##: ##: ##:::: ##: ##:::: ##:
+. ######:: ##: ##: ##: ##:::: ##: ########::
+:..... ##: ##: ##: ##: ##:::: ##: ##.....:::
+'##::: ##: ##: ##: ##: ##:::: ##: ##::::::::
+. ######::. ###. ###::. #######:: ##::::::::
+:......::::...::...::::.......:::..:::::::::
 
-  [v-cloak] {
-    display: none;
-  }
+------------ TABLE OF CONTENTS -------------
+01...................................Imports
+02................................ Variablen
+03................Bulma/Buefy Modifikationen
+04..............Individuelle globale Klassen
+05..............Component-spezifische Styles
+05-01                              Dashboard
+05-02                             ...
 
-  #app {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    margin-top: 60px;
-  }
+
+*/
+
+
+/* -----------------------------------------
+01.               IMPORTS
+------------------------------------------*/
+// Import von Bulma und Buefy-Styles
+@import "~bulma";
+@import "~buefy/src/scss/buefy";
+@import "~bulma/sass/utilities/_all";
+
+/* -----------------------------------------
+02.               VARIABLEN
+------------------------------------------*/
+
+
+// Setup $colors to use as bulma classes (e.g. 'is-twitter')
+$colors: (
+    "white": ($white, $black),
+    "black": ($black, $white),
+    "light": ($light, $light-invert),
+    "dark": ($dark, $dark-invert),
+    "primary": ($primary, $primary-invert),
+    "info": ($info, $info-invert),
+    "success": ($success, $success-invert),
+    "warning": ($warning, $warning-invert),
+    "danger": ($danger, $danger-invert)
+);
+// Hauptfarben und deren Umkehrungen
+$primary: #F39016;
+$primary-invert: findColorInvert($primary);
+$secondary: #0F75BC;
+$secondary-invert: findColorInvert($secondary);
+
+// Links
+$link: $primary;
+$link-invert: $primary-invert;
+$link-focus-border: $primary;
+
+/* -----------------------------------------
+03.       BULMA/BUEFY MODIFIKATIONEN
+------------------------------------------*/
+
+a {
+  color: $primary;
+}
+a:hover {
+  color: rgba($primary, 0.8);
+}
+.button.is-primary {
+  background-color: $primary;
+}
+.button.is-primary:hover {
+  background-color: rgba($primary, 0.8);
+}
+input:focus {
+  border-color: $primary !important;
+}
+/* -----------------------------------------
+04.     INDIVIDUELLE GLOBALE KLASSEN
+------------------------------------------*/
+
+
+/* -----------------------------------------
+05.      COMPONENT-SPEZIFISCHE STYLES
+------------------------------------------*/
+
+/* 05-01 - DASHBOARD ---------------------*/
+
+.swop-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0 1.5rem 1.5rem;
+}
+.swop-status {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.swop-status-icon {
+  margin-right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 50px;
+  width: 50px !important;
+  height: 50px !important;
+  min-width: 50px;
+  border-radius: 50%;
+  background-color: $primary;
+  color: $white;
+}
+.swop-status-switch-icons p i {
+  width: 30% !important;
+}
+.swop-course-group {
+  font-size: 0.75rem !important;
+}
+.swop-status-course-from {
+  margin-bottom: 0.75rem;
+}
+.swop-change {
+  color: $primary;
+  font-weight: bold;
+}
+.swop-card {
+  margin-bottom: 1.5rem;
+}
+.swop-accepted.swop-card {
+  background-color: rgba($primary,0.8) !important;
+}
+.swop-accepted .card-header {
+    background-color: $primary;
+}
+.swop-accepted.swop-card p, .swop-accepted.swop-card p strong, .swop-accepted.swop-card a {
+  color: $white !important;
+}
+.swop-accepted .swop-status-icon {
+  background-color: $white;
+  color: $primary;
+}
+.swop-accepted .swop-change {
+  color: rgba(0,0,0,0.3);
+}
+.swop-accepted .field .control input {
+  background-color: rgba($primary, 0.8);
+  border-color: $white;
+  box-shadow: none !important;
+  color: $white;
+}
+.swop-accepted .field .control .is-left i {
+  color: $white !important;
+}
+.swop-accepted .field .control .icon {
+  color: $white;
+}
+.swop-accepted .clipboard-button i {
+  color: $primary !important;
+}
+.swop-accepted .card-footer {
+  border-color: $white;
+}
+.swop-accepted .card-footer .card-footer-item {
+  border-color: $white !important;
+}
+.floating-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 8999;
+  margin-bottom: 0 !important;
+  padding-bottom: 3rem;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&0+0,1+50,1+100 */
+background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+}
 </style>

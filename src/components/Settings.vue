@@ -1,38 +1,67 @@
 <template>
   <div class="container">
-    <div class="columns is-mobile is-centered">
-      <div class="column is-8 is-narrow">
-        <img src="../assets/swop-logo.svg">
-        <h1 class="is-title is-size-3">Settings</h1>
+    <div class="columns is-centered">
+
+        <div class="column is-half is-narrow is-form">
+          <div class="task-description-title">
+            <h4 class="title">Deine Einstellungen</h4>
+          </div>
+            <form class="add-email">
+                <h4 class="title is-6">Zusätzliche Mail-Adresse</h4>
+                <p class="subtitle">Benachrichtigungen aus dieser App werden zusätzlich an diese Mail geschickt. Du kannst Dich <strong>nicht</strong> mit dieser Mail einloggen.</p>
+                <b-field>
+                  <div class="control has-icons-left is-expanded">
+                      <b-input type="email" placeholder="Deine Mail-Adresse"></b-input>
+                      <span class="icon is-small is-left">
+                        <i class="fa fa-envelope"></i>
+                      </span>
+                  </div>
+                    <div class="control">
+                        <a class="button is-primary" v-on:click="mailSuccess"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+                    </div>
+
+                </b-field>
+            </form>
+
+            <form class="change-password ">
+                <h4 class="title is-6">Passwort ändern</h4>
+
+                <div class="field">
+                    <p class="control has-icons-left ">
+                      <b-input type="password" placeholder="Dein altes Passwort"></b-input>
+                        <span class="icon is-small is-left">
+                          <i class="fa fa-lock"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="spacer"></div>
+
+                <div class="field">
+                    <p class="control has-icons-left">
+                        <b-input type="password" placeholder="Dein neues Passwort"></b-input>
+                        <span class="icon is-small is-left">
+                          <i class="fa fa-lock"></i>
+                        </span>
+                    </p>
+                </div>
+
+                <div class="field">
+                    <p class="control has-icons-left">
+                        <b-input type="password" placeholder="Bestätige Dein neues Passwort"></b-input>
+                        <span class="icon is-small is-left">
+                          <i class="fa fa-lock"></i>
+                        </span>
+                        <p class="help is-success">Dein Passwort wurde erfolgreich geändert!</p>
+                    </p>
+                </div>
+            </form>
+
+            <p><a class="button is-light">Account löschen</a></p>
+
+        </div>
     </div>
   </div>
-  </div>
 
-  <!-- <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Navigation</h2>
-    <ul>
-      <li><router-link :to="{ name: 'chats' }" >Chats</router-link></li>
-      <li v-cloak v-if="isLoggedIn"><router-link :to="{ name: 'me' }">Account</router-link></li>
-      <li v-cloak v-else><router-link :to="{ name: 'signup' }">Signup</router-link></li>
-    </ul>
-    <h4>Essential Links</h4>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
-    </ul>
-    <h4>Ecosystem</h4>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-  </div> -->
 </template>
 
 <script type="text/babel">
@@ -48,11 +77,25 @@ export default {
   },
   created () {
     console.log(db.User.me)
+  },
+
+  methods: {
+    mailSuccess () {
+      this.$toast.open({message: 'Deine E-Mail wurde erfolgreich hinzugefügt!', type: 'is-success'})
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+
+@media only screen and (min-width: 768px) {
+.is-form {
+  padding: 2.25rem;
+  border: 1px solid #efefef;
+}
+}
+
 
 </style>

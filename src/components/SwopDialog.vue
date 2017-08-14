@@ -1,46 +1,35 @@
 <template>
-  <div class="container">
-    <div class="columns is-mobile is-centered">
-      <div class="column is-8 is-narrow is-form">
+<div class="container">
 
-          <h4 class="title task-title">Dein swop</h4>
+  <!-- Inhalt / Formulare -->
+  <div class="columns is-centered">
 
-          <div class="nav-dots-container">
-            <ul>
-              <li class="nav-dot done"></li>
-              <li class="nav-dot"></li>
-              <li class="nav-dot"></li>
-            </ul>
-        </div>
+    <div class="column is-9 is-narrow is-form">
+
+      <h1 class="title is-3 has-text-centered">Dein swop</h1>
+
+      <ul class="nav-dots-container">
+        <li class="nav-dot done"></li>
+        <li class="nav-dot"></li>
+        <li class="nav-dot"></li>
+      </ul>
+
+      <h4 class="description is-5 has-text-centered">Aus welcher Veranstaltung möchtest du <strong>heraus</strong> wechseln?</h4>
+
+  <b-field>
+      <b-autocomplete
+          v-model="arrayExample.name"
+          :data="filteredDataArray"
+          placeholder="Deine aktuelle Veranstaltung"
+          @select="option => arrayExample.selected = option">
+      </b-autocomplete>
+  </b-field>
+  <p :class="{ 'help': true, 'add-group': true}" @click="addGroup">+ Untergruppe hinzufügen</p>
+
 
     </div>
   </div>
 </div>
-  <!-- <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Navigation</h2>
-    <ul>
-      <li><router-link :to="{ name: 'chats' }" >Chats</router-link></li>
-      <li v-cloak v-if="isLoggedIn"><router-link :to="{ name: 'me' }">Account</router-link></li>
-      <li v-cloak v-else><router-link :to="{ name: 'signup' }">Signup</router-link></li>
-    </ul>
-    <h4>Essential Links</h4>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
-    </ul>
-    <h4>Ecosystem</h4>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-  </div> -->
 </template>
 
 <script type="text/babel">
@@ -51,7 +40,43 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js and Baqend App',
-      isLoggedIn: null
+      isLoggedIn: null,
+      arrayExample: {
+        data: [
+          '64-144   Praktikum Datenbanken',
+          '64-529   Vorlesung GDB',
+          '64-017   Vorlesung Interaktionsdesign',
+          '64-217   Vorlesung Interaktive Medien',
+          'Backbone',
+          'Ember',
+          'jQuery',
+          'Meteor',
+          'Node.js',
+          'Polymer',
+          'React',
+          'RxJS',
+          'Vue.js'
+        ],
+        name: '',
+        selected: null
+      }
+    }
+  },
+
+  methods: {
+    addGroup () {
+      console.log('yeah')
+    }
+  },
+
+  computed: {
+    filteredDataArray () {
+      return this.arrayExample.data.filter((option) => {
+        return option
+          .toString()
+          .toLowerCase()
+          .indexOf(this.arrayExample.name.toLowerCase()) >= 0
+      })
     }
   },
   created () {
@@ -60,49 +85,46 @@ export default {
 }
 </script>
 
-<style>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="scss">
 @media only screen and (min-width: 768px) {
-.is-form {
-  padding: 2.25rem;
-  border: 1px solid #efefef;
-}
+    .is-form {
+        border: 1px solid #efefef;
+    }
 }
 
-.task-title {
-  margin: 10%;
-  text-align: center;
+.is-form {
+    padding: 5%;
 }
 
 /* Stepwise navigation */
 .nav-dots-container {
-  text-align: center;
+    text-align: center;
+    padding-bottom: 5%;
 }
 
-.nav-dots-container .nav-dot{
-  display: inline-block;
-  text-align: center;
-  width: 10px;
-  height: 10px;
-  background: #FBDDB8;
-  border-radius: 100%;
-  margin-left: 5%;
-  margin-right: 5%;
+.nav-dots-container .nav-dot {
+    display: inline-block;
+    text-align: center;
+    width: 10px;
+    height: 10px;
+    background: #FBDDB8;
+    border-radius: 100%;
+    margin-left: 5%;
+    margin-right: 5%;
+    cursor: pointer;
+
+}
+.nav-dots-container .nav-dot.done {
+    background: #F39016;
+}
+.nav-dots-container .nav-dot:hover {
+    width: 12px;
+    height: 12px;
+    background: #F39016;
+}
+
+.add-group {
   cursor: pointer;
 }
-
-.nav-dots-container .nav-dot.done{
-  background: #F39016;
-}
-
-.nav-dots-container .nav-dot:hover{
-  width: 12px;
-  height: 12px;
-  background: #F39016;
-}
-
-</style>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-
 </style>
