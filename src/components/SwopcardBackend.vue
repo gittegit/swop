@@ -1,6 +1,13 @@
 <template>
 <div class="swopcardBackend">
-  {{ course }}
+  <div class="row">
+    <div class="panel-heading">
+      Kurse
+    </div>
+    <div class="panel-body">
+      {{ course }}
+    </div>
+  </div>
 </div>
 </template>
 
