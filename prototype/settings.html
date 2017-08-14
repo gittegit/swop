@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/bulma.css">
+    <link rel="stylesheet" href="assets/animate.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Navigation Sektion -->
+    <section class="navigation">
+        <div class="container">
+            <div class="columns is-mobile">
+                <!-- Leere Kolumne -->
+                <div class="column is-one-third"></div>
+                <div class="column is-one-third">
+                    <h1 class="logo has-text-centered"><img class="swoppy-img" src="assets/img/swop-logo.svg" alt="swop-logo"></h1></div>
+                <div class="column is-one-third">
+                    <nav class="navbar ">
+                        <div class="navbar-end">
+                            <a class="navbar-item has-text-primary">
+                                <i class="fa fa-life-ring" aria-hidden="true"></i>
+                            </a>
+                            <a class="navbar-item has-text-primary">
+                                <i class="fa fa-cog" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- / Navigation Sektion -->
+
+    <section class="main-content">
+        <div class="container">
+
+            <!-- Inhalt / Formulare -->
+            <div class="columns is-centered">
+
+                <div class="column is-half is-narrow is-form">
+                  <div class="task-description-title">
+                    <h4 class="title">Deine Einstellungen</h4>
+                  </div>
+                    <form class="add-email">
+                        <h4 class="title is-6">Zusätzliche Mail-Adresse</h4>
+                        <p class="subtitle">Benachrichtigungen aus dieser App werden zusätzlich an diese Mail geschickt. Du kannst Dich <strong>nicht</strong> mit dieser Mail einloggen.</p>
+                        <div class="field is-grouped">
+                            <div class="control has-icons-left is-expanded">
+                                <input class="input" type="mail" placeholder="Deine Mail-Adresse">
+                                <span class="icon is-small is-left">
+      <i class="fa fa-envelope"></i>
+    </span>
+                            </div>
+                            <div class="control">
+                                <a class="button is-primary"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+                            </div>
+
+                        </div>
+                        <p class="help is-success">Deine E-Mail wurde erfolgreich hinzugefügt!</p>
+                    </form>
+
+                    <form class="change-password ">
+                        <h4 class="title is-6">Passwort ändern</h4>
+
+                        <div class="field">
+                            <p class="control has-icons-left ">
+                                <input class="input" type="password" placeholder="Dein altes Passwort">
+                                <span class="icon is-small is-left">
+      <i class="fa fa-lock"></i>
+    </span>
+                            </p>
+                        </div>
+                        <div class="spacer"></div>
+
+                        <div class="field">
+                            <p class="control has-icons-left">
+                                <input class="input" type="password" placeholder="Dein neues Passwort">
+                                <span class="icon is-small is-left">
+      <i class="fa fa-lock"></i>
+    </span>
+                            </p>
+                        </div>
+
+                        <div class="field">
+                            <p class="control has-icons-left">
+                                <input class="input" type="password" placeholder="Bestätige Dein neues Passwort">
+                                <span class="icon is-small is-left">
+      <i class="fa fa-lock"></i>
+    </span>
+                                <p class="help is-success">Dein Passwort wurde erfolgreich geändert!</p>
+                            </p>
+                        </div>
+                    </form>
+
+                    <p><a class="button is-light">Account löschen</a></p>
+
+                </div>
+            </div>
+            <!-- / Inhalt / Formulare -->
+
+        </div>
+    </section>
+
+    <!-- <footer class="floating-footer">
+        <div class="gradient-helper">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-half is-narrow">
+                        <p class="has-text-right flex-center"><a class="is-white font-klein margin-right">zurück zum Dashboard</a><a class="button is-light">Account löschen</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer> -->
+
+</body>
+
+</html>
