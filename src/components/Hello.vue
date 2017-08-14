@@ -46,7 +46,7 @@
 </template>
 
 <script type="text/babel">
-import db from 'baqend'
+// import db from 'baqend'
 
 export default {
   name: 'hello',
@@ -57,7 +57,7 @@ export default {
     }
   },
   created () {
-    console.log(db.User.me)
+    // console.log(db.User.me)
   }
 }
 </script>
