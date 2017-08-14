@@ -4,7 +4,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Buefy from 'buefy'
 import db from 'baqend'
-import App from './App'
+import App from './app'
 import router from './router'
 
 db.connect('restless-bolt-1').then(() => {
@@ -14,8 +14,7 @@ db.connect('restless-bolt-1').then(() => {
   new Vue({
     el: '#app',
     router,
-    template: '<App/>',
+    template: '<app/>',
     components: { App }
   })
 })
-

@@ -3,20 +3,10 @@
     <div class="columns is-mobile is-centered">
       <div class="column is-8 is-narrow">
         <img src="../assets/swop-logo.svg">
-        <h1 class="is-title is-size-3">Willkommen</h1>
-        <p class="subtitle">Was willst du heute ansehen?</p>
-        <ul>
-          <li><router-link :to="{name: 'navigation'}">Navigation</router-link></li>
-          <li><router-link :to="{name: 'settings'}">Settings</router-link></li>
-          <li><router-link :to="{name: 'dashboard'}">Dashboard</router-link></li>
-          <li><router-link :to="{name: 'swop-dialog'}">Swop-Dialog</router-link></li>
-          <li><router-link :to="{name: 'spielregeln'}">Spielregeln</router-link></li>
-          <li><router-link :to="{name: 'modal-sample'}">Modal-Sample</router-link></li>
-        </ul>
-      </div>
+        <h1 class="is-title is-size-3">Swop-Dialog</h1>
     </div>
   </div>
-
+</div>
   <!-- <div class="hello">
     <h1>{{ msg }}</h1>
     <h2>Navigation</h2>
@@ -48,7 +38,7 @@
 import db from 'baqend'
 
 export default {
-  name: 'hello',
+  name: 'swop-dialog',
   data () {
     return {
       msg: 'Welcome to Your Vue.js and Baqend App',
@@ -63,21 +53,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-h1, h2 {
-  font-weight: normal;
-}
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-img {
-  height: 6rem;
-}
 </style>
