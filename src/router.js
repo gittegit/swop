@@ -23,11 +23,13 @@ const routes = [
   { path: '/swop-dialog', name: 'swop-dialog', component: view('SwopDialog'), beforeEnter: dbReady },
   { path: '/spielregeln', name: 'spielregeln', component: view('Spielregeln'), beforeEnter: dbReady },
   { path: '/navigation', name: 'navigation', component: view('Navigation'), beforeEnter: dbReady },
-  { path: '/modal-sample', name: 'modal-sample', component: view('ModalSample'), beforeEnter: dbReady }
+  { path: '/modal-sample', name: 'modal-sample', component: view('ModalSample'), beforeEnter: dbReady },
   // { path: '/chats', name: 'chats', component: view('Chats'), beforeEnter: dbReady },
   // { path: '/chat/:id', name: 'chat', component: view('Chat'), beforeEnter: dbReady },
-  // { path: '/signup', name: 'signup', component: view('Signup'), beforeEnter: dbReady },
-  // { path: '/me', name: 'me', component: view('Me'), beforeEnter: dbReady }
+  { path: '/signup', name: 'signup', component: view('Signup'), beforeEnter: dbReady },
+  { path: '/me', name: 'me', component: view('Me'), beforeEnter: dbReady },
+  // custom from Gitte
+  { path: '/swopcardBackend', name: 'swopcardBackend', component: view('SwopcardBackend'), beforeEnter: dbReady }
 ]
 
 const router = new VueRouter({
