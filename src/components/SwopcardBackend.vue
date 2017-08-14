@@ -6,8 +6,7 @@
       <input type="text" v-model="search">
     </div>
     <div v-for="course in filteredItems" class="panel-body">
-      {{ courses }} <br />
-      {{ course.id }}<br />
+      {{ course.id }} <br />
       {{ course.name }}
     </div>
   </div>

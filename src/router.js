@@ -29,7 +29,8 @@ const routes = [
   { path: '/signup', name: 'signup', component: view('Signup'), beforeEnter: dbReady },
   { path: '/me', name: 'me', component: view('Me'), beforeEnter: dbReady },
   // custom from Gitte
-  { path: '/swopcardBackend', name: 'swopcardBackend', component: view('SwopcardBackend'), beforeEnter: dbReady }
+  { path: '/swopcardBackend', name: 'swopcardBackend', component: view('SwopcardBackend'), beforeEnter: dbReady },
+  { path: '/addCourse', name: 'addCourse', component: view('AddCourse'), beforeEnter: dbReady }
 ]
 
 const router = new VueRouter({
