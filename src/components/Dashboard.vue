@@ -7,6 +7,11 @@
           <div class="column is-9 is-narrow">
 
             <!-- Beginn einer Karte / mit Swop-->
+            <button class="button block">Toggle</button>
+            <b-message title="Default" :active.sync="isActive">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce id fermentum quam. Proin sagittis, nibh id hendrerit imperdiet, elit sapien laoreet elit
+            </b-message>
+
             <div class="swop-card card swop-accepted">
               <!-- Kartenheader -->
               <header class="card-header">
@@ -105,5 +110,46 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
+.swop-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0 1.5rem 1.5rem;
+}
+.swop-status {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.swop-status-icon {
+  margin-right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 50px;
+  width: 50px !important;
+  height: 50px !important;
+  min-width: 50px;
+  border-radius: 50%;
+  background-color: #F39016;
+  color: #ffffff;
+}
+.swop-status-switch-icons p i {
+}
+.swop-status-switch-icons p i {
+  width: 30% !important;
+}
+.swop-course-group {
+  font-size: 0.75rem !important;
+}
+.swop-status-course-from {
+  margin-bottom: 0.75rem;
+}
+.swop-change {
+  color: #F39016;
+  font-weight: bold;
+}
+.swop-card {
+  margin-bottom: 1.5rem;
+}
 </style>

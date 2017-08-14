@@ -12,6 +12,9 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~bulma/sass/utilities/_all";
+/* --- V A R I A B L E N --- */
+$primary: #F39016 !important;
 
   [v-cloak] {
     display: none;
@@ -20,6 +23,5 @@ export default {
   #app {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    margin-top: 60px;
   }
 </style>
