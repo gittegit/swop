@@ -8,7 +8,9 @@ import App from './App'
 import router from './router'
 
 db.connect('restless-bolt-1').then(() => {
-  Vue.use(VueRouter, Buefy.default)
+  Vue.use(VueRouter, Buefy, {
+    defaultIconPack: 'fa'
+  })
 
   /* eslint-disable no-new */
   new Vue({

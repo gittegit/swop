@@ -1,38 +1,89 @@
 <template>
   <div class="container">
-    <div class="columns is-mobile is-centered">
-      <div class="column is-8 is-narrow">
-        <img src="../assets/swop-logo.svg">
-        <h1 class="is-title is-size-3">Dashboard</h1>
-    </div>
-  </div>
-  </div>
 
-  <!-- <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Navigation</h2>
-    <ul>
-      <li><router-link :to="{ name: 'chats' }" >Chats</router-link></li>
-      <li v-cloak v-if="isLoggedIn"><router-link :to="{ name: 'me' }">Account</router-link></li>
-      <li v-cloak v-else><router-link :to="{ name: 'signup' }">Signup</router-link></li>
-    </ul>
-    <h4>Essential Links</h4>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
-    </ul>
-    <h4>Ecosystem</h4>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-  </div> -->
+      <!-- Inhalt / Formulare -->
+      <div class="columns is-centered">
+
+          <div class="column is-9 is-narrow">
+
+            <!-- Beginn einer Karte / mit Swop-->
+            <div class="swop-card card swop-accepted">
+              <!-- Kartenheader -->
+              <header class="card-header">
+                <div class="swop-status">
+                  <div class="swop-status-icon"><i class="fa fa-user-times" aria-hidden="true"></i></div>
+                  <div class="swop-status-courses">
+                    <!-- Swop Kurse -->
+                    <div class="swop-status-course-from">
+                      <p class="help"><span class="swop-change">Swop</span> <span class="swop-course-id">64-012</span> — <span class="swop-course-group">Gruppe E</span> </p>
+                      <p class="is-title is-size-5 course-title">Übungen zu Softwareentwicklung II</p>
+                    </div>
+
+                    <div class="swop-status-course-from">
+                      <p class="help"><span class="swop-change">Gegen</span> <span class="swop-course-id">64-012</span> — <span class="swop-course-group">Gruppe F</span> </p>
+                      <p class="is-title is-size-5 course-title">Übungen zu Softwareentwicklung II</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- Icon -->
+                <a class="card-header-icon">
+                  <span class="icon">
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                </a>
+              </header>
+
+              <!-- Karteninhalt - muss aufgetogglet werrden -->
+              <div class="card-content">
+                <div class="content">
+                  <p>Du swopst deinen Platz mit <strong>Marco</strong></p>
+                  <form class="swop-partner-mail">
+                  <div class="field has-addons">
+                      <div class="control has-icons-left is-expanded">
+                          <input class="input is-medium" type="mail" value="marco@uni.rocks">
+                          <span class="icon is-small is-left">
+                          <i class="fa fa-envelope"></i>
+                          </span>
+                      </div>
+
+                      <div class="control">
+                          <a class="button is-white is-medium clipboard-button"><i class="fa fa-clipboard" aria-hidden="true"></i></a>
+                      </div>
+
+                  </div>
+                        <p class="help">Bitte nimm zügig Kontakt auf, Marco wartet sicher schon!</p>
+                </form>
+
+                </div>
+              </div>
+              <footer class="card-footer">
+                <p class="card-footer-item help">1. Januar 2016 — 20:34 Uhr</p>
+                <a class="card-footer-item"><span class="icon"><i class="fa fa-trash" aria-hidden="true"></i></span> Löschen</a>
+
+              </footer>
+              </div>
+              <!-- Ende einer Karte -->
+          </div>
+      </div>
+      <!-- / Inhalt / Formulare -->
+
+  <footer class="floating-footer">
+      <div class="container">
+          <div class="columns is-centered">
+              <div class="column is-half is-narrow">
+                  <p class="has-text-centered">
+                    <a class="button is-primary has-icon is-medium">
+                      <span class="icon">
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                    </span>
+                    <span>Neue Anfrage</span>
+                    </a></p>
+              </div>
+          </div>
+      </div>
+  </footer>
+</div>
+
 </template>
 
 <script type="text/babel">
