@@ -1,9 +1,18 @@
 <template>
   <div class="container">
     <div class="columns is-mobile is-centered">
-      <div class="column is-8 is-narrow">
-        <img src="../assets/swop-logo.svg">
-        <h1 class="is-title is-size-3">Swop-Dialog</h1>
+      <div class="column is-8 is-narrow is-form">
+
+          <h4 class="title task-title">Dein swop</h4>
+
+          <div class="nav-dots-container">
+            <ul>
+              <li class="nav-dot done"></li>
+              <li class="nav-dot"></li>
+              <li class="nav-dot"></li>
+            </ul>
+        </div>
+
     </div>
   </div>
 </div>
@@ -50,6 +59,48 @@ export default {
   }
 }
 </script>
+
+<style>
+@media only screen and (min-width: 768px) {
+.is-form {
+  padding: 2.25rem;
+  border: 1px solid #efefef;
+}
+}
+
+.task-title {
+  margin: 10%;
+  text-align: center;
+}
+
+/* Stepwise navigation */
+.nav-dots-container {
+  text-align: center;
+}
+
+.nav-dots-container .nav-dot{
+  display: inline-block;
+  text-align: center;
+  width: 10px;
+  height: 10px;
+  background: #FBDDB8;
+  border-radius: 100%;
+  margin-left: 5%;
+  margin-right: 5%;
+  cursor: pointer;
+}
+
+.nav-dots-container .nav-dot.done{
+  background: #F39016;
+}
+
+.nav-dots-container .nav-dot:hover{
+  width: 12px;
+  height: 12px;
+  background: #F39016;
+}
+
+</style>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
