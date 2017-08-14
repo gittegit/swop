@@ -4,15 +4,10 @@
       <!-- Inhalt / Formulare -->
       <div class="columns is-centered">
 
-          <div class="column is-9 is-narrow">
+          <div class="column is-8 is-narrow">
 
             <!-- Beginn einer Karte / mit Swop-->
-            <button class="button block">Toggle</button>
-            <b-message title="Default" :active.sync="isActive">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce id fermentum quam. Proin sagittis, nibh id hendrerit imperdiet, elit sapien laoreet elit
-            </b-message>
-
-            <div class="swop-card card swop-accepted">
+            <div v-for="swopCard in swopCards"  class="swop-card card" :class="{'swop-accepted':swopCard.match}">
               <!-- Kartenheader -->
               <header class="card-header">
                 <div class="swop-status">
@@ -20,13 +15,13 @@
                   <div class="swop-status-courses">
                     <!-- Swop Kurse -->
                     <div class="swop-status-course-from">
-                      <p class="help"><span class="swop-change">Swop</span> <span class="swop-course-id">64-012</span> — <span class="swop-course-group">Gruppe E</span> </p>
-                      <p class="is-title is-size-5 course-title">Übungen zu Softwareentwicklung II</p>
+                      <p class="help"><span class="swop-change">Swop</span> <span class="swop-course-id">64-012</span> — <span class="swop-course-group">{{swopCard.courseGroupFrom}}</span> </p>
+                      <p class="is-title is-size-5 course-title">{{swopCard.courseTitleFrom}}</p>
                     </div>
 
                     <div class="swop-status-course-from">
-                      <p class="help"><span class="swop-change">Gegen</span> <span class="swop-course-id">64-012</span> — <span class="swop-course-group">Gruppe F</span> </p>
-                      <p class="is-title is-size-5 course-title">Übungen zu Softwareentwicklung II</p>
+                      <p class="help"><span class="swop-change">Gegen</span> <span class="swop-course-id">64-012</span> — <span class="swop-course-group">{{swopCard.courseGroupTo}}</span> </p>
+                      <p class="is-title is-size-5 course-title">{{swopCard.courseTitleTo}}</p>
                     </div>
                   </div>
                 </div>
@@ -41,7 +36,7 @@
               <!-- Karteninhalt - muss aufgetogglet werrden -->
               <div class="card-content">
                 <div class="content">
-                  <p>Du swopst deinen Platz mit <strong>Marco</strong></p>
+                  <p>Du swopst deinen Platz mit <strong>{{swopCard.userName}}</strong></p>
                   <form class="swop-partner-mail">
                   <div class="field has-addons">
                       <div class="control has-icons-left is-expanded">
@@ -52,17 +47,17 @@
                       </div>
 
                       <div class="control">
-                          <a class="button is-white is-medium clipboard-button"><i class="fa fa-clipboard" aria-hidden="true"></i></a>
+                          <a class="button is-medium clipboard-button" :class="{'is-primary':!swopCard.match, 'is-white':swopCard.match,}"><i class="fa fa-clipboard" aria-hidden="true"></i></a>
                       </div>
 
                   </div>
-                        <p class="help">Bitte nimm zügig Kontakt auf, Marco wartet sicher schon!</p>
+                        <p class="help">Bitte nimm zügig Kontakt auf, {{swopCard.userName}} wartet sicher schon!</p>
                 </form>
 
                 </div>
               </div>
               <footer class="card-footer">
-                <p class="card-footer-item help">1. Januar 2016 — 20:34 Uhr</p>
+                <p class="card-footer-item help">{{swopCard.date}} — {{swopCard.time}} Uhr</p>
                 <a class="card-footer-item"><span class="icon"><i class="fa fa-trash" aria-hidden="true"></i></span> Löschen</a>
 
               </footer>
@@ -88,7 +83,6 @@
       </div>
   </footer>
 </div>
-
 </template>
 
 <script type="text/babel">
@@ -99,7 +93,42 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js and Baqend App',
-      isLoggedIn: null
+      isLoggedIn: null,
+      swopCards: [
+        {
+          courseTitleFrom: 'Übungen zu Softwareentwicklung II',
+          courseGroupFrom: 'Gruppe F',
+          courseTitleTo: 'Übungen zu Softwareentwicklung II',
+          courseGroupTo: 'Gruppe E',
+          userName: 'Marco',
+          userMail: 'marco@uni.rocks',
+          date: '2. Januar 2016',
+          time: '19:34',
+          match: false
+        },
+        {
+          courseTitleFrom: 'Denken lernen leicht gemacht',
+          courseGroupFrom: 'Seminar F',
+          courseTitleTo: 'Denken lernen leicht gemacht',
+          courseGroupTo: 'Seminar E',
+          userName: 'Stefan',
+          userMail: 'stefan@uni.rocks',
+          date: '4. Januar 2016',
+          time: '18:34',
+          match: true
+        },
+        {
+          courseTitleFrom: 'Wurst selber machen',
+          courseGroupFrom: 'Seminar F',
+          courseTitleTo: 'Mittelalter Vogelkunde',
+          courseGroupTo: 'Seminar E',
+          userName: 'Dieter',
+          userMail: 'dieter@uni.rocks',
+          date: '4. Januar 2016',
+          time: '18:34',
+          match: false
+        }
+      ]
     }
   },
   created () {
@@ -110,46 +139,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.swop-card .card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 0 1.5rem 1.5rem;
-}
-.swop-status {
-  display: flex;
-  justify-content: left;
-  align-items: center;
-}
-.swop-status-icon {
-  margin-right: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-basis: 50px;
-  width: 50px !important;
-  height: 50px !important;
-  min-width: 50px;
-  border-radius: 50%;
-  background-color: #F39016;
-  color: #ffffff;
-}
-.swop-status-switch-icons p i {
-}
-.swop-status-switch-icons p i {
-  width: 30% !important;
-}
-.swop-course-group {
-  font-size: 0.75rem !important;
-}
-.swop-status-course-from {
-  margin-bottom: 0.75rem;
-}
-.swop-change {
-  color: #F39016;
-  font-weight: bold;
-}
-.swop-card {
-  margin-bottom: 1.5rem;
-}
+
 </style>
