@@ -5,8 +5,10 @@
       Kurse
       <input type="text" v-model="search">
     </div>
-    <div v-for="course in courses" class="panel-body">
-      {{ course }}
+    <div v-for="course in filteredItems" class="panel-body">
+      {{ courses }} <br />
+      {{ course.id }}<br />
+      {{ course.name }}
     </div>
   </div>
 </div>
@@ -26,19 +28,19 @@
     },
     created () {
       this.username = db.User.me.username
-      db.Course.find().resultList().then((result) => {
-        var courseNames = []
-        result.forEach((course) => {
-          var singleCourse = []
-          singleCourse['id'] = course.id
-          singleCourse['name'] = course.name
-          console.log(singleCourse)
-          courseNames = singleCourse
+      db.Course.find()
+          .ascending('name')
+          .resultList().then((result) => {
+            this.courses = result
+            console.log(this.courses)
+          })
+    },
+    computed: {
+      filteredItems () {
+        return this.courses.filter(course => {
+          return course.id.indexOf(this.search.toLowerCase()) > -1
         })
-        console.log(courseNames)
-        this.courses = courseNames
-      })
-      console.log(this.courses)
+      }
     },
     beforeRouteEnter (to, from, next) {
       if (!db.User.me) {
