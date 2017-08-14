@@ -92,10 +92,7 @@
 </template>
 
 <script type="text/babel">
-import Vue from 'vue'
 import db from 'baqend'
-import Buefy from 'buefy'
-Vue.component(Buefy.Message.name, Buefy.Message)
 
 export default {
   name: 'dashboard',
