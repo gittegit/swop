@@ -40,7 +40,7 @@
                   <form class="swop-partner-mail">
                   <div class="field has-addons">
                       <div class="control has-icons-left is-expanded">
-                          <input class="input is-medium" type="mail" value="marco@uni.rocks">
+                          <input class="input is-medium" type="mail" v-model="swopCard.userMail">
                           <span class="icon is-small is-left">
                           <i class="fa fa-envelope"></i>
                           </span>
@@ -72,12 +72,12 @@
           <div class="columns is-centered">
               <div class="column is-half is-narrow">
                   <p class="has-text-centered">
-                    <a class="button is-primary has-icon is-medium">
+                    <router-link :to="{name: 'swop-dialog'}" class="button is-primary has-icon is-medium">
                       <span class="icon">
                       <i class="fa fa-plus" aria-hidden="true"></i>
                     </span>
                     <span>Neue Anfrage</span>
-                    </a></p>
+                  </router-link></p>
               </div>
           </div>
       </div>
