@@ -5,9 +5,8 @@
       Kurse
       <input type="text" v-model="search">
     </div>
-    <div  v-for="course in courses" class="panel-body">
-      {{ course }}<br />
-      {{ course.name }}
+    <div v-for="course in courses" class="panel-body">
+      {{ course }}
     </div>
   </div>
 </div>
@@ -30,11 +29,13 @@
       db.Course.find().resultList().then((result) => {
         var courseNames = []
         result.forEach((course) => {
-          var singleCourse
+          var singleCourse = []
           singleCourse['id'] = course.id
           singleCourse['name'] = course.name
-          courseNames.push(singleCourse)
+          console.log(singleCourse)
+          courseNames = singleCourse
         })
+        console.log(courseNames)
         this.courses = courseNames
       })
       console.log(this.courses)
