@@ -1,7 +1,13 @@
 <template>
   <div id="app">
     <navigation></navigation>
+    <transition
+  name="custom-classes-transition"
+  enter-active-class="animated fadeInLeft"
+  leave-active-class="animated fadeOutRight"
+>
     <router-view></router-view>
+  </transition>
   </div>
 </template>
 
@@ -131,6 +137,17 @@ a.has-text-lightgrey:hover {
 input:focus {
   border-color: $primary !important;
 }
+.main-content {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin-right: auto;
+  margin-left: auto;
+  overflow-y: scroll;
+
+}
 
 /* Tabs */
 .tabs.is-toggle li.is-active a {
@@ -141,7 +158,10 @@ input:focus {
 /* -----------------------------------------
 04.     INDIVIDUELLE GLOBALE KLASSEN
 ------------------------------------------*/
-
+/* Animations */
+// .delay {
+//   animation-delay: 0.8s !important;
+// }
 /* ---- Main Content ---- */
 .main-content {
   padding-top: 8rem;
