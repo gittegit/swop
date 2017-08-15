@@ -1,5 +1,5 @@
 <template>
-  <div class="CourseBackend">
+  <div class="container main-content">
     <div class="row">
       <div class="panel-heading">
         Neuen Kurs anlegen
@@ -17,6 +17,7 @@
 
 <script type="text/babel">
   import db from 'baqend'
+  import router from 'vue-router'
 
   export default {
     name: 'addCourse',
@@ -29,11 +30,14 @@
     },
     methods: {
       addCourse () {
+        var id = this.id
 //        db.Course.create(this.id, this.name).then(() => {
-//          console.log('yay')
-//        }).catch(e => {
-//          this.error = e.message
-//        })
+        db.modules.post('createCourse', {id}).then(() => {
+          console.log('yay')
+          router.push('addCourse')
+        }).catch(e => {
+          this.error = e.message
+        })
       }
     },
 //    computed: {
