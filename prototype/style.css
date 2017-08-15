@@ -138,31 +138,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 
 /* ---- Swop-Dialog ---- */
 
-/* Stepwise navigation */
-.nav-dots-container {
-  text-align: center;
-  padding-bottom: 1.5rem;
-}
-
-.nav-dots-container .nav-dot{
-  display: inline-block;
-  text-align: center;
-  width: 10px;
-  height: 10px;
-  background: #FBDDB8;
-  border-radius: 100%;
-  margin-left: 1.5rem;
-  margin-right: 1.5rem;
-  cursor: pointer;
-
-}
-.nav-dots-container .nav-dot.done{
-  background: #F39016;
-}
-.nav-dots-container .nav-dot:hover{
-  width: 12px;
-  height: 12px;
-  background: #F39016;
+is-form {
+    padding: 10%;
+    border: 1px solid #efefef;
 }
 
 /*Beschriftungen (Fragen und Aufforderungen von swop)*/
