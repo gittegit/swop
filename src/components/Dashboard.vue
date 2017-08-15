@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-
       <!-- Inhalt / Formulare -->
       <div class="columns is-centered">
 
@@ -9,7 +8,7 @@
             <!-- Beginn einer Karte / mit Swop-->
             <div v-for="swopCard in swopCards"  class="swop-card card" :class="{'swop-accepted':swopCard.match}">
               <!-- Kartenheader -->
-              <header class="card-header">
+              <header class="card-header" v-on:click="swopCard.open = !swopCard.open">
                 <div class="swop-status">
                   <div class="swop-status-icon"><i class="fa fa-user-times" aria-hidden="true"></i></div>
                   <div class="swop-status-courses">
@@ -34,8 +33,10 @@
               </header>
 
               <!-- Karteninhalt - muss aufgetogglet werrden -->
-              <div class="card-content">
+              <transition name="expand">
+              <div class="card-content" v-show="swopCard.open">
                 <div class="content">
+                  <div class="swop-match-info" v-if="swopCard.match">
                   <p>Du swopst deinen Platz mit <strong>{{swopCard.userName}}</strong></p>
                   <form class="swop-partner-mail">
                   <div class="field has-addons">
@@ -53,9 +54,13 @@
                   </div>
                         <p class="help">Bitte nimm zügig Kontakt auf, {{swopCard.userName}} wartet sicher schon!</p>
                 </form>
-
+                </div>
+                <div class="swop-no-match-info" v-else>
+                  <p>Leider haben wir noch keinen Partner für dich gefunden. Bleib' aber ständig auf Empfang, denn das kann sich jederzeit ändern!</p>
+                </div>
                 </div>
               </div>
+            </transition>
               <footer class="card-footer">
                 <p class="card-footer-item help">{{swopCard.date}} — {{swopCard.time}} Uhr</p>
                 <a class="card-footer-item"><span class="icon"><i class="fa fa-trash" aria-hidden="true"></i></span> Löschen</a>
@@ -66,22 +71,21 @@
           </div>
       </div>
       <!-- / Inhalt / Formulare -->
-
-  <footer class="floating-footer">
+      <footer class="floating-footer">
       <div class="container">
-          <div class="columns is-centered">
-              <div class="column is-half is-narrow">
-                  <p class="has-text-centered">
-                    <router-link :to="{name: 'swop-dialog'}" class="button is-primary has-icon is-medium">
-                      <span class="icon">
-                      <i class="fa fa-plus" aria-hidden="true"></i>
-                    </span>
-                    <span>Neue Anfrage</span>
-                  </router-link></p>
-              </div>
-          </div>
-      </div>
-  </footer>
+      <div class="columns is-centered">
+                    <div class="column is-half is-narrow">
+                        <p class="has-text-centered">
+                          <router-link :to="{name: 'swop-dialog'}" class="button is-secondary has-icon is-medium">
+                            <span class="icon">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                          </span>
+                          <span>Neue Anfrage</span>
+                        </router-link></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
 </div>
 </template>
 
@@ -104,7 +108,8 @@ export default {
           userMail: 'marco@uni.rocks',
           date: '2. Januar 2016',
           time: '19:34',
-          match: false
+          match: false,
+          open: false
         },
         {
           courseTitleFrom: 'Denken lernen leicht gemacht',
@@ -115,7 +120,8 @@ export default {
           userMail: 'stefan@uni.rocks',
           date: '4. Januar 2016',
           time: '18:34',
-          match: true
+          match: true,
+          open: false
         },
         {
           courseTitleFrom: 'Wurst selber machen',
@@ -126,7 +132,8 @@ export default {
           userMail: 'dieter@uni.rocks',
           date: '4. Januar 2016',
           time: '18:34',
-          match: false
+          match: false,
+          open: false
         }
       ]
     }
