@@ -141,7 +141,7 @@ input:focus {
 
 /* ---- Main Content ---- */
 .main-content {
-  padding-top: 5rem;
+  padding-top: 8rem;
   padding-bottom: 5rem;
 }
 /* ---- Navigation Sektion ---- */
