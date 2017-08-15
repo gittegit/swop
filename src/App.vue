@@ -75,11 +75,24 @@ $link-focus-border: $primary;
 03.       BULMA/BUEFY MODIFIKATIONEN
 ------------------------------------------*/
 
+body {
+  font-family: 'Roboto', sans-serif;
+}
 a {
   color: $primary;
+  transition: all 0.3s ease;
 }
 a:hover {
   color: rgba($primary, 0.8);
+}
+a.is-secondary {
+  color: $secondary;
+}
+a.is-secondary:hover {
+  color: rgba($secondary, 0.8);
+}
+.button {
+  transition: all 0.3s ease;
 }
 .button.is-primary {
   background-color: $primary;
@@ -87,9 +100,24 @@ a:hover {
 .button.is-primary:hover {
   background-color: rgba($primary, 0.8);
 }
+.button.is-secondary {
+  background-color: $secondary;
+  color: $white;
+}
+.button.is-secondary:hover {
+  background-color: rgba($secondary, 0.8);
+  color: $white;
+}
 input:focus {
   border-color: $primary !important;
 }
+
+/* Tabs */
+.tabs.is-toggle li.is-active a {
+  background-color: $secondary;
+  border-color: $secondary;
+}
+
 /* -----------------------------------------
 04.     INDIVIDUELLE GLOBALE KLASSEN
 ------------------------------------------*/
@@ -101,11 +129,19 @@ input:focus {
 
 /* 05-01 - DASHBOARD ---------------------*/
 
+.swop-card {
+  transition: all 0.3s ease;
+}
+.swop-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0px 10px 20px -10px rgba(0,0,0,0.3);
+}
 .swop-card .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 0 1.5rem 1.5rem;
+  cursor: pointer;
 }
 .swop-status {
   display: flex;
@@ -140,6 +176,9 @@ input:focus {
 }
 .swop-card {
   margin-bottom: 1.5rem;
+}
+.swop-card:last-child {
+  margin-bottom: 6.5rem;
 }
 .swop-accepted.swop-card {
   background-color: rgba($primary,0.8) !important;

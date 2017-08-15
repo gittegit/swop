@@ -1,5 +1,6 @@
-<template type="text/html">
-  <div class="chat container">
+<template type="text/html" >
+
+  <!--<div class="chat container">
     <div class="row">
       <div class="col-xs-10 col-xs-offset-1">
         <div class="panel panel-default">
@@ -19,7 +20,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
 </template>
 
 <style>

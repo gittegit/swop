@@ -11,49 +11,53 @@
                 <p class="subtitle">Benachrichtigungen aus dieser App werden zusätzlich an diese Mail geschickt. Du kannst Dich <strong>nicht</strong> mit dieser Mail einloggen.</p>
                 <b-field>
                   <div class="control has-icons-left is-expanded">
-                      <b-input type="email" placeholder="Deine Mail-Adresse"></b-input>
+                      <b-input v-model="email" placeholder="Deine Mail-Adresse"></b-input>
                       <span class="icon is-small is-left">
                         <i class="fa fa-envelope"></i>
                       </span>
                   </div>
                     <div class="control">
-                        <a class="button is-primary" v-on:click="mailSuccess"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+                        <a class="button is-primary" v-on:click="mailValidator"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
                     </div>
 
                 </b-field>
+                <div id="mail-success-message" hidden><p class="help is-success">Deine E-Mail wurde erfolgreich hinzugefügt!</p></div>
+                <div id="mail-fail-message" hidden><p class="help is-danger">Gib bitte eine korrekte Mail-Adresse an.</p></div>
             </form>
 
             <form class="change-password ">
                 <h4 class="title is-6">Passwort ändern</h4>
 
-                <div class="field">
+                <b-field>
                     <p class="control has-icons-left ">
-                      <b-input type="password" placeholder="Dein altes Passwort"></b-input>
+                      <b-input type="password" v-model="nPassword" placeholder="Dein altes Passwort"></b-input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
                     </p>
-                </div>
+                </b-field>
+                <div id="password-wrong-message" hidden><p class="help is-danger">Dein Passwort konnte nicht geändert werden. Überprüfe ob Dein altes Passwort korrekt ist.</p></div>
                 <div class="spacer"></div>
 
-                <div class="field">
+                <b-field>
                     <p class="control has-icons-left">
-                        <b-input type="password" placeholder="Dein neues Passwort"></b-input>
+                        <b-input type="password" v-model="nPassword" placeholder="Dein neues Passwort"></b-input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
                     </p>
-                </div>
+                </b-field>
 
-                <div class="field">
+                <b-field>
                     <p class="control has-icons-left">
-                        <b-input type="password" placeholder="Bestätige Dein neues Passwort"></b-input>
+                        <b-input type="password" v-model="bPassword" placeholder="Bestätige Dein neues Passwort"></b-input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
-                        <p class="help is-success">Dein Passwort wurde erfolgreich geändert!</p>
                     </p>
-                </div>
+                </b-field>
+                <div id="password-success-message" hidden><p class="help is-success">Deine Passwort wurde erfolgreich geändert!</p></div>
+                <div id="password-not-different-message" hidden><p class="help is-danger">Dein Passwort konnte nicht geändert werden. Überprüfe ob sich Dein neues und Dein alter Passwort unterscheiden.</p></div>
             </form>
 
             <p><a class="button is-light">Account löschen</a></p>
@@ -80,8 +84,44 @@ export default {
   },
 
   methods: {
-    mailSuccess () {
-      this.$toast.open({message: 'Deine E-Mail wurde erfolgreich hinzugefügt!', type: 'is-success'})
+    validateEmail () {
+      var re = /\S+@\S+\.\S+/
+      return re.test(this.email)
+    },
+
+    mailValidator () {
+      var mail = this.email
+      var successElem = document.getElementById('mail-success-message')
+      var failElem = document.getElementById('mail-fail-message')
+      if (this.validateEmail(mail)) {
+        failElem.style.display = 'none'
+        successElem.style.display = 'block'
+        mail = ''
+      } else {
+        failElem.style.display = 'block'
+      }
+    },
+
+    oldPasswordValidator () {
+      var aPass = this.aPassword
+      var wrongElem = document.getElementById('password-wrong-message')
+      if (aPass !== 'Passwort') {
+        wrongElem.style.display = 'block'
+      }
+    },
+
+    newPasswordValidator () {
+      var aPass = this.aPassword
+      var nPass = this.nPassword
+      var bPass = this.bPassword
+      var successElem = document.getElementById('password-success-message')
+      var difElem = document.getElementById('password-not-different-message')
+      if (nPass !== bPass) {
+        successElem.style.display = 'block'
+      } else if (aPass === nPass) {
+        successElem.style.display = 'none'
+        difElem.style.display = 'block'
+      }
     }
   }
 }
