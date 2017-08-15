@@ -32,7 +32,7 @@
       <!-- Button-Group Navigation -->
       <!--<p class="has-text-right flex-center"><a class="is-white font-klein margin-right">Abbrechen</a><a class="button is-primary">Weiter</a></p>
       -->
-      <Chat><div slot="backItem">Abbrechen</div><div slot="forwardItem">Weiter</div></Chat>
+      <button-group><div slot="backItem">Abbrechen</div><div slot="forwardItem">Weiter</div></button-group>
 
     </div>
   </div>
@@ -41,7 +41,7 @@
 
 <script type="text/babel">
 import db from 'baqend'
-import Chat from './Chat.vue'
+import ButtonGroup from './molecules/ButtonGroup.vue'
 
 export default {
   name: 'swop-dialog',
@@ -97,7 +97,7 @@ export default {
 
   },
   components: {
-    Chat
+    ButtonGroup
   },
   created () {
     console.log(db.User.me)
