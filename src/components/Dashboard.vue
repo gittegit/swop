@@ -63,7 +63,7 @@
                     </div>
 
                     <div class="control">
-                      <a class="button is-medium clipboard-button" :class="{'is-primary':!swopCard.match, 'is-white':swopCard.match,}"><i class="fa fa-clipboard" aria-hidden="true"></i></a>
+                      <a v-clipboard:copy="swopCard.userMail" v-clipboard:success="onSuccess" v-clipboard:error="onError" class="button is-medium clipboard-button" :class="{'is-primary':!swopCard.match, 'is-white':swopCard.match,}"><i class="fa fa-clipboard" aria-hidden="true"></i></a>
                     </div>
 
                   </div>
@@ -107,6 +107,10 @@
 
 <script type="text/babel">
 import db from 'baqend'
+import Vue from 'vue'
+import VueClipboard from 'vue-clipboard2'
+
+Vue.use(VueClipboard)
 export default {
   name: 'dashboard',
   data () {
@@ -194,6 +198,21 @@ export default {
         this.filtered = 'all'
         console.log(this.filtered)
       }
+    },
+    onSuccess: function () {
+      this.$toast.open({
+        message: 'Mail wurde in die Zwischenablage kopiert!',
+        type: 'is-success',
+        position: 'is-top'
+      })
+    },
+    onError: function () {
+      this.$toast.open({
+        duration: 5000,
+        message: `Something's not good, also I'm on bottom`,
+        position: 'is-bottom',
+        type: 'is-danger'
+      })
     }
   }
 }

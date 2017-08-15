@@ -146,7 +146,6 @@ input:focus {
   margin-right: auto;
   margin-left: auto;
   overflow-y: scroll;
-
 }
 
 /* Tabs */
@@ -170,6 +169,9 @@ input:focus {
   padding-top: 8rem;
   padding-bottom: 5rem;
 }
+.notices.is-top {
+  top: 5rem !important;
+}
 /* ---- Navigation Sektion ---- */
 .swoppy-img {
   height: 4rem;
@@ -183,7 +185,7 @@ input:focus {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 8999;
+  z-index: 9999;
   background-color: $white;
 }
 .navigation .container {
