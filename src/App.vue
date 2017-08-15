@@ -93,6 +93,9 @@ a:hover {
 a.has-text-primary {
   color: $primary;
 }
+.has-text-primary {
+  color: $primary !important;
+}
 a.has-text-primary:hover {
   color: rgba($primary, 0.8);
 }
@@ -185,7 +188,7 @@ a.navbar-item.router-link-active:after {
   border-radius: 50%;
   color: $secondary;
   position: absolute;
-  bottom: -0.25rem;
+  bottom: -0.75rem;
   left: 0;
   right: 0;
   margin: 0 auto;
