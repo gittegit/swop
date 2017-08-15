@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container main-content">
 
   <!-- Inhalt / Formulare -->
   <div class="columns is-centered">
@@ -18,8 +18,9 @@
 
       <!-- Step 1 -->
       <div v-if="firstStepActive">
-         <h4 class="description is-5 has-text-centered">Aus welcher Veranstaltung möchtest du <strong>heraus</strong> wechseln?</h4>
+        <h4 class="description is-5 has-text-centered">Aus welcher Veranstaltung möchtest Du <strong>heraus</strong> wechseln?</h4>
 
+        <!-- Input -->
         <b-field>
           <b-autocomplete v-model="arrayExample.name" :data="filteredDataArray" placeholder="Deine aktuelle Veranstaltung" @select="option => arrayExample.selected = option">
           </b-autocomplete>
@@ -30,24 +31,70 @@
 
         <!-- Untergruppe hinzufügen-Input (nur bei Klick auf Label)-->
         <div v-if="hasSubgroup">
-          <b-field>
-            <b-input placeholder="Deine aktuelle Untergruppe"></b-input>
+          <b-field has-addons>
+            <p class="control is-expanded">
+              <b-input placeholder="Deine aktuelle Untergruppe"></b-input>
+            </p>
+            <p class="control">
+              <a class="button" @click="removeGroup">
+                <span class="icon is-small">
+                  <i class="fa fa-trash-o"></i>
+                </span>
+            </a>
+            </p>
           </b-field>
-          <p :class="{ 'help': true, 'add-group': true}" @click="removeGroup">- Untergruppe entferen</p>
         </div>
       </div>
       <!-- / Step 1 -->
 
 
-        <!-- Button-Group Navigation -->
-        <button-group>
-          <div slot="backItem"><router-link :to="backLink">{{backItem}}</router-link></router-link></div>
-          <div slot="forwardItem" @click="forward">Weiter</div>
-        </button-group>
+      <!-- Step 2 -->
+      <div v-if="secondStepActive">
+        <h4 class="description is-5 has-text-centered">In welche Veranstaltung möchtest Du <strong>hinein</strong> wechseln?</h4>
+
+        <!-- Input -->
+        <b-field>
+          <b-autocomplete v-model="arrayExample.name" :data="filteredDataArray" placeholder="Deine Wunschveranstaltung" @select="option => arrayExample.selected = option">
+          </b-autocomplete>
+        </b-field>
+
+
+        <!-- Untergruppe hinzufügen-Input (nur bei Klick auf Label)-->
+        <div v-if="hasSubgroup">
+
+          <b-field has-addons>
+            <p class="control is-expanded">
+              <b-input placeholder="Deine Wunsch-Untergruppen"></b-input>
+            </p>
+            <p class="control">
+              <a class="button" @click="removeGroup">
+                <span class="icon is-small">
+                  <i class="fa fa-trash-o"></i>
+                </span>
+            </a>
+            </p>
+          </b-field>
+          <!-- Untergruppe hinzufügen-Label (nur wenn noch keine hinzugefügt)-->
+        </div>
+
+        <p v-if="hasSubgroup":class="{ 'help': true, 'add-group': true}" @click="addGroup">+ Untergruppe hinzufügen</p>
 
       </div>
+      <!-- / Step 2 -->
+
+
+      <!-- Button-Group Navigation -->
+      <button-group>
+        <div slot="backItem">
+          <router-link v-if="firstStepActive" @click="back" :to="backLink">{{backItem}}</router-link>
+          <div v-if="!firstStepActive" @click="back">{{backItem}}</div>
+        </div>
+        <div slot="forwardItem" @click="forward">Weiter</div>
+      </button-group>
+
     </div>
   </div>
+</div>
 </template>
 
 <script type="text/babel">
@@ -63,6 +110,8 @@ export default {
       thirdStepDone: false, // Stepweise-Anzeiger erste Seite
       hasSubgroup: false, // Untergruppe in aktueller Veranstaltung?
       firstStepActive: true, // Inhalt Step 1
+      secondStepActive: false, // Inhalt Step 2
+      thirdStepActive: false, // Inhalt Step 3
       msg: 'Welcome to Your Vue.js and Baqend App',
       isLoggedIn: null,
       backItem: 'Abbrechen', // Beschriftung für zurück-Button in Button-Group (inital: Abbrechen)
@@ -100,12 +149,42 @@ export default {
     removeGroup () {
       this.hasSubgroup = false
     },
-    forward () {
+    forward () { // Aktionen bei Klick auf Weiter-Button
       console.log('hi')
-      if (!this.secondStepDone) {
+      if (this.firstStepDone && !this.secondStepDone) {
+        // Nav-Dots setzen
+        this.firstStepActive = false
+        this.secondStepActive = true
+        // Formular setzen
         this.secondStepDone = true
-      } else if (!this.thirdStepDone && this.secondStepDone) {
+        // Zurück-Button setzen
+        this.backItem = 'Zurück'
+      } else if (this.firstStepDone && this.secondStepDone) {
+        // Nav-Dots setzen
+        this.secondStepActive = false
+        this.thirdStepActive = true
+        // Formular setzen
         this.thirdStepDone = true
+      }
+    },
+    back () { // Aktionen bei Klick auf zurück-Button
+      console.log('First: ' + this.firstStepActive + ' Second: ' + this.secondStepActive + ' Third: ' + this.thirdStepActive)
+      if (this.firstStepActive) {
+        this.backLink.name = 'dashboard'
+      } else if (this.secondStepActive) {
+        // Nav-Dots setzen
+        this.firstStepActive = true
+        this.secondStepActive = false
+        // Formular setzen
+        this.secondStepDone = false
+        // Zurück-Button setzen
+        this.backItem = 'Abbrechen'
+      } else if (this.thirdStepActive) {
+        // Nav-Dots setzen
+        this.secondStepActive = true
+        this.thirdStepActive = false
+        // Formular setzen
+        this.thirdStepDone = false
       }
     }
   },
