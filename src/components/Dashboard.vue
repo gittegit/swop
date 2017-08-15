@@ -27,7 +27,8 @@
                 <!-- Icon -->
                 <a class="card-header-icon">
                   <span class="icon">
-                    <i class="fa fa-angle-down"></i>
+                    <i v-if="!swopCard.open" class="fa fa-angle-down"></i>
+                    <i v-else class="fa fa-angle-up"></i>
                   </span>
                 </a>
               </header>
@@ -52,7 +53,7 @@
                       </div>
 
                   </div>
-                        <p class="help">Bitte nimm zügig Kontakt auf, {{swopCard.userName}} wartet sicher schon!</p>
+                      <p class="help">Bitte nimm zügig Kontakt auf, {{swopCard.userName}} wartet sicher schon!</p>
                 </form>
                 </div>
                 <div class="swop-no-match-info" v-else>
@@ -64,7 +65,6 @@
               <footer class="card-footer">
                 <p class="card-footer-item help">{{swopCard.date}} — {{swopCard.time}} Uhr</p>
                 <a class="card-footer-item"><span class="icon"><i class="fa fa-trash" aria-hidden="true"></i></span> Löschen</a>
-
               </footer>
               </div>
               <!-- Ende einer Karte -->

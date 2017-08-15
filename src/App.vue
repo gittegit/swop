@@ -75,6 +75,9 @@ $link-focus-border: $primary;
 03.       BULMA/BUEFY MODIFIKATIONEN
 ------------------------------------------*/
 
+body {
+  font-family: 'Roboto', sans-serif;
+}
 a {
   color: $primary;
   transition: all 0.3s ease;
