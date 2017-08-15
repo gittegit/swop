@@ -30,9 +30,8 @@
     },
     methods: {
       addCourse () {
-        var id = this.id
-//        db.Course.create(this.id, this.name).then(() => {
-        db.modules.post('createCourse', {id}).then(() => {
+//      db.Course.create(this.id, this.name).then(() => {
+        db.modules.post('createCourse', {id: this.id, name: this.name}).then(() => {
           console.log('yay')
           router.push('addCourse')
         }).catch(e => {
