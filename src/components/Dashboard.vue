@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container main-content">
   <!-- Inhalt / Formulare -->
   <div class="columns is-centered">
 
@@ -10,14 +10,14 @@
         <ul>
           <li v-for="swopCardTab in swopCardTabs" :class="{'is-active':swopCardTab.active}" v-on:click="manageCards(swopCardTab)">
             <a>
-              <span>{{ swopCardTab.status }}</span>
+              <span>{{ swopCardTab.statusMessage }}</span>
             </a>
           </li>
         </ul>
       </div>
 
       <!-- Beginn einer Karte / mit Swop-->
-      <div v-for="swopCard in swopCards" class="swop-card card" :class="{'swop-accepted':swopCard.match}">
+      <div v-for="swopCard in swopCards" v-if="swopCard.status === filtered || filtered === 'all'" class="swop-card card" :class="{'swop-accepted':swopCard.match}">
         <!-- Kartenheader -->
         <header class="card-header" v-on:click="swopCard.open = !swopCard.open">
           <div class="swop-status">
@@ -110,17 +110,18 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js and Baqend App',
       isLoggedIn: null,
+      filtered: 'all',
       swopCardTabs: [
         {
-          status: 'Ausstehend',
+          statusMessage: 'Ausstehend',
           active: false
         },
         {
-          status: 'Alle',
+          statusMessage: 'Alle',
           active: true
         },
         {
-          status: 'Match',
+          statusMessage: 'Match',
           active: false
         }
       ],
@@ -172,10 +173,23 @@ export default {
   },
   methods: {
     manageCards: function (event) {
+      // Toggle die Active Klassen der Tabs
       for (var swopCardTab in this.swopCardTabs) {
         this.swopCardTabs[swopCardTab].active = false
       }
       event.active = true
+      // Toggle
+      this.filtered = event.statusMessage
+      if (this.filtered === 'Ausstehend') {
+        this.filtered = 'waiting'
+        console.log(this.filtered)
+      } else if (this.filtered === 'Match') {
+        this.filtered = 'match'
+        console.log(this.filtered)
+      } else {
+        this.filtered = 'all'
+        console.log(this.filtered)
+      }
     }
   }
 }

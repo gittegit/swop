@@ -1,13 +1,17 @@
 <template>
   <div id="app">
-    <!--<navigation></navigation> -->
+    <navigation></navigation>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import Navigation from 'components/Navigation.vue'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    Navigation
+  }
 }
 </script>
 
@@ -65,6 +69,7 @@ $primary: #F39016;
 $primary-invert: findColorInvert($primary);
 $secondary: #0F75BC;
 $secondary-invert: findColorInvert($secondary);
+$lightgrey: #dbdbdb;
 
 // Links
 $link: $primary;
@@ -85,11 +90,23 @@ a {
 a:hover {
   color: rgba($primary, 0.8);
 }
-a.is-secondary {
+a.has-text-primary {
+  color: $primary;
+}
+a.has-text-primary:hover {
+  color: rgba($primary, 0.8);
+}
+a.has-text-secondary {
   color: $secondary;
 }
-a.is-secondary:hover {
+a.has-text-secondary:hover {
   color: rgba($secondary, 0.8);
+}
+a.has-text-lightgrey {
+  color: $lightgrey;
+}
+a.has-text-lightgrey:hover {
+  color: rgba($lightgrey, 0.8);
 }
 .button {
   transition: all 0.3s ease;
@@ -121,6 +138,59 @@ input:focus {
 /* -----------------------------------------
 04.     INDIVIDUELLE GLOBALE KLASSEN
 ------------------------------------------*/
+
+/* ---- Main Content ---- */
+.main-content {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+/* ---- Navigation Sektion ---- */
+.swoppy-img {
+  height: 4rem;
+  margin-right: 0.5rem;
+}
+
+.navigation {
+  border-bottom: 1px;
+  border-bottom: 1px solid $lightgrey;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 8999;
+  background-color: $white;
+}
+.navigation .container {
+  padding: 0.5rem 0 !important;
+}
+.navbar-end {
+  display: flex;
+}
+.navbar-item, .navbar-link {
+  padding: 1.5rem 1rem;
+}
+a.navbar-item.is-active {
+  background-color: transparent;
+  color: $lightgrey;
+}
+a.navbar-item:hover {
+  background-color: transparent;
+  color: $secondary;
+}
+a.navbar-item.router-link-active:after {
+  transition: all 0.3s ease;
+  content: "•";
+  display: block;
+  text-align: center;
+  border-radius: 50%;
+  color: $secondary;
+  position: absolute;
+  bottom: -0.25rem;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  font-size: 30px;
+}
 
 
 /* -----------------------------------------
