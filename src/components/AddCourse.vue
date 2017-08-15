@@ -1,5 +1,5 @@
 <template>
-  <div class="swopcardBackend">
+  <div class="CourseBackend">
     <div class="row">
       <div class="panel-heading">
         Neuen Kurs anlegen
@@ -22,8 +22,8 @@
     name: 'addCourse',
     data () {
       return {
-        id: null,
-        name: null,
+        id: '',
+        name: '',
         error: null
       }
     },
@@ -38,18 +38,16 @@
     },
     computed: {
       isValid () {
-        var queryBuilder = db.Course.find()
-        var conditionId = queryBuilder.equal('id', this.id)
-        var conditionName = queryBuilder.equal('name', this.name)
-        queryBuilder.or(conditionId, conditionName)
-          .singleResult().then((course) => {
-            console.log(course)
-            if (!course) {
-              console.log('false')
-            } else {
-              console.log('true')
-            }
-          })
+        if (this.id.length > 1 && this.name.length > 1 && this.id) {
+          var queryBuilder = db.Course.find()
+          var conditionId = queryBuilder.equal('id', '/db/Course/' + this.id)
+          var conditionName = queryBuilder.equal('name', this.name)
+          queryBuilder.or(conditionId, conditionName)
+            .resultList().then((course) => {
+              console.log(course.length === 0)
+              return (course.length === 0)
+            })
+        }
       }
     },
     beforeRouteEnter (to, from, next) {

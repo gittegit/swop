@@ -6,6 +6,7 @@
           <div class="panel-heading">You are logged in as {{ username }}</div>
           <div class="panel-body">
             <li><router-link :to="{name: 'swopcardBackend'}">SwopCard Backend Erstellung</router-link></li>
+            <li><router-link :to="{name: 'addCourse'}">Neuen Kurs anlegen</router-link></li>
             <button class="btn btn-info pull-right" type="button" @click="logout">Logout</button>
           </div>
         </div>
