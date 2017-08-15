@@ -1,5 +1,5 @@
 <template>
-  <div class="me container">
+  <div class="container main-content">
     <div class="row">
       <div class="col-sm-offset-3 col-sm-6 col-1">
         <div class="panel panel-default">
