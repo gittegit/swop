@@ -107,11 +107,11 @@
 
 <script type="text/babel">
 import db from 'baqend'
-
 export default {
   name: 'dashboard',
   data () {
     return {
+      copyData: 'test',
       msg: 'Welcome to Your Vue.js and Baqend App',
       isLoggedIn: null,
       filtered: 'all',
