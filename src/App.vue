@@ -111,6 +111,13 @@ a.is-secondary:hover {
 input:focus {
   border-color: $primary !important;
 }
+
+/* Tabs */
+.tabs.is-toggle li.is-active a {
+  background-color: $secondary;
+  border-color: $secondary;
+}
+
 /* -----------------------------------------
 04.     INDIVIDUELLE GLOBALE KLASSEN
 ------------------------------------------*/
