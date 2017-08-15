@@ -8,38 +8,46 @@
 
       <h1 class="title is-3 has-text-centered">Dein swop</h1>
 
+      <!-- Stepwise-Naviagtion / Fortschrittsanzeige -->
       <ul class="nav-dots-container">
-        <li class="nav-dot" :class="{ 'done': firstStep}"></li>
-        <li class="nav-dot" :class="{ 'done': secondStep}"></li>
-        <li class="nav-dot" :class="{ 'done': thirdStep}"></li>
+        <li class="nav-dot" :class="{ 'done': firstStepDone}"></li>
+        <li class="nav-dot" :class="{ 'done': secondStepDone}"></li>
+        <li class="nav-dot" :class="{ 'done': thirdStepDone}"></li>
       </ul>
+      <!-- / Stepwise-Naviagtion / Fortschrittsanzeige -->
 
-      <h4 class="description is-5 has-text-centered">Aus welcher Veranstaltung möchtest du <strong>heraus</strong> wechseln?</h4>
+      <!-- Step 1 -->
+      <div v-if="firstStepActive">
+         <h4 class="description is-5 has-text-centered">Aus welcher Veranstaltung möchtest du <strong>heraus</strong> wechseln?</h4>
 
-      <b-field>
-        <b-autocomplete v-model="arrayExample.name" :data="filteredDataArray" placeholder="Deine aktuelle Veranstaltung" @select="option => arrayExample.selected = option">
-        </b-autocomplete>
-      </b-field>
+        <b-field>
+          <b-autocomplete v-model="arrayExample.name" :data="filteredDataArray" placeholder="Deine aktuelle Veranstaltung" @select="option => arrayExample.selected = option">
+          </b-autocomplete>
+        </b-field>
 
-      <!-- Untergruppe hinzufügen-Label (nur wenn noch keine hinzugefügt)-->
-      <p v-if="!hasSubgroup" :class="{ 'help': true, 'add-group': true}" @click="addGroup">+ Untergruppe hinzufügen</p>
+        <!-- Untergruppe hinzufügen-Label (nur wenn noch keine hinzugefügt)-->
+        <p v-if="!hasSubgroup" :class="{ 'help': true, 'add-group': true}" @click="addGroup">+ Untergruppe hinzufügen</p>
 
-      <!-- Untergruppe hinzufügen-Input (nur bei Klick auf Label)-->
-      <div v-if="hasSubgroup">
-      <b-field>
-        <b-input placeholder="Deine aktuelle Untergruppe"></b-input>
-      </b-field>
-      <p :class="{ 'help': true, 'add-group': true}" @click="removeGroup">- Untergruppe entferen</p>
-    </div>
+        <!-- Untergruppe hinzufügen-Input (nur bei Klick auf Label)-->
+        <div v-if="hasSubgroup">
+          <b-field>
+            <b-input placeholder="Deine aktuelle Untergruppe"></b-input>
+          </b-field>
+          <p :class="{ 'help': true, 'add-group': true}" @click="removeGroup">- Untergruppe entferen</p>
+        </div>
+      </div>
+      <!-- / Step 1 -->
 
-      <!-- Button-Group Navigation -->
-      <!--<p class="has-text-right flex-center"><a class="is-white font-klein margin-right">Abbrechen</a><a class="button is-primary">Weiter</a></p>
-      -->
-      <button-group><div slot="backItem">Abbrechen</div><div slot="forwardItem">Weiter</div></button-group>
 
+        <!-- Button-Group Navigation -->
+        <button-group>
+          <div slot="backItem"><router-link :to="backLink">{{backItem}}</router-link></router-link></div>
+          <div slot="forwardItem" @click="forward">Weiter</div>
+        </button-group>
+
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script type="text/babel">
@@ -50,12 +58,17 @@ export default {
   name: 'swop-dialog',
   data () {
     return {
-      firstStep: true, // Stepweise Navigation erste Seite
-      secondStep: false, // Stepweise Navigation erste Seite
-      thirdStep: false, // Stepweise Navigation erste Seite
+      firstStepDone: true, // Stepweise-Anzeiger erste Seite
+      secondStepDone: false, // Stepweise-Anzeiger erste Seite
+      thirdStepDone: false, // Stepweise-Anzeiger erste Seite
       hasSubgroup: false, // Untergruppe in aktueller Veranstaltung?
+      firstStepActive: true, // Inhalt Step 1
       msg: 'Welcome to Your Vue.js and Baqend App',
       isLoggedIn: null,
+      backItem: 'Abbrechen', // Beschriftung für zurück-Button in Button-Group (inital: Abbrechen)
+      backLink: {
+        name: 'dashboard' // Link von zurück-Button in Button-Group (initial: Dashboard)
+      },
       // --- Daten für Autocomplete ---
       arrayExample: {
         data: [
@@ -85,7 +98,15 @@ export default {
       this.hasSubgroup = true
     },
     removeGroup () {
-      this.hasSubgoup = false
+      this.hasSubgroup = false
+    },
+    forward () {
+      console.log('hi')
+      if (!this.secondStepDone) {
+        this.secondStepDone = true
+      } else if (!this.thirdStepDone && this.secondStepDone) {
+        this.thirdStepDone = true
+      }
     }
   },
 
