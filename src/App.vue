@@ -3,8 +3,8 @@
     <navigation></navigation>
     <transition
   name="custom-classes-transition"
-  enter-active-class="animated fadeInLeft"
-  leave-active-class="animated fadeOutRight"
+  enter-active-class="animated fadeIn delay fast"
+  leave-active-class="animated fadeOut fast"
 >
     <router-view></router-view>
   </transition>
@@ -159,9 +159,12 @@ input:focus {
 04.     INDIVIDUELLE GLOBALE KLASSEN
 ------------------------------------------*/
 /* Animations */
-// .delay {
-//   animation-delay: 0.8s !important;
-// }
+.delay {
+  animation-delay: 0.2s !important;
+}
+.fast {
+  animation-duration: 0.1s !important;
+}
 /* ---- Main Content ---- */
 .main-content {
   padding-top: 8rem;
