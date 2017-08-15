@@ -1,6 +1,6 @@
 <template type="text/html" >
   <!-- Button-Group Navigation -->
-  <p class="has-text-right flex-center"><a class="is-secondary is-white font-klein margin-right">
+  <p class="has-text-right flex-center"><a class="has-text-secondary is-white font-klein margin-right">
     <slot name="backItem"></slot>
   </a><a class="button is-secondary">
     <slot name="forwardItem"></slot>
