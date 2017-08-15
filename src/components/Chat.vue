@@ -1,9 +1,9 @@
 <template type="text/html" >
   <!-- Button-Group Navigation -->
   <p class="has-text-right flex-center"><a class="is-white font-klein margin-right">
-    <slot></slot>
+    <slot name="backItem"></slot>
   </a><a class="button is-primary">
-    <slot></slot>
+    <slot name="forwardItem"></slot>
   </a></p>
 
 

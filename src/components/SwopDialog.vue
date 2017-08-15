@@ -32,7 +32,7 @@
       <!-- Button-Group Navigation -->
       <!--<p class="has-text-right flex-center"><a class="is-white font-klein margin-right">Abbrechen</a><a class="button is-primary">Weiter</a></p>
       -->
-      <Chat>Abbrechen, Weiter</Chat>
+      <Chat><div slot="backItem">Abbrechen</div><div slot="forwardItem">Weiter</div></Chat>
 
     </div>
   </div>
