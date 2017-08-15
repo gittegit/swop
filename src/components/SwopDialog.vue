@@ -25,9 +25,12 @@
       <p v-if="!hasSubgroup" :class="{ 'help': true, 'add-group': true}" @click="addGroup">+ Untergruppe hinzufügen</p>
 
       <!-- Untergruppe hinzufügen-Input (nur bei Klick auf Label)-->
+      <div v-if="hasSubgroup">
       <b-field>
-        <b-input v-if="hasSubgroup" placeholder="Deine aktuelle Untergruppe"></b-input>
+        <b-input placeholder="Deine aktuelle Untergruppe"></b-input>
       </b-field>
+      <p :class="{ 'help': true, 'add-group': true}" @click="removeGroup">- Untergruppe entferen</p>
+    </div>
 
       <!-- Button-Group Navigation -->
       <!--<p class="has-text-right flex-center"><a class="is-white font-klein margin-right">Abbrechen</a><a class="button is-primary">Weiter</a></p>
@@ -80,6 +83,9 @@ export default {
   methods: {
     addGroup () {
       this.hasSubgroup = true
+    },
+    removeGroup () {
+      this.hasSubgoup = false
     }
   },
 
