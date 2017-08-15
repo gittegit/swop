@@ -4,8 +4,7 @@
     <transition
   name="custom-classes-transition"
   enter-active-class="animated fadeIn delay fast"
-  leave-active-class="animated fadeOut fast"
->
+  leave-active-class="animated fadeOut fast">
     <router-view></router-view>
   </transition>
   </div>
@@ -13,6 +12,7 @@
 
 <script>
 import Navigation from 'components/Navigation.vue'
+
 export default {
   name: 'app',
   components: {
