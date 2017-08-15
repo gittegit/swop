@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container main-content">
   <!-- Inhalt / Formulare -->
   <div class="columns is-centered">
 
