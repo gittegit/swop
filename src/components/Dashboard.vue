@@ -1,5 +1,6 @@
 <template>
-<div class="container main-content">
+  <div class="main-content">
+<div class="container">
   <!-- Inhalt / Formulare -->
   <div class="columns is-centered">
 
@@ -45,7 +46,9 @@
         </header>
 
         <!-- Karteninhalt - muss aufgetogglet werrden -->
-        <transition name="expand">
+        <transition
+    name="expand-card"
+  >
           <div class="card-content" v-show="swopCard.open">
             <div class="content">
               <div class="swop-match-info" v-if="swopCard.match">
@@ -98,6 +101,7 @@
       </div>
     </div>
   </footer>
+</div>
 </div>
 </template>
 
