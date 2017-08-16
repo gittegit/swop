@@ -182,7 +182,7 @@ export default {
         name: 'dashboard' // Link von zurück-Button in Button-Group (initial: Dashboard)
       },
       subgroupItem: '',
-      // --- Daten für Autocomplete ---
+      // --- Daten für Autocomplete (nur courseItems) ---
       coursesObjectAutocomplete: {
         data: [
           ''
@@ -190,26 +190,29 @@ export default {
         name: '',
         selected: null
       },
-      courses: [],
-      courseid: '',
+      courses: [], // wird bei created () mit gesamter Kurslise aus DB befüllt
+      courseid: '', // Kurs-Id
       search: '',
       selected: null,
-      courseGroupToArray: [
-      ],
-      coursesArray: []
+      coursesArray: [], // Array aller Kurse, beinhaltet nur courseItem (für Autocomplete) und courseid (zum Matchen)
+      courseGroupToArray: [] // Array aller courseGroupTo-Strings
     }
   },
 
   methods: {
+    // --- Autocomplete ---
+    // Hilfsfunktion: reine ID aus ID-Directory aus DB
     getCourseId (courseid) {
       courseid = courseid.substring(11)
       return courseid
     },
+    // Befüllen des Daten-Objektes mit courseItem für Autocomplete
     createCoursesObjectAutocomplete () {
       for (var course in this.coursesArray) {
         this.coursesObjectAutocomplete.data.push(this.coursesArray[course].courseItem)
       }
     },
+    // Befüllen des Arrays mit courseItem und courseid
     createCoursesArray () {
       for (var course in this.courses) {
         this.courseid = this.getCourseId(this.courses[course].id)
@@ -221,9 +224,12 @@ export default {
       }
       this.createCoursesObjectAutocomplete()
     },
+    // / --- Autocomplete ---
+    // Hilfsfunktion zur Anzeige des Kurserstellungs-Dialogs
     addCourse () {
       this.newCourse = true
     },
+    // Untergruppe zur Veranstaltung hinzufügen
     addGroup () {
       if (this.firstStepActive) {
         this.hasCourseGroupFrom = true
@@ -233,6 +239,7 @@ export default {
         this.hasCourseGroupTo = true
       }
     },
+    // Untergruppe zur Veranstaltung entfernen
     removeGroup () {
       if (this.firstStepActive) {
         this.hasCourseGroupFrom = false
@@ -241,7 +248,8 @@ export default {
         this.hasCourseGroupTo = false
       }
     },
-    forward () { // Aktionen bei Klick auf Weiter-Button
+    // Aktionen bei Klick auf Weiter-Button
+    forward () {
       if (this.firstStepDone && !this.secondStepDone && !this.newCourse) {
         // Nav-Dots setzen
         this.firstStepActive = false
@@ -264,7 +272,8 @@ export default {
         this.newCourse = false
       }
     },
-    back () { // Aktionen bei Klick auf zurück-Button
+    // Aktionen bei Klick auf zurück-Button
+    back () {
       if (this.firstStepActive) {
         this.backLink.name = 'dashboard'
       } else if (this.secondStepActive) {
@@ -286,7 +295,7 @@ export default {
   },
 
   computed: {
-    // --- Filterung der Autocomplete-Daten zur Verbessung der forgiveness des Autocomplete ---
+    // --- forgiving formatting der Daten für das Autocomplete  ---
     filteredDataArray () {
       return this.coursesObjectAutocomplete.data.filter((option) => {
         return option
@@ -295,19 +304,13 @@ export default {
           .indexOf(this.coursesObjectAutocomplete.name.toLowerCase()) >= 0
       })
     }
-
-    // /--- Filterung der Autocomplete-Daten zur Verbessung der forgiveness des Autocomplete ---
   },
   components: {
     ButtonGroup
   },
   created () {
     db.Course.find()
-    //  .ascending('name')
-    //  .resultList().then((result) => {
-    //    console.log(result.name)
-    //    this.courses = result
-    //  })
+    // Initiales Laden aller Kurse für Autocomplete
     M.getAllCourses()
       .then((courses) => {
       // hier mit den courses arbeiten
@@ -318,14 +321,6 @@ export default {
       // Fehler behanlung
       // })
   }
-  // before you can enter the swop dialogue you need to be logged in
-//  beforeRouteEnter (to, from, next) {
-//    if (!db.User.me) {
-//      next('signup')
-//    } else {
-//      next()
-//    }
-//  }
 }
 </script>
 
