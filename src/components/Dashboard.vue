@@ -221,6 +221,24 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .card-tabs {
-  margin: 3rem 0 3rem 0;
+  position: fixed;
+  top: 3.1rem;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  padding: 0.75rem 0 0rem 0;
+  background-color: rgba(255,255,255,0.8);
+  ul {
+    background-color: #ffffff;
+  }
+}
+@media only screen and (min-width:768px) {
+  .card-tabs {
+  top: 4.6rem;
+  font-size: 1rem;
+  }
+  .main-content {
+    padding-top: 10rem;
+  }
 }
 </style>
