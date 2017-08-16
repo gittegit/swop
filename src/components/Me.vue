@@ -1,15 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <div class="main-content container">
-    <div class="row">
-      <div class="col-sm-offset-3 col-sm-6 col-1">
-        <div class="panel panel-default">
-          <div class="panel-heading">You are logged in as {{ username }}</div>
-          <div class="panel-body">
-            <li><router-link :to="{name: 'swopcardBackend'}">SwopCard Backend Erstellung</router-link></li>
-            <li><router-link :to="{name: 'addCourse'}">Neuen Kurs anlegen</router-link></li>
-            <button class="btn btn-info pull-right" type="button" @click="logout">Logout</button>
-=======
   <div class="main-content">
       <div class="container">
         <!-- Inhalt / Formulare -->
@@ -27,7 +16,6 @@
 
             <!-- Registierungsbutton -->
             <p class="has-text-right flex-center"><a class="is-white font-klein margin-right" @click="logout">Logout </a><router-link :to="{name: 'dashboard'}"class="button is-primary">Zum Dashboard</router-link></p>
->>>>>>> development
           </div>
 
         </div>
