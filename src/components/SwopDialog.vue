@@ -17,10 +17,7 @@
         </ul>
         <!-- / Stepwise-Naviagtion / Fortschrittsanzeige -->
         <!-- Step 1 -->
-<<<<<<< HEAD
-=======
       <!--  {{ courses }}-->
->>>>>>> development
         <div v-if="firstStepActive && !newCourse">
           <h4 class="description is-5 has-text-centered">Aus welcher Veranstaltung möchtest Du <strong>heraus</strong> wechseln?</h4>
 
