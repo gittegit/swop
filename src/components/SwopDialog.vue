@@ -16,7 +16,6 @@
           <li class="nav-dot" :class="{ 'done': thirdStepDone}"></li>
         </ul>
         <!-- / Stepwise-Naviagtion / Fortschrittsanzeige -->
-
         <!-- Step 1 -->
         <div v-if="firstStepActive && !newCourse">
           <h4 class="description is-5 has-text-centered">Aus welcher Veranstaltung möchtest Du <strong>heraus</strong> wechseln?</h4>
@@ -53,7 +52,6 @@
           </p>
         </div>
         <!-- / Step 1 -->
-
 
         <!-- Step 1.2 Course erstellen -->
         <div v-if="firstStepActive && newCourse">
@@ -203,6 +201,9 @@ export default {
         name: '',
         selected: null
       },
+      courses: [],
+      search: '',
+      selected: null,
       courseGroupToArray: [
       ]
       // /--- Daten für Autocomplete ---
@@ -287,16 +288,33 @@ export default {
           .toLowerCase()
           .indexOf(this.arrayExample.name.toLowerCase()) >= 0
       })
+    },
+    filteredCourses () {
+      return this.courses.filter(course => {
+        return course.name.indexOf(this.search.toLowerCase()) >= 0
+      })
     }
     // /--- Filterung der Autocomplete-Daten zur Verbessung der forgiveness des Autocomplete ---
-
   },
   components: {
     ButtonGroup
   },
   created () {
-    console.log(db.User.me)
+    db.Course.find()
+      .ascending('name')
+      .resultList().then((result) => {
+        console.log(result.name)
+        this.courses = result
+      })
   }
+  // before you can enter the swop dialogue you need to be logged in
+//  beforeRouteEnter (to, from, next) {
+//    if (!db.User.me) {
+//      next('signup')
+//    } else {
+//      next()
+//    }
+//  }
 }
 </script>
 
