@@ -39,7 +39,7 @@ export default {
   methods: {
     logout () {
       db.User.logout().then(() => {
-        router.push('signup')
+        router.push('login-sample')
         this.$parent.isLoggedIn = false
       })
     }
