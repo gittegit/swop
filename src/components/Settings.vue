@@ -7,6 +7,23 @@
           <div class="task-description-title">
             <h4 class="title">Deine Einstellungen</h4>
           </div>
+
+          <form class="change-name">
+            <h4 class="title is-6">Namen ändern</h4>
+            <p class="subtitle">Dieser Name wird Deinem swop-Partner angezeigt.</p>
+            <b-field>
+              <div>
+                <p class="control has-icons-left">
+                  <b-input type="text" v-model="name" placeholder="Dein Name"></b-input>
+                    <span class="icon is-small is-left">
+                      <i class="fa fa-user"></i>
+                    </span>
+                </p>
+              </div>
+            </b-field>
+            <div><p class="has-text-right"><a class="button is-primary" v-on:click="changeName">Name bestätigen</a></p></div>
+          </form>
+
             <form class="add-email">
                 <h4 class="title is-6">Zusätzliche Mail-Adresse</h4>
                 <p class="subtitle">Benachrichtigungen aus dieser App werden zusätzlich an diese Mail geschickt. Du kannst Dich <strong>nicht</strong> mit dieser Mail einloggen.</p>
@@ -30,14 +47,12 @@
                 <h4 class="title is-6">Passwort ändern</h4>
 
                 <b-field>
-                  <div v-on:enter="oldPasswordValidator">
                     <p class="control has-icons-left ">
                       <b-input type="password" v-model="aPassword" placeholder="Dein altes Passwort"></b-input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
                     </p>
-                  </div>
                 </b-field>
                 <div id="password-wrong-message" hidden><p class="help is-danger">Dein Passwort ist nicht korrekt.</p></div>
                 <div class="spacer"></div>
@@ -51,10 +66,10 @@
                     </p>
                 </b-field>
 
-                <b-field id="nPassField" type="is-danger">
+                <b-field>
                   <div v-on:keyup="confirmPasswordValidator">
-                    <p class="control has-icons-left">
-                        <b-input type="password" v-model="bPassword" placeholder="Bestätige Dein neues Passwort"></b-input>
+                    <p class="control has-icons-left has-icons-right">
+                        <input class=input type="password" :class="{ 'is-danger': isDanger }" v-model="bPassword" placeholder="Bestätige Dein neues Passwort"></b-input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
@@ -82,8 +97,15 @@ export default {
   name: 'settings',
   data () {
     return {
+      name: 'Juli',  // hier sollte der Name von der Datenbank geholen werden
+      email: '',
+      aPasssword: '',
+      nPasssword: '',
+      bPasssword: '',
+      Pass: '123',  // hier sollte das Passwort von der Datenbank geholen werden
       msg: 'Welcome to Your Vue.js and Baqend App',
-      isLoggedIn: null
+      isLoggedIn: null,
+      isDanger: false
     }
   },
   created () {
@@ -91,19 +113,22 @@ export default {
   },
 
   methods: {
+    changeName () {
+      this.$toast.open('Jetzt müsste der Name "' + this.name + '" in die Datenbank gepackt werden.')
+    },
+
     validateEmail (a) {
       var re = /\S+@\S+\.\S+/
       return re.test(a)
     },
     mailValidator () {
-      var mail = this.email
       var successElem = document.getElementById('mail-success-message')
       var failElem = document.getElementById('mail-fail-message')
-      if (this.validateEmail(mail)) {
+      if (this.validateEmail(this.email)) {
         failElem.style.display = 'none'
         successElem.style.display = 'block'
         // hier sollte die Mail in die Datenbank hinzugefügt werden
-        mail = ' '
+        this.email = ''
       } else {
         failElem.style.display = 'block'
         successElem.style.display = 'none'
@@ -111,24 +136,18 @@ export default {
     },
 
     oldPasswordValidator () {
-      var aPass = this.aPassword
-      var Pass = '123' // hier sollte das Passwort von der Datenbank geholen werden
       var wrongElem = document.getElementById('password-wrong-message')
-      if (aPass !== Pass) {
+      if (this.aPassword !== this.Pass) {
         wrongElem.style.display = 'block'
-        console.log('1')
       } else {
         wrongElem.style.display = 'none'
-        console.log('2')
         return true
       }
     },
 
     newPasswordValidator () {
-      var aPass = this.aPassword
-      var nPass = this.nPassword
       var difElem = document.getElementById('password-not-different-message')
-      if (aPass === nPass) {
+      if (this.aPassword === this.nPassword) {
         difElem.style.display = 'block'
       } else {
         difElem.style.display = 'none'
@@ -137,10 +156,8 @@ export default {
     },
 
     emptyPasswordValidator () {
-      var nPass = this.nPassword
-      var empty = ''
       var emptyElem = document.getElementById('password-empty-message')
-      if (nPass === empty) {
+      if (this.nPassword === '') {
         emptyElem.style.display = 'block'
       } else {
         emptyElem.style.display = 'none'
@@ -149,14 +166,11 @@ export default {
     },
 
     confirmPasswordValidator () {
-      var nPass = this.nPassword
-      var bPass = this.bPassword
-      var field = document.getElementById('nPassField')
-      if (nPass !== bPass) {
-        console.log(field.style)
+      if (this.nPassword !== this.bPassword) {
+        this.isDanger = true
         return false
       } else {
-        console.log('true')
+        this.isDanger = false
         return true
       }
     },
@@ -165,6 +179,9 @@ export default {
       var successElem = document.getElementById('password-success-message')
       if (this.oldPasswordValidator() && this.newPasswordValidator() && this.emptyPasswordValidator() && this.confirmPasswordValidator()) {
         successElem.style.display = 'block'
+        this.aPassword = ''
+        this.nPassword = ''
+        this.bPassword = ''
         // hier sollte er noch das alte Passwort in der Datenbank durch das neue ersetzten.
       }
     },
@@ -173,11 +190,11 @@ export default {
       this.$dialog.confirm({
         title: 'Account löschen',
         message: 'Bist Du Dir sicher, dass Du Deinen Account <strong>löschen</strong> willst? Diese Aktion kann nicht rückgängig gemacht werden.',
-        confirmText: 'Account wirklich löschen',
-        cancelText: 'Doch nicht löschen',
+        cancelText: 'Account wirklich löschen',
+        confirmText: 'Doch nicht löschen',
         type: 'is-danger',
         hasIcon: true,
-        onConfirm: () => { this.$toast.open('Account gelöscht!') } // hier müssten alle Daten aus der Datenbank gelöscht werden
+        onCancel: () => { this.$toast.open('Account gelöscht!') } // hier müssten alle Daten aus der Datenbank gelöscht werden
       })
     }
 // Methoden zu Ende
@@ -187,13 +204,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
-@media only screen and (min-width: 768px) {
-.is-form {
-  padding: 2.25rem;
-  border: 1px solid #efefef;
-}
-}
-
 
 </style>
