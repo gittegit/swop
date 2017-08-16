@@ -66,6 +66,15 @@ class Modul {
     })
   }
 
+  /**
+   * Deletes a swopcard by its given id
+   * @param id
+   * @returns {Promise.<*>}
+   */
+  deleteSwopCard (id) {
+    return db.modules.post('deleteSwopCard', {id: id})
+  }
+
     /**
     gibt einen Teststring aus
     */
