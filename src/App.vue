@@ -12,6 +12,7 @@
 
 <script>
 import Navigation from 'components/Navigation.vue'
+// import LoginSample from 'components/LoginSample.vue'
 
 export default {
   name: 'app',
