@@ -1,8 +1,8 @@
 <template>
+  <div class="main-content">
   <div class="container">
     <div class="columns is-mobile is-centered">
       <div class="column is-8 is-narrow">
-        <img src="../assets/swop-logo.svg">
         <h1 class="is-title is-size-3">Willkommen</h1>
         <p class="subtitle">Was willst du heute ansehen?</p>
         <ul>
@@ -18,6 +18,7 @@
       </div>
     </div>
   </div>
+</div>
 
   <!-- <div class="hello">
     <h1>{{ msg }}</h1>

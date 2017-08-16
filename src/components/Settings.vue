@@ -39,6 +39,8 @@
                     </div>
 
                 </b-field>
+
+
                 <div id="mail-success-message" hidden><p class="help is-success">Deine E-Mail wurde erfolgreich hinzugefügt!</p></div>
                 <div id="mail-fail-message" hidden><p class="help is-danger">Gib bitte eine korrekte Mail-Adresse an.</p></div>
             </form>
@@ -66,10 +68,10 @@
                     </p>
                 </b-field>
 
-                <b-field>
+                <b-field :type="{ 'is-danger': isDanger }">
                   <div v-on:keyup="confirmPasswordValidator">
                     <p class="control has-icons-left has-icons-right">
-                        <input class=input type="password" :class="{ 'is-danger': isDanger }" v-model="bPassword" placeholder="Bestätige Dein neues Passwort"></b-input>
+                        <b-input type="password" v-model="bPassword" placeholder="Bestätige Dein neues Passwort"></b-input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
@@ -99,13 +101,13 @@ export default {
     return {
       name: 'Juli',  // hier sollte der Name von der Datenbank geholen werden
       email: '',
-      aPasssword: '',
-      nPasssword: '',
-      bPasssword: '',
+      aPassword: '',
+      nPassword: '',
+      bPassword: '',
       Pass: '123',  // hier sollte das Passwort von der Datenbank geholen werden
+      isDanger: false,
       msg: 'Welcome to Your Vue.js and Baqend App',
-      isLoggedIn: null,
-      isDanger: false
+      isLoggedIn: null
     }
   },
   created () {
@@ -117,9 +119,9 @@ export default {
       this.$toast.open('Jetzt müsste der Name "' + this.name + '" in die Datenbank gepackt werden.')
     },
 
-    validateEmail (a) {
+    validateEmail (mail) {
       var re = /\S+@\S+\.\S+/
-      return re.test(a)
+      return re.test(mail)
     },
     mailValidator () {
       var successElem = document.getElementById('mail-success-message')
@@ -179,10 +181,13 @@ export default {
       var successElem = document.getElementById('password-success-message')
       if (this.oldPasswordValidator() && this.newPasswordValidator() && this.emptyPasswordValidator() && this.confirmPasswordValidator()) {
         successElem.style.display = 'block'
+        this.aPassword = this.nPassword
+        // hier sollte er noch das alte Passwort in der Datenbank durch das neue ersetzten.
         this.aPassword = ''
         this.nPassword = ''
         this.bPassword = ''
-        // hier sollte er noch das alte Passwort in der Datenbank durch das neue ersetzten.
+      } else {
+        successElem.style.display = 'none'
       }
     },
 
