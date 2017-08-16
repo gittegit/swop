@@ -67,6 +67,20 @@ class Modul {
   }
 
   /**
+   * get all swopCards from the current User
+   * @returns {Promise.<TResult>}
+   */
+  getMySwopCards () {
+    var currentUser = db.User.me
+    return db.SwopCard.find()
+      .matches('createdBy', currentUser)
+      .ascending('createdAt')
+      .resultList().then((swopCards) => {
+        return swopCards
+      })
+  }
+
+  /**
    * Deletes a swopcard by its given id
    * @param id
    * @returns {Promise.<*>}
