@@ -17,7 +17,7 @@
 
 <script type="text/babel">
   import db from 'baqend'
-  import router from 'vue-router'
+  import m from '../Model/model.js'
 
   export default {
     name: 'addCourse',
@@ -30,12 +30,8 @@
     },
     methods: {
       addCourse () {
-//      db.Course.create(this.id, this.name).then(() => {
-        db.modules.post('createCourse', {id: this.id, name: this.name}).then(() => {
-          console.log('yay')
-          router.push('addCourse')
-        }).catch(e => {
-          this.error = e.message
+        m.createCourse(this.name, this.id).then((result) => {
+          console.log(result)
         })
       }
     },
