@@ -6,6 +6,7 @@
         <h1 class="is-title is-size-3">Willkommen</h1>
         <p class="subtitle">Was willst du heute ansehen?</p>
         <ul>
+          <li><router-link :to="{name: 'signup'}">Registrierung</router-link></li>
           <li><router-link :to="{name: 'navigation'}">Navigation</router-link></li>
           <li><router-link :to="{name: 'settings'}">Settings</router-link></li>
           <li><router-link :to="{name: 'dashboard'}">Dashboard</router-link></li>
