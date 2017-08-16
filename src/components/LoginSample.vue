@@ -57,6 +57,7 @@
 </template>
 
 <script type="text/babel">
+
 import db from 'baqend'
 import router from '../router'
 

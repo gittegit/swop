@@ -48,7 +48,8 @@
 </template>
 
 <script type="text/babel">
-import db from 'baqend'
+// import db from 'baqend'
+import M from '../Model/model.js'
 
 export default {
   name: 'hello',
@@ -59,7 +60,21 @@ export default {
     }
   },
   created () {
-    console.log(db.User.me)
+    M.logout()
+      .then(() => {
+        M.login('patricia.haeusser@studium.uni-hamburg.de', 'tomluna')
+      })
+
+    /*
+    const searchedCourses = ['123-23', '12-12-12']
+    const searchedGroups = []
+    const courseId = '223-24-55'
+    const group = ''
+
+    M.createSwopCard(searchedCourses, searchedGroups, courseId, group)
+      .then(console.log)
+      .catch(console.log)
+    */
   }
 }
 </script>
