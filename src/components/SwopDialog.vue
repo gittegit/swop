@@ -212,6 +212,7 @@ export default {
 
   methods: {
     addCourse () {
+      this.newCourse = true
 //      db.Course.create(this.id, this.name).then(() => {
       db.modules.post('createCourse', {id: this.id, name: this.name}).then(() => {
         console.log('yay')
