@@ -166,6 +166,18 @@ input:focus {
     padding-right: 0 !important;
   }
 }
+.modal  {
+  z-index: 9999;
+}
+.field:not(:last-child) {
+  margin-bottom: 0.75rem;
+}
+form:not(:last-child) {
+  margin-bottom: 2.25rem;
+}
+.has-addons, .is-grouped {
+  margin-bottom: 0 !important;
+}
 
 /* Tabs */
 .tabs.is-toggle li.is-active a {
@@ -181,7 +193,8 @@ input:focus {
 @media only screen and (min-width: 768px) {
 .is-form {
   padding: 2.25rem;
-  border: 1px solid #efefef;
+  border: 1px solid $lightgrey;
+  background-color: $white;
 }
 }
 /* Animations */
@@ -190,6 +203,18 @@ input:focus {
 }
 .fast {
   animation-duration: 0.1s !important;
+}
+/* Struktur */
+.spacer {
+  height: 0.75rem;
+}
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.margin-right {
+  margin-right: 0.75rem;
 }
 /* ---- Main Content ---- */
 .main-content {
