@@ -197,6 +197,10 @@ form:not(:last-child) {
   background-color: $white;
 }
 }
+.is-form {
+  padding: 2.25rem;
+  background-color: $white;
+}
 /* Animations */
 .delay {
   animation-delay: 0.2s !important;
