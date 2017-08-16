@@ -17,7 +17,7 @@
         </ul>
         <!-- / Stepwise-Naviagtion / Fortschrittsanzeige -->
         <!-- Step 1 -->
-        {{ courses }}
+      <!--  {{ courses }}-->
         <div v-if="firstStepActive && !newCourse">
           <h4 class="description is-5 has-text-centered">Aus welcher Veranstaltung möchtest Du <strong>heraus</strong> wechseln?</h4>
 
@@ -144,6 +144,8 @@
         </button-group>
         <!-- / Button-Group Navigation -->
 
+        <p v-for="course in courses">Kurs___ {{course.name}} </br> ID_____ {{ getCourseId(course.id) }} </br></br></p>
+
 
       </div>
     </div>
@@ -182,6 +184,7 @@ export default {
         name: 'dashboard' // Link von zurück-Button in Button-Group (initial: Dashboard)
       },
       subgroupItem: '',
+      counter: 0,
       // --- Daten für Autocomplete ---
       arrayExample: {
         data: [
@@ -212,6 +215,10 @@ export default {
   },
 
   methods: {
+    getCourseId (courseid) {
+      courseid = courseid.substring(11)
+      return courseid
+    },
     addCourse () {
       this.newCourse = true
     },
@@ -236,7 +243,7 @@ export default {
     },
     forward () { // Aktionen bei Klick auf Weiter-Button
       console.log('hi')
-      if (this.firstStepDone && !this.secondStepDone) {
+      if (this.firstStepDone && !this.secondStepDone && !this.newCourse) {
         // Nav-Dots setzen
         this.firstStepActive = false
         this.secondStepActive = true
@@ -256,6 +263,8 @@ export default {
         this.thirdStepActive = true
         // Formular setzen
         this.thirdStepDone = true
+      } else if (this.newCourse) {
+        this.newCourse = false
       }
     },
     back () { // Aktionen bei Klick auf zurück-Button
