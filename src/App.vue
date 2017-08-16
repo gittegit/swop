@@ -172,6 +172,14 @@ input:focus {
 /* -----------------------------------------
 04.     INDIVIDUELLE GLOBALE KLASSEN
 ------------------------------------------*/
+
+/* ---- Kasten ---- */
+@media only screen and (min-width: 768px) {
+.is-form {
+  padding: 2.25rem;
+  border: 1px solid #efefef;
+}
+}
 /* Animations */
 .delay {
   animation-delay: 0.2s !important;
