@@ -72,7 +72,7 @@ class Modul {
    */
   getMySwopCards () {
     var currentUser = db.User.me
-    return db.User.me.swopCards
+    return currentUser.swopCards
       // .matches('createdBy', currentUser)
       // .ascending('createdAt')
       // .resultList().then((swopCards) => {
