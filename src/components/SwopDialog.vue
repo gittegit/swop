@@ -23,7 +23,7 @@
 
           <!-- Input -->
           <b-field>
-            <b-autocomplete v-model="arrayExample.name" :data="filteredDataArray" placeholder="Deine aktuelle Veranstaltung" @select="option => arrayExample.selected = option">
+            <b-autocomplete v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine aktuelle Veranstaltung" @select="option => coursesObjectAutocomplete.selected = option">
             </b-autocomplete>
           </b-field>
 
@@ -101,7 +101,7 @@
 
           <!-- Input -->
           <b-field>
-            <b-autocomplete v-model="arrayExample.name" :data="filteredDataArray" placeholder="Deine Wunschveranstaltung" @select="option => arrayExample.selected = option">
+            <b-autocomplete v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine Wunschveranstaltung" @select="option => coursesObjectAutocomplete.selected = option">
             </b-autocomplete>
           </b-field>
 
@@ -144,8 +144,12 @@
         </button-group>
         <!-- / Button-Group Navigation -->
 
+        <!-- Testausführung der Funktion die Daten an Autocompelte bindet
+        <p :class="{'has-text-primary': true}" @click="createCoursesArray">Kursliste erstellen!</p>
+      -->
+        <!-- Testausgabe der Daten für das Autocomplete
         <p v-for="course in courses">Kurs___ {{course.name}} </br> ID_____ {{ getCourseId(course.id) }} </br></br></p>
-
+        -->
 
       </div>
     </div>
@@ -156,6 +160,7 @@
 <script type="text/babel">
 import db from 'baqend'
 import ButtonGroup from './molecules/ButtonGroup.vue'
+import M from '../Model/model.js'
 
 export default {
   name: 'swop-dialog',
@@ -184,33 +189,21 @@ export default {
         name: 'dashboard' // Link von zurück-Button in Button-Group (initial: Dashboard)
       },
       subgroupItem: '',
-      counter: 0,
       // --- Daten für Autocomplete ---
-      arrayExample: {
+      coursesObjectAutocomplete: {
         data: [
-          '64-144   Praktikum Datenbanken',
-          '64-529   Vorlesung GDB',
-          '64-017   Vorlesung Interaktionsdesign',
-          '64-217   Vorlesung Interaktive Medien',
-          'Backbone',
-          'Ember',
-          'jQuery',
-          'Meteor',
-          'Node.js',
-          'Polymer',
-          'React',
-          'RxJS',
-          'Vue.js'
+          ''
         ],
         name: '',
         selected: null
       },
       courses: [],
+      courseid: '',
       search: '',
       selected: null,
       courseGroupToArray: [
-      ]
-      // /--- Daten für Autocomplete ---
+      ],
+      coursesArray: []
     }
   },
 
@@ -218,6 +211,26 @@ export default {
     getCourseId (courseid) {
       courseid = courseid.substring(11)
       return courseid
+    },
+    createCoursesObjectAutocomplete () {
+      console.log('ayayyyy')
+      for (var course in this.coursesArray) {
+        console.log(this.coursesArray[course].courseItem)
+        this.coursesObjectAutocomplete.data.push(this.coursesArray[course].courseItem)
+        console.log(this.coursesArray[course].courseItem)
+      }
+    },
+    createCoursesArray () {
+      for (var course in this.courses) {
+        this.courseid = this.getCourseId(this.courses[course].id)
+        this.courseItem = this.courseid.concat(' – ').concat(this.courses[course].name)
+        this.coursesArray.push({
+          courseItem: this.courseItem,
+          courseid: this.courseid
+        })
+      }
+      console.log(this.coursesArray)
+      this.createCoursesObjectAutocomplete()
     },
     addCourse () {
       this.newCourse = true
@@ -253,7 +266,7 @@ export default {
         this.backItem = 'Zurück'
         // Eingaben speichern
         if (!this.newCourse) {
-          this.courseTitleFrom = this.arrayExample.name
+          this.courseTitleFrom = this.coursesObjectAutocomplete.name
         }
         console.log(this.courseTitleFrom)
         console.log(this.courseIdFrom)
@@ -292,18 +305,14 @@ export default {
   computed: {
     // --- Filterung der Autocomplete-Daten zur Verbessung der forgiveness des Autocomplete ---
     filteredDataArray () {
-      return this.arrayExample.data.filter((option) => {
+      return this.coursesObjectAutocomplete.data.filter((option) => {
         return option
           .toString()
           .toLowerCase()
-          .indexOf(this.arrayExample.name.toLowerCase()) >= 0
-      })
-    },
-    filteredCourses () {
-      return this.courses.filter(course => {
-        return course.name.indexOf(this.search.toLowerCase()) >= 0
+          .indexOf(this.coursesObjectAutocomplete.name.toLowerCase()) >= 0
       })
     }
+
     // /--- Filterung der Autocomplete-Daten zur Verbessung der forgiveness des Autocomplete ---
   },
   components: {
@@ -311,11 +320,20 @@ export default {
   },
   created () {
     db.Course.find()
-      .ascending('name')
-      .resultList().then((result) => {
-        console.log(result.name)
-        this.courses = result
+    //  .ascending('name')
+    //  .resultList().then((result) => {
+    //    console.log(result.name)
+    //    this.courses = result
+    //  })
+    M.getAllCourses()
+      .then((courses) => {
+      // hier mit den courses arbeiten
+        this.courses = courses
+        this.createCoursesArray()
       })
+      //  .catch((err) => {
+      // Fehler behanlung
+      // })
   }
   // before you can enter the swop dialogue you need to be logged in
 //  beforeRouteEnter (to, from, next) {

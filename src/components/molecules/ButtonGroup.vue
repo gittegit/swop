@@ -46,14 +46,4 @@ img { width: 100% }
 .font-klein {
   font-size: 0.75rem !important;
 }
-
-.flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.margin-right {
-  margin-right: 0.75rem;
-}
 </style>
