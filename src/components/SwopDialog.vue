@@ -16,12 +16,12 @@
           <li class="nav-dot" :class="{ 'done': thirdStepDone}"></li>
         </ul>
         <!-- / Stepwise-Naviagtion / Fortschrittsanzeige -->
-        <!-- Step 1 -->
-      <!--  {{ courses }}-->
+
+        <!-- courseFrom Step 1  -->
         <div v-if="firstStepActive && !newCourse">
           <h4 class="description is-5 has-text-centered">Aus welcher Veranstaltung möchtest Du <strong>heraus</strong> wechseln?</h4>
 
-          <!-- Input -->
+          <!-- courseFrom Autocomplete  -->
           <b-field>
             <b-autocomplete v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine aktuelle Veranstaltung" @select="option => coursesObjectAutocomplete.selected = option">
             </b-autocomplete>
@@ -32,7 +32,7 @@
             + Untergruppe hinzufügen
           </p>
 
-          <!-- Untergruppe hinzufügen-Input (nur bei Klick auf Label)-->
+          <!-- courseGroupFrom Untergruppe hinzufügen-Input courseGroupFrom (nur bei Klick auf Label)-->
           <div v-if="hasCourseGroupFrom">
             <b-field has-addons>
               <p class="control is-expanded">
@@ -58,7 +58,7 @@
         <div v-if="firstStepActive && newCourse">
           <h4 class="description is-5 has-text-centered">Aus welcher Veranstaltung möchtest Du <strong>heraus</strong> wechseln?</h4>
 
-          <!-- Input -->
+          <!-- courseFrom Input -->
           <b-field>
             <p class="control is-expanded">
               <b-input placeholder="Vollständiger Name Deiner aktuellen Veanstaltung" v-model="courseTitleFrom"></b-input>
@@ -69,7 +69,6 @@
               <b-input placeholder="ID Deiner aktuellen Veranstaltung" v-model="courseIdFrom"></b-input>
             </p>
           </b-field>
-
 
           <!-- Untergruppe hinzufügen-Label (nur wenn noch keine hinzugefügt)-->
           <p v-if="!hasCourseGroupFrom" :class="{ 'help': true, 'add-group': true}" @click="addGroup">
@@ -99,14 +98,14 @@
         <div v-if="secondStepActive">
           <h4 class="description is-5 has-text-centered">In welche Veranstaltung möchtest Du <strong>hinein</strong> wechseln?</h4>
 
-          <!-- Input -->
+          <!-- courseTo Autocomplete -->
           <b-field>
             <b-autocomplete v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine Wunschveranstaltung" @select="option => coursesObjectAutocomplete.selected = option">
             </b-autocomplete>
           </b-field>
 
 
-          <!-- Untergruppe hinzufügen-Input-->
+          <!-- courseGroupToArray Untergruppe hinzufügen-Input-->
           <div v-if="hasCourseGroupFrom && canHaveCourseGroupTo" v-for="courseCroupTo in courseGroupToArray">
 
             <b-field has-addons>
@@ -144,12 +143,6 @@
         </button-group>
         <!-- / Button-Group Navigation -->
 
-        <!-- Testausführung der Funktion die Daten an Autocompelte bindet
-        <p :class="{'has-text-primary': true}" @click="createCoursesArray">Kursliste erstellen!</p>
-      -->
-        <!-- Testausgabe der Daten für das Autocomplete
-        <p v-for="course in courses">Kurs___ {{course.name}} </br> ID_____ {{ getCourseId(course.id) }} </br></br></p>
-        -->
 
       </div>
     </div>
@@ -213,11 +206,8 @@ export default {
       return courseid
     },
     createCoursesObjectAutocomplete () {
-      console.log('ayayyyy')
       for (var course in this.coursesArray) {
-        console.log(this.coursesArray[course].courseItem)
         this.coursesObjectAutocomplete.data.push(this.coursesArray[course].courseItem)
-        console.log(this.coursesArray[course].courseItem)
       }
     },
     createCoursesArray () {
@@ -229,7 +219,6 @@ export default {
           courseid: this.courseid
         })
       }
-      console.log(this.coursesArray)
       this.createCoursesObjectAutocomplete()
     },
     addCourse () {
@@ -240,8 +229,6 @@ export default {
         this.hasCourseGroupFrom = true
         this.canHaveCourseGroupTo = true
         this.courseGroupToArray.push(null)
-        console.log(this.courseGroupToArray)
-        console.log('Länge: ' + this.courseGroupToArray.length)
       } else if (this.secondStepActive) {
         this.hasCourseGroupTo = true
       }
@@ -255,7 +242,6 @@ export default {
       }
     },
     forward () { // Aktionen bei Klick auf Weiter-Button
-      console.log('hi')
       if (this.firstStepDone && !this.secondStepDone && !this.newCourse) {
         // Nav-Dots setzen
         this.firstStepActive = false
@@ -268,8 +254,6 @@ export default {
         if (!this.newCourse) {
           this.courseTitleFrom = this.coursesObjectAutocomplete.name
         }
-        console.log(this.courseTitleFrom)
-        console.log(this.courseIdFrom)
       } else if (this.firstStepDone && this.secondStepDone) {
         // Nav-Dots setzen
         this.secondStepActive = false
@@ -281,7 +265,6 @@ export default {
       }
     },
     back () { // Aktionen bei Klick auf zurück-Button
-      console.log('First: ' + this.firstStepActive + ' Second: ' + this.secondStepActive + ' Third: ' + this.thirdStepActive)
       if (this.firstStepActive) {
         this.backLink.name = 'dashboard'
       } else if (this.secondStepActive) {
