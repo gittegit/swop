@@ -89,6 +89,18 @@ class Modul {
     return db.modules.post('deleteSwopCard', {id: id})
   }
 
+  /**
+   * TODO: creates a match with the given swopCards
+   * @param {String} swopCard1Id
+   * @param {String} swopCard2Id
+   */
+  createMatch (swopCard1Id, swopCard2Id) {
+    db.modules.post('createMatch', {
+      swopCard1Id,
+      swopCard2Id
+    })
+  }
+
     /**
     gibt einen Teststring aus
     */
