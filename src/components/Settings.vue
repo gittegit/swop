@@ -28,20 +28,23 @@
                 <h4 class="title is-6">Zusätzliche Mail-Adresse</h4>
                 <p class="subtitle">Benachrichtigungen aus dieser App werden zusätzlich an diese Mail geschickt. Du kannst Dich <strong>nicht</strong> mit dieser Mail einloggen.</p>
                 <b-field>
-                  <div class="control has-icons-left is-expanded" v-on:keyup.enter="mailValidator">
+                  <div class="control has-icons-left is-expanded" v-on:keyup.enter="mailValidator" v-on:keyup="showMailButton">
                       <b-input v-model="email" placeholder="Deine Mail-Adresse"></b-input>
                       <span class="icon is-small is-left">
                         <i class="fa fa-envelope"></i>
                       </span>
                   </div>
-                    <div class="control">
-                        <a class="button is-primary" v-on:click="mailValidator"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+                    <div class="control" id="mailCheckButton" hidden>
+                        <a class="button is-primary" v-on:click="mailValidator"><i class="fa fa-check" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="control" id="mailClearButton" hidden>
+                        <a class="button is-primary" v-on:click="mailClear"><i class="fa fa-trash" aria-hidden="true"></i></a>
                     </div>
 
                 </b-field>
 
 
-                <div id="mail-success-message" hidden><p class="help is-success">Deine E-Mail wurde erfolgreich hinzugefügt!</p></div>
+                <div id="mail-success-message" hidden><p class="help is-success">Diese Mail-Adresse wurde erfolgreich hinzugefügt!</p></div>
                 <div id="mail-fail-message" hidden><p class="help is-danger">Gib bitte eine korrekte Mail-Adresse an.</p></div>
             </form>
 
@@ -120,6 +123,23 @@ export default {
       this.$toast.open('Jetzt müsste der Name "' + this.name + '" in die Datenbank gepackt werden.')
     },
 
+    showMailButton () {
+      var successElem = document.getElementById('mail-success-message')
+      var failElem = document.getElementById('mail-fail-message')
+      var checkButton = document.getElementById('mailCheckButton')
+      var clearButton = document.getElementById('mailClearButton')
+      if (this.email === '') {
+        successElem.style.display = 'none'
+        failElem.style.display = 'none'
+        checkButton.style.display = 'none'
+        clearButton.style.display = 'none'
+      } else {
+        successElem.style.display = 'none'
+        failElem.style.display = 'none'
+        checkButton.style.display = 'block'
+        clearButton.style.display = 'none'
+      }
+    },
     validateEmail (mail) {
       var re = /\S+@\S+\.\S+/
       return re.test(mail)
@@ -127,20 +147,33 @@ export default {
     mailValidator () {
       var successElem = document.getElementById('mail-success-message')
       var failElem = document.getElementById('mail-fail-message')
+      var checkButton = document.getElementById('mailCheckButton')
+      var clearButton = document.getElementById('mailClearButton')
       if (this.validateEmail(this.email)) {
         failElem.style.display = 'none'
         successElem.style.display = 'block'
+        checkButton.style.display = 'none'
+        clearButton.style.display = 'block'
         // hier sollte die Mail in die Datenbank hinzugefügt werden
-        this.email = ''
       } else {
         failElem.style.display = 'block'
         successElem.style.display = 'none'
       }
     },
+    mailClear () {
+      var successElem = document.getElementById('mail-success-message')
+      var clearButton = document.getElementById('mailClearButton')
+      if (this.email !== '') {
+        clearButton.style.display = 'none'
+        successElem.style.display = 'none'
+        // hier die Mail in der Datenbank löschen
+        this.email = ''
+      }
+    },
 
-    oldPasswordValidator () {
+    oldPasswordValidator (password) {
       var wrongElem = document.getElementById('password-wrong-message')
-      if (this.aPassword !== this.Pass) {
+      if (password !== this.Pass) {
         wrongElem.style.display = 'block'
       } else {
         wrongElem.style.display = 'none'
@@ -180,7 +213,7 @@ export default {
 
     PasswordValidator () {
       var successElem = document.getElementById('password-success-message')
-      if (this.oldPasswordValidator() && this.newPasswordValidator() && this.emptyPasswordValidator() && this.confirmPasswordValidator()) {
+      if (this.oldPasswordValidator(this.aPassword) && this.newPasswordValidator() && this.emptyPasswordValidator() && this.confirmPasswordValidator()) {
         successElem.style.display = 'block'
         this.aPassword = this.nPassword
         // hier sollte er noch das alte Passwort in der Datenbank durch das neue ersetzten.
@@ -192,15 +225,24 @@ export default {
       }
     },
 
+    deleteAccoutPasswordValidator (password) {
+      if (password !== this.Pass) {
+        return false
+      } else {
+        return true
+      }
+    },
     deleteAccount () {
-      this.$dialog.confirm({
+      this.$dialog.prompt({
         title: 'Account löschen',
-        message: 'Bist Du Dir sicher, dass Du Deinen Account <strong>löschen</strong> willst? Diese Aktion kann nicht rückgängig gemacht werden.',
-        cancelText: 'Account wirklich löschen',
-        confirmText: 'Doch nicht löschen',
+        message: 'Bist Du Dir sicher, dass Du Deinen Account <strong>löschen</strong> willst? Diese Aktion kann nicht rückgängig gemacht werden.<br>Wenn Du Dir sicher bist gib hier Dein Passwort an:',
+        confirmText: 'löschen',
+        cancelText: 'Doch nicht löschen',
+        inputMaxlength: 20,
+        inputPlaceholder: 'Dein Passwort',
         type: 'is-danger',
-        hasIcon: true,
-        onCancel: () => { this.$toast.open('Account gelöscht!') } // hier müssten alle Daten aus der Datenbank gelöscht werden
+        onConfirm: (value) => { this.deleteAccoutPasswordValidator(value) },
+        onCancel: () => { this.$toast.open('Zum Glück bleibst du bei uns!') }
       })
     }
 // Methoden zu Ende
