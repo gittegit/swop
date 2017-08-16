@@ -68,10 +68,10 @@
                     </p>
                 </b-field>
 
-                <b-field :type="{ 'is-danger': isDanger }">
+                <b-field>
                   <div v-on:keyup="confirmPasswordValidator">
-                    <p class="control has-icons-left has-icons-right">
-                        <b-input type="password" v-model="bPassword" placeholder="Bestätige Dein neues Passwort"></b-input>
+                    <p class="control has-icons-left">
+                        <input class="input" type="password" v-bind:class="{ dangerInput: isDanger }" v-model="bPassword" placeholder="Bestätige Dein neues Passwort"></b-input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
@@ -83,7 +83,7 @@
                 <div id="password-empty-message" hidden><p class="help is-danger">Du musst ein neues Passwort eingeben.</p></div>
                 <div><p class="has-text-right"><a class="button is-primary" v-on:click="PasswordValidator">Passwort bestätigen</a></p></div>
             </form>
-            <p class="has-text-left flex-center">
+            <p class="has-text-left">
               <a class="has-text-secondary is-white font-klein margin-right" v-on:click="deleteAccount">Account löschen</a>
             </p>
         </div>
@@ -110,6 +110,7 @@ export default {
       isLoggedIn: null
     }
   },
+
   created () {
     console.log(db.User.me)
   },
@@ -209,5 +210,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+
+.dangerInput {
+  border-color: #ff0000 !important;
+}
 
 </style>
