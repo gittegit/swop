@@ -41,6 +41,17 @@ class Modul {
   }
 
   /**
+   * @return Promise
+   */
+  getAllCourses () {
+    return db.Course.find()
+      .ascending('name')
+      .resultList().then((result) => {
+        return result
+      })
+  }
+
+  /**
   * Erstellt eine Swopcard und speichert Sie in der Datenbank ab
   @param courseId: String, die Id des Kurses
   @param group: String, optional, die Gruppe in der sich der User befindet
