@@ -27,17 +27,25 @@ class Modul {
   }
 
   /**
-  Erstellt einen neuen Kurs
-  @param name: name des Kurses
-  @param courseId: die Id des Kurses (die bei Stine angegeben wird)
-  @return Promise
-  */
+   * Create a new course
+   * @param name String
+   * @param courseId String
+   * @returns {Promise.<*>}
+   */
   createCourse (name, courseId) {
-    const newCourse = db.Course()
-    newCourse.name = name
-    newCourse.validName = false
-    newCourse.id = courseId
-    return newCourse.insert()
+    return db.modules.post('createCourse', {id: courseId, name: name})
+  }
+
+  /**
+   * Get all courses from the database
+   * @return Promise
+   */
+  getAllCourses () {
+    return db.Course.find()
+      .ascending('name')
+      .resultList().then((result) => {
+        return result
+      })
   }
 
   /**

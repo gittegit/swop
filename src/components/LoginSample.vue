@@ -1,10 +1,12 @@
 <template>
+<!-- Wird Später statt Hello.vue als Startpunkt verwendet -->
 <div class="main-content">
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-8 is-narrow">
         <h1 class="has-text-centered"><img class="login-logo" src="../assets/swop-logo-invert.svg"></h1>
         <h2 class="subtitle has-text-centered has-text-white">Swop ist Dein Tool zum Finden eines Tauschpartners für Deine Uni-Veranstaltungen.</h2>
+        <div class="spacer"></div>
       </div>
     </div>
 
@@ -21,11 +23,13 @@
           <p class="description has-text-centered">Logge Dich mit deiner Uni-Mail ein.</p>
         </div>
 
+        <div class="spacer"></div>
+
         <!-- Formulare -->
         <form class="signUp">
           <div class="field">
             <p class="control has-icons-left ">
-              <input class="input" type="mail" placeholder="Deine Uni-Mail">
+              <input v-model.trim="username" class="input" :class="{'is-danger': error}" type="mail" placeholder="Deine Uni-Mail" name="username" required>
               <span class="icon is-small is-left">
                       <i class="fa fa-envelope"></i>
                     </span>
@@ -34,15 +38,16 @@
 
           <div class="field">
             <p class="control has-icons-left">
-              <input class="input" type="password" placeholder="Dein swop-Passwort">
+              <input v-model="password" class="input" :class="{'is-danger': error}" type="password" placeholder="Dein swop-Passwort" name="password" required>
               <span class="icon is-small is-left">
                         <i class="fa fa-lock"></i>
                       </span>
             </p>
+            <p v-if="error" class="help is-danger">E-Mail oder Passwort ist falsch</p>
           </div>
         </form>
         <!-- Registierungsbutton -->
-        <p class="has-text-right flex-center"><a class="is-white font-klein margin-right">Noch kein swop-Mitglied? </a><a class="button is-primary">Einloggen</a></p>
+        <p class="has-text-right flex-center"><router-link :to="{name: 'signup'}" class="is-white font-klein margin-right">Noch kein swop-Mitglied? </router-link><a class="button is-primary" @click="logIn">Einloggen</a></p>
       </div>
 
     </div>
@@ -53,18 +58,46 @@
 
 <script type="text/babel">
 import db from 'baqend'
+import router from '../router'
 
 export default {
   name: 'login-sample',
   data () {
     return {
-      isLoggedIn: false
+      isLoggedIn: false,
+      username: null,
+      password: null,
+      error: null
     }
   },
   created () {
     this.$parent.isLoggedIn = false
     console.log(this.$parent.isLoggedIn)
     console.log(db.user)
+  },
+  omputed: {
+    isValid () {
+      return this.username && this.password
+    }
+  },
+  methods: {
+    logIn () {
+      db.User.login(this.username, this.password).then(_ => {
+        router.push('dashboard')
+        this.$parent.isLoggedIn = true
+        this.error = false
+      }).catch(e => {
+        this.error = true
+        console.log('geht nicht')
+      })
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    if (db.User.me) {
+      next('dashboard')
+    } else {
+      next()
+    }
   }
 }
 </script>
