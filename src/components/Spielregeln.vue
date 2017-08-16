@@ -9,7 +9,7 @@
             </div>
             <div class="content gaming-rules">
                   <p><img class="float-right animated jello" src="../assets/swoppy.svg">Mit swop bieten wir Dir eine Möglichkeit, mit der Du ganz einfach einen Tauschpartner Plätze in Uni-Veranstaltungen finden kannst. Dies geschieht <strong>absolut kostenlos</strong>.
-                    Im Gegenzug erwarten wir nur von Dir, dich an folgende Spielregeln zu halten:
+                    Im Gegenzug erwarten wir nur von Dir, Dich an folgende Spielregeln zu halten:
                   </p>
                   <ol>
                     <li>

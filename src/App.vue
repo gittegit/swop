@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <navigation></navigation>
+    <navigation v-show="isLoggedIn"></navigation>
     <transition
   name="custom-classes-transition"
   enter-active-class="animated fadeIn delay fast"
@@ -12,6 +12,7 @@
 
 <script>
 import Navigation from 'components/Navigation.vue'
+// import LoginSample from 'components/LoginSample.vue'
 
 export default {
   name: 'app',
@@ -130,14 +131,17 @@ a.has-text-lightgrey:hover {
 }
 .button.is-primary:hover {
   background-color: rgba($primary, 0.8);
+  border-color: rgba($primary,0.8);
 }
 .button.is-secondary {
   background-color: $secondary;
   color: $white;
+  border-color: $secondary;
 }
 .button.is-secondary:hover {
   background-color: rgba($secondary, 0.8);
   color: $white;
+  border-color: rgba($secondary,0.8);
 }
 input:focus {
   border-color: $primary !important;

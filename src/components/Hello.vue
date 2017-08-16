@@ -13,6 +13,7 @@
           <li><router-link :to="{name: 'swop-dialog'}">Swop-Dialog</router-link></li>
           <li><router-link :to="{name: 'spielregeln'}">Spielregeln</router-link></li>
           <li><router-link :to="{name: 'modal-sample'}">Modal-Sample</router-link></li>
+          <li><router-link :to="{name: 'login-sample'}">Login-Sample</router-link></li>
         </ul>
       </div>
     </div>
