@@ -1,38 +1,44 @@
 <template>
-  <div class="container">
-    <div class="columns is-mobile is-centered">
-      <div class="column is-8 is-narrow">
-        <img src="../assets/swop-logo.svg">
-        <h1 class="is-title is-size-3">Spielregeln</h1>
+  <div class="main-content">
+    <div class="container main-content">
+      <div class="columns is-centered">
+
+          <div class="column is-8 is-narrow is-form">
+            <div class="task-description-title">
+              <h4 class="title">Spielregeln</h4>
+            </div>
+            <div class="content gaming-rules">
+                  <p><img class="float-right animated jello" src="../assets/swoppy.svg">Mit swop bieten wir Dir eine Möglichkeit, mit der Du ganz einfach einen Tauschpartner Plätze in Uni-Veranstaltungen finden kannst. Dies geschieht <strong>absolut kostenlos</strong>.
+                    Im Gegenzug erwarten wir nur von Dir, dich an folgende Spielregeln zu halten:
+                  </p>
+                  <ol>
+                    <li>
+                      <strong>Geh sensibel mit den Daten deiner Partner um.</strong><br>
+                      Hinter jedem swop steckt auch eine andere Person. Bitte stelle nichts anderes mit der E-Mail des anderen an als für die Kontaktaufnahme.
+                    </li>
+                    <li>
+                      <strong>Schaue regelmäßig in deine Mails.</strong><br>
+                      Du hast insgesamt 2 Tage um einen <strong class="has-text-secondary">swop</strong> zu bestätigen. Nach 2 Tagen ohne Bestätigung verfällt dieser und du musst einen neuen anlegen.
+                    </li>
+                    <li>
+                      <strong>Jeder deiner swops ist für maximal 2 Wochen im System</strong><br>
+                      Dies geschiet aus Fairnessgründen und weil Ummeldephasen oft nicht länger dauern. Danach musst Du einen neuen swop erstellen.
+                    </li>
+                    <li>
+                      <strong>Erzähl uns weiter!</strong><br>
+                      Wir würden uns freuen, wenn du swop auch deinen Kommilitonen zeigen würdest. Denn je mehr Studenten swop benutzen, desto größer sind die Chancen einen Partner zu finden.
+                    </li>
+                  </ol>
+              </div>
+
+              <p class="has-text-centered">Noch Fragen?:</p>
+              <div class="spacer"></div>
+              <p class="has-text-centered"><a class="button is-primary">Kontaktiere den Support</a></p>
+
+          </div>
+      </div>
     </div>
   </div>
-</div>
-
-  <!-- <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Navigation</h2>
-    <ul>
-      <li><router-link :to="{ name: 'chats' }" >Chats</router-link></li>
-      <li v-cloak v-if="isLoggedIn"><router-link :to="{ name: 'me' }">Account</router-link></li>
-      <li v-cloak v-else><router-link :to="{ name: 'signup' }">Signup</router-link></li>
-    </ul>
-    <h4>Essential Links</h4>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
-    </ul>
-    <h4>Ecosystem</h4>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-  </div> -->
 </template>
 
 <script type="text/babel">
@@ -54,5 +60,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+  img.float-right {
+    height: 8rem !important;
+    float: right;
+    margin: -3rem 0rem 1rem 2rem;
+    display: inline-block;
+  }
 
 </style>

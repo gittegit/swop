@@ -17,6 +17,11 @@ export default {
   name: 'app',
   components: {
     Navigation
+  },
+  data () {
+    return {
+      isLoggedIn: true
+    }
   }
 }
 </script>
@@ -146,7 +151,16 @@ input:focus {
   margin-right: auto;
   margin-left: auto;
   overflow-y: scroll;
-
+}
+.main-content .container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media only screen and(min-width: 768px) {
+  .main-content .container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }
 
 /* Tabs */
@@ -158,6 +172,14 @@ input:focus {
 /* -----------------------------------------
 04.     INDIVIDUELLE GLOBALE KLASSEN
 ------------------------------------------*/
+
+/* ---- Kasten ---- */
+@media only screen and (min-width: 768px) {
+.is-form {
+  padding: 2.25rem;
+  border: 1px solid #efefef;
+}
+}
 /* Animations */
 .delay {
   animation-delay: 0.2s !important;
@@ -170,12 +192,26 @@ input:focus {
   padding-top: 8rem;
   padding-bottom: 5rem;
 }
+.notices.is-top {
+  top: 5rem !important;
+}
 /* ---- Navigation Sektion ---- */
 .swoppy-img {
-  height: 4rem;
-  margin-right: 0.5rem;
+  height: 3rem;
+  margin: 0.25rem 0;
 }
-
+@media only screen and (min-width: 768px) {
+  .swoppy-img {
+    height: 4rem;
+    margin: 0.5rem 0;
+  }
+  .navbar-item, .navbar-link {
+    padding: 0.75rem 1.5rem;
+  }
+  a.navbar-item.router-link-active:after {
+    bottom: -1.25rem !important;
+  }
+}
 .navigation {
   border-bottom: 1px;
   border-bottom: 1px solid $lightgrey;
@@ -183,17 +219,23 @@ input:focus {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 8999;
+  z-index: 9999;
   background-color: $white;
 }
 .navigation .container {
-  padding: 0.5rem 0 !important;
+  padding: 0.2rem 0 !important;
+}
+.navbar, .logo a {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
 }
 .navbar-end {
   display: flex;
 }
 .navbar-item, .navbar-link {
-  padding: 1.5rem 1rem;
+  padding: 0.75rem;
 }
 a.navbar-item.is-active {
   background-color: transparent;
@@ -211,13 +253,12 @@ a.navbar-item.router-link-active:after {
   border-radius: 50%;
   color: $secondary;
   position: absolute;
-  bottom: -0.75rem;
+  bottom: -1rem;
   left: 0;
   right: 0;
   margin: 0 auto;
   font-size: 30px;
 }
-
 
 /* -----------------------------------------
 05.      COMPONENT-SPEZIFISCHE STYLES
@@ -320,11 +361,16 @@ a.navbar-item.router-link-active:after {
   bottom: 0;
   z-index: 8999;
   margin-bottom: 0 !important;
-  padding-bottom: 3rem;
+  padding-bottom: 2rem;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&0+0,1+50,1+100 */
 background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
 background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
 background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+}
+@media only screen and (min-width: 768px) {
+  .floating-footer {
+    padding-bottom: 3rem;
+  }
 }
 </style>

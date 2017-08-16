@@ -1,4 +1,5 @@
 <template>
+<div class="main-content">
   <div class="container main-content">
     <div class="columns is-centered">
 
@@ -17,7 +18,7 @@
                       </span>
                   </div>
                     <div class="control">
-                        <button class="button is-primary" v-on:click="mailValidator"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                        <a class="button is-primary" v-on:click="mailValidator"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
                     </div>
 
                 </b-field>
@@ -29,7 +30,7 @@
                 <h4 class="title is-6">Passwort ändern</h4>
 
                 <b-field>
-                  <div v-on:keyup.tap.prevent="oldPasswordValidator">
+                  <div v-on:enter="oldPasswordValidator">
                     <p class="control has-icons-left ">
                       <b-input type="password" v-model="aPassword" placeholder="Dein altes Passwort"></b-input>
                         <span class="icon is-small is-left">
@@ -62,14 +63,16 @@
                 </b-field>
                 <div id="password-success-message" hidden><p class="help is-success">Deine Passwort wurde erfolgreich geändert!</p></div>
                 <div id="password-not-different-message" hidden><p class="help is-danger">Dein Passwort konnte nicht geändert werden. Überprüfe ob sich Dein neues und Dein alter Passwort unterscheiden.</p></div>
+                <div id="password-empty-message" hidden><p class="help is-danger">Du musst ein neues Passwort eingeben.</p></div>
+                <div><p class="has-text-right"><a class="button is-primary" v-on:click="PasswordValidator">Passwort bestätigen</a></p></div>
             </form>
-
-            <p><button class="button is-primary" v-on:click="PasswordValidator">Passwort bestätigen</button></p>
-
+            <p class="has-text-left flex-center">
+              <a class="has-text-secondary is-white font-klein margin-right" v-on:click="deleteAccount">Account löschen</a>
+            </p>
         </div>
     </div>
   </div>
-
+</div>
 </template>
 
 <script type="text/babel">
@@ -99,10 +102,11 @@ export default {
       if (this.validateEmail(mail)) {
         failElem.style.display = 'none'
         successElem.style.display = 'block'
-        mail = ''
         // hier sollte die Mail in die Datenbank hinzugefügt werden
+        mail = ' '
       } else {
         failElem.style.display = 'block'
+        successElem.style.display = 'none'
       }
     },
 
@@ -112,7 +116,10 @@ export default {
       var wrongElem = document.getElementById('password-wrong-message')
       if (aPass !== Pass) {
         wrongElem.style.display = 'block'
+        console.log('1')
       } else {
+        wrongElem.style.display = 'none'
+        console.log('2')
         return true
       }
     },
@@ -124,6 +131,19 @@ export default {
       if (aPass === nPass) {
         difElem.style.display = 'block'
       } else {
+        difElem.style.display = 'none'
+        return true
+      }
+    },
+
+    emptyPasswordValidator () {
+      var nPass = this.nPassword
+      var empty = ''
+      var emptyElem = document.getElementById('password-empty-message')
+      if (nPass === empty) {
+        emptyElem.style.display = 'block'
+      } else {
+        emptyElem.style.display = 'none'
         return true
       }
     },
@@ -131,9 +151,9 @@ export default {
     confirmPasswordValidator () {
       var nPass = this.nPassword
       var bPass = this.bPassword
-      // var field = document.getElementById('nPassField')
+      var field = document.getElementById('nPassField')
       if (nPass !== bPass) {
-        console.log('false')
+        console.log(field.style)
         return false
       } else {
         console.log('true')
@@ -143,11 +163,24 @@ export default {
 
     PasswordValidator () {
       var successElem = document.getElementById('password-success-message')
-      if (this.oldPasswordValidator() && this.newPasswordValidator() && this.confirmPasswordValidator()) {
+      if (this.oldPasswordValidator() && this.newPasswordValidator() && this.emptyPasswordValidator() && this.confirmPasswordValidator()) {
         successElem.style.display = 'block'
         // hier sollte er noch das alte Passwort in der Datenbank durch das neue ersetzten.
       }
+    },
+
+    deleteAccount () {
+      this.$dialog.confirm({
+        title: 'Account löschen',
+        message: 'Bist Du Dir sicher, dass Du Deinen Account <strong>löschen</strong> willst? Diese Aktion kann nicht rückgängig gemacht werden.',
+        confirmText: 'Account wirklich löschen',
+        cancelText: 'Doch nicht löschen',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => { this.$toast.open('Account gelöscht!') } // hier müssten alle Daten aus der Datenbank gelöscht werden
+      })
     }
+// Methoden zu Ende
   }
 }
 </script>
