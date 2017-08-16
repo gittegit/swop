@@ -39,6 +39,8 @@
                     </div>
 
                 </b-field>
+
+
                 <div id="mail-success-message" hidden><p class="help is-success">Deine E-Mail wurde erfolgreich hinzugefügt!</p></div>
                 <div id="mail-fail-message" hidden><p class="help is-danger">Gib bitte eine korrekte Mail-Adresse an.</p></div>
             </form>
@@ -99,9 +101,9 @@ export default {
     return {
       name: 'Juli',  // hier sollte der Name von der Datenbank geholen werden
       email: '',
-      aPasssword: '',
-      nPasssword: '',
-      bPasssword: '',
+      aPassword: '',
+      nPassword: '',
+      bPassword: '',
       Pass: '123',  // hier sollte das Passwort von der Datenbank geholen werden
       isDanger: false,
       msg: 'Welcome to Your Vue.js and Baqend App',

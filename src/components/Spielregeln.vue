@@ -13,25 +13,25 @@
                   </p>
                   <ol>
                     <li>
-                      <strong>Geh sensibel mit den Daten deiner Partner um.</strong><br>
+                      <strong>Geh sensibel mit den Daten Deiner Partner um.</strong><br>
                       Hinter jedem swop steckt auch eine andere Person. Bitte stelle nichts anderes mit der E-Mail des anderen an als für die Kontaktaufnahme.
                     </li>
                     <li>
-                      <strong>Schaue regelmäßig in deine Mails.</strong><br>
+                      <strong>Schaue regelmäßig in Deine Mails.</strong><br>
                       Du hast insgesamt 2 Tage um einen <strong class="has-text-secondary">swop</strong> zu bestätigen. Nach 2 Tagen ohne Bestätigung verfällt dieser und du musst einen neuen anlegen.
                     </li>
                     <li>
-                      <strong>Jeder deiner swops ist für maximal 2 Wochen im System</strong><br>
+                      <strong>Jeder Deiner swops ist für maximal 2 Wochen im System</strong><br>
                       Dies geschiet aus Fairnessgründen und weil Ummeldephasen oft nicht länger dauern. Danach musst Du einen neuen swop erstellen.
                     </li>
                     <li>
                       <strong>Erzähl uns weiter!</strong><br>
-                      Wir würden uns freuen, wenn du swop auch deinen Kommilitonen zeigen würdest. Denn je mehr Studenten swop benutzen, desto größer sind die Chancen einen Partner zu finden.
+                      Wir würden uns freuen, wenn Du swop auch Deinen Kommilitonen zeigen würdest. Denn je mehr Studenten swop benutzen, desto größer sind die Chancen einen Partner zu finden.
                     </li>
                   </ol>
               </div>
 
-              <p class="has-text-centered">Noch Fragen?:</p>
+              <p class="has-text-centered">Noch Fragen?</p>
               <div class="spacer"></div>
               <p class="has-text-centered"><a class="button is-primary">Kontaktiere den Support</a></p>
 
