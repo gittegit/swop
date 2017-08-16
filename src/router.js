@@ -27,10 +27,10 @@ const routes = [
   // { path: '/chats', name: 'chats', component: view('Chats'), beforeEnter: dbReady },
   // { path: '/chat/:id', name: 'chat', component: view('Chat'), beforeEnter: dbReady },
   { path: '/signup', name: 'signup', component: view('Signup'), beforeEnter: dbReady },
-  { path: '/me', name: 'me', component: view('Me'), beforeEnter: dbReady },
   // custom from Gitte
   { path: '/swopcardBackend', name: 'swopcardBackend', component: view('SwopcardBackend'), beforeEnter: dbReady },
-  { path: '/addCourse', name: 'addCourse', component: view('AddCourse'), beforeEnter: dbReady }
+  { path: '/addCourse', name: 'addCourse', component: view('AddCourse'), beforeEnter: dbReady },
+  { path: '/me', name: 'me', component: view('Me'), beforeEnter: dbReady }
 ]
 
 const router = new VueRouter({
