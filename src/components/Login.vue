@@ -120,4 +120,9 @@ export default {
   border-color: #ffffff;
   box-shadow: 0px 40px 20px -20px rgba(#000000, 0.05);
 }
+@media only screen and (min-width: 400px) {
+  .login-logo {
+    width: 50%;
+  }
+}
 </style>

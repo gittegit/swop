@@ -186,6 +186,11 @@ export default {
 .login-logo {
   width: 70%;
 }
+@media only screen and (min-width: 400px) {
+  .login-logo {
+    width: 50%;
+  }
+}
 .is-form {
   border-color: #ffffff;
   box-shadow: 0px 40px 20px -20px rgba(#000000, 0.05);

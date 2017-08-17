@@ -6,7 +6,6 @@
     <slot name="forwardItem"></slot>
   </a></p>
 
-
 </template>
 
 <style>
