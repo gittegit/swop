@@ -88,7 +88,7 @@
             </form>
             <p class="flex-center">
               <a class="has-text-secondary is-white font-klein margin-right" v-on:click="deleteAccount">Account löschen</a>
-              <a class="button is-primary" v-on:click="swopLogout">LogOut</a>
+              <a class="button is-primary" v-on:click="swopLogout"><i class="fa fa-sign-out"></i> LogOut</a>
             </p>
         </div>
 <!-- Form zu Ende -->
@@ -227,7 +227,12 @@ export default {
       } else {
         successElem.style.display = 'none'
       }
-
+      m.changePassword(this.aPassword, this.nPassword)
+      .then((result) => {
+        console.log(result)
+      }).catch((error) => {
+        console.log(error)
+      })
     },
 
     deleteAccoutPasswordValidator (password) {
