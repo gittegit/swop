@@ -133,7 +133,7 @@ class Modul {
    * @returns {Promise.<*>}
    */
   updateMatchStatus (matchId, newStatus) {
-    return db.modules.post('updateMatch', {
+    return db.modules.post('updateMatchStatus', {
       id: matchId,
       status: newStatus
     })
