@@ -90,7 +90,7 @@ class Modul {
    */
   getMySwopCards () {
     // var currentUser = db.User.me
-    return db.User.load(db.User.me.id, {depth: 2}).then((currentUser) => {
+    return db.User.load(db.User.me.id, {depth: 3}).then((currentUser) => {
       return Array.from(currentUser.swopCards)
     })
   }
