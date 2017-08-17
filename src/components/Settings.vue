@@ -300,4 +300,8 @@ export default {
   border-color: #ff0000 !important;
 }
 
+.icon-margin {
+  margin-left: 0.5rem
+}
+
 </style>
