@@ -47,8 +47,8 @@
                         <a class="button is-primary" v-on:click="mailClear"><i class="fa fa-trash"></i></a>
                     </div>
                 </b-field>
-                <div id="mail-success-message" hidden><p class="help is-success">Diese Mail-Adresse wurde erfolgreich hinzugefügt!</p></div>
-                <div id="mail-fail-message" hidden><p class="help is-danger">Gib bitte eine korrekte Mail-Adresse an.</p></div>
+                <p v-if="mailSuccess" class="help is-success">Diese Mail-Adresse wurde erfolgreich hinzugefügt!</p>
+                <p v-if="mailError" class="help is-danger">Gib bitte eine korrekte Mail-Adresse an.</p>
             </form>
 
             <form class="change-password ">
@@ -56,18 +56,18 @@
 
                 <b-field>
                     <p class="control has-icons-left ">
-                      <b-input type="password" v-model="aPassword" placeholder="Dein altes Passwort"></b-input>
+                      <input class="input" type="password" v-model="aPassword" placeholder="Dein altes Passwort"></input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
                     </p>
                 </b-field>
-                <div id="password-wrong-message" hidden><p class="help is-danger">Dein Passwort ist nicht korrekt.</p></div>
+                <p v-if="passwordError" class="help is-danger">Dein Passwort ist nicht korrekt.</p>
                 <div class="spacer"></div>
 
                 <b-field>
                     <p class="control has-icons-left">
-                        <b-input type="password" v-model="nPassword" placeholder="Dein neues Passwort"></b-input>
+                        <input class="input" type="password" v-model="nPassword" placeholder="Dein neues Passwort"></input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
@@ -77,16 +77,16 @@
                 <b-field>
                   <div v-on:keyup="confirmPasswordValidator">
                     <p class="control has-icons-left">
-                        <input class="input" type="password" v-bind:class="{ dangerInput: isDanger }" v-model="bPassword" placeholder="Bestätige Dein neues Passwort"></b-input>
+                        <input class="input" type="password" v-bind:class="{ dangerInput : isDanger }" v-model="bPassword" placeholder="Bestätige Dein neues Passwort"></input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
                     </p>
                   </div>
                 </b-field>
-                <div id="password-success-message" hidden><p class="help is-success">Deine Passwort wurde erfolgreich geändert!</p></div>
-                <div id="password-not-different-message" hidden><p class="help is-danger">Dein Passwort konnte nicht geändert werden. Überprüfe ob sich Dein neues und Dein alter Passwort unterscheiden.</p></div>
-                <div id="password-empty-message" hidden><p class="help is-danger">Du musst ein neues Passwort eingeben.</p></div>
+                <p v-if="passwordSuccess" class="help is-success">Deine Passwort wurde erfolgreich geändert!</p>
+                <p v-if="passwordErrorDifferent" class="help is-danger">Dein Passwort konnte nicht geändert werden. Überprüfe ob sich Dein neues und Dein alter Passwort unterscheiden.</p>
+                <p v-if="passwordEmpty" class="help is-danger">Du musst ein neues Passwort eingeben.</p>
                 <div id="password-validator-button" hidden><p class="has-text-right"><a class="button is-primary" v-on:click="PasswordValidator">Passwort bestätigen</a></p></div>
             </form>
             <p class="flex-center flex-center-left">
@@ -111,9 +111,15 @@ export default {
     return {
       name: 'Juli',  // hier sollte der Name von der Datenbank geholen werden
       email: '',
+      mailSuccess: false,
+      mailError: false,
       aPassword: '',
       nPassword: '',
       bPassword: '',
+      passwordError: false,
+      passwordSuccess: false,
+      passwordErrorDifferent: false,
+      passwordEmpty: false,
       Pass: '123',  // hier sollte das Passwort von der Datenbank geholen werden
       isDanger: false,
       msg: 'Welcome to Your Vue.js and Baqend App',
@@ -146,20 +152,18 @@ export default {
     },
 
     showMailButton () {
-      var successElem = document.getElementById('mail-success-message')
-      var failElem = document.getElementById('mail-fail-message')
       var disabledButton = document.getElementById('disabledMailCheckButton')
       var checkButton = document.getElementById('mailCheckButton')
       var clearButton = document.getElementById('mailClearButton')
       if (this.email === '') {
-        successElem.style.display = 'none'
-        failElem.style.display = 'none'
+        this.mailSuccess = false
+        this.mailError = false
         disabledButton.style.display = 'block'
         checkButton.style.display = 'none'
         clearButton.style.display = 'none'
       } else {
-        successElem.style.display = 'none'
-        failElem.style.display = 'none'
+        this.mailSuccess = false
+        this.mailError = false
         disabledButton.style.display = 'none'
         checkButton.style.display = 'block'
         clearButton.style.display = 'none'
@@ -170,28 +174,25 @@ export default {
       return re.test(mail)
     },
     mailValidator () {
-      var successElem = document.getElementById('mail-success-message')
-      var failElem = document.getElementById('mail-fail-message')
       var checkButton = document.getElementById('mailCheckButton')
       var clearButton = document.getElementById('mailClearButton')
       if (this.validateEmail(this.email)) {
-        failElem.style.display = 'none'
-        successElem.style.display = 'block'
+        this.mailSuccess = true
+        this.mailError = false
         checkButton.style.display = 'none'
         clearButton.style.display = 'block'
         // hier sollte die Mail in die Datenbank hinzugefügt werden
       } else {
-        failElem.style.display = 'block'
-        successElem.style.display = 'none'
+        this.mailSuccess = false
+        this.mailError = true
       }
     },
     mailClear () {
       var disabledButton = document.getElementById('disabledMailCheckButton')
-      var successElem = document.getElementById('mail-success-message')
       var clearButton = document.getElementById('mailClearButton')
       if (this.email !== '') {
+        this.mailSuccess = false
         clearButton.style.display = 'none'
-        successElem.style.display = 'none'
         disabledButton.style.display = 'block'
         // hier die Mail in der Datenbank löschen
         this.email = ''
@@ -199,31 +200,28 @@ export default {
     },
 
     oldPasswordValidator (password) {
-      var wrongElem = document.getElementById('password-wrong-message')
       if (password !== this.Pass) {
-        wrongElem.style.display = 'block'
+        this.passwordError = true
       } else {
-        wrongElem.style.display = 'none'
+        this.passwordError = false
         return true
       }
     },
 
     newPasswordValidator () {
-      var difElem = document.getElementById('password-not-different-message')
       if (this.aPassword === this.nPassword) {
-        difElem.style.display = 'block'
+        this.passwordErrorDifferent = true
       } else {
-        difElem.style.display = 'none'
+        this.passwordErrorDifferent = false
         return true
       }
     },
 
     emptyPasswordValidator () {
-      var emptyElem = document.getElementById('password-empty-message')
       if (this.nPassword === '') {
-        emptyElem.style.display = 'block'
+        this.passwordEmpty = true
       } else {
-        emptyElem.style.display = 'none'
+        this.passwordEmpty = false
         return true
       }
     },
@@ -242,16 +240,15 @@ export default {
     },
 
     PasswordValidator () {
-      var successElem = document.getElementById('password-success-message')
       if (this.oldPasswordValidator(this.aPassword) && this.newPasswordValidator() && this.emptyPasswordValidator() && this.confirmPasswordValidator()) {
-        successElem.style.display = 'block'
+        this.passwordSuccess = true
         this.aPassword = this.nPassword
         // hier sollte er noch das alte Passwort in der Datenbank durch das neue ersetzten.
         this.aPassword = ''
         this.nPassword = ''
         this.bPassword = ''
       } else {
-        successElem.style.display = 'none'
+        this.passwordSuccess = false
       }
       m.changePassword(this.aPassword, this.nPassword)
       .then((result) => {
