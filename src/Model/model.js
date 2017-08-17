@@ -27,6 +27,16 @@ class Modul {
   }
 
   /**
+   * change the password
+   * @param {String} oldPassword
+   * @param {String} newPassword
+   * @returns {*|{value}}
+   */
+  changePassword (oldPassword, newPassword) {
+    return db.User.me.newPassword(oldPassword, newPassword)
+  }
+
+  /**
    * Create a new course
    * @param name String
    * @param courseId String
