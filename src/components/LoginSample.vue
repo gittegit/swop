@@ -75,7 +75,7 @@ export default {
     console.log(this.$parent.isLoggedIn)
     console.log(db.user)
   },
-  omputed: {
+  computed: {
     isValid () {
       return this.username && this.password
     }
