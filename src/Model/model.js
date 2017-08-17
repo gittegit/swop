@@ -15,6 +15,7 @@ class Modul {
   @return Promise
   */
   login (username, pw) {
+    username = username.toLowerCase()
     return db.User.login(username, pw)
   }
 
@@ -26,15 +27,26 @@ class Modul {
     return db.User.logout()
   }
 
-  /**
-   * Registriert einen neuen User
-   * @param username
-   * @param password
-   * @returns {*|Promise.<model.User>}
-   */
   register (username, password) {
+    username = username.toLowerCase()
     return db.User.register(username, password)
   }
+
+  // /**
+  //  * Registriert einen neuen User
+  //  * @param displayName
+  //  * @param username
+  //  * @param password
+  //  * @returns {*|Promise.<model.User>}
+  //  */
+  // register (displayName, username, password) {
+  //   return db.User.register(username, password).then(() => {
+  //     return db.modules.post('createRestrictedUserInfo', {
+  //       displayName: displayName,
+  //       email: username
+  //     })
+  //   })
+  // }
 
   /**
    * Deletes the user for EVER
