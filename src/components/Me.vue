@@ -29,6 +29,7 @@
 <script type="text/babel">
 import db from 'baqend'
 import router from '../router'
+import m from '../Model/model.js'
 
 export default {
   data () {
@@ -47,6 +48,13 @@ export default {
   created () {
     this.username = db.User.me.username
     this.$parent.isLoggedIn = true
+    var swopCard1 = 'b61c5f87-c3fe-43fa-a253-cdffa60733a6'
+    var swopCard2 = 'b4705fc2-eac6-4ac0-9821-4a2f9e57c3f8'
+    m.createMatch(swopCard1, swopCard2).then((result) => {
+      console.log(result)
+    }).catch((err) => {
+      console.log(err)
+    })
   },
   beforeRouteEnter (to, from, next) {
     if (!db.User.me) {

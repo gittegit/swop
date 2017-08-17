@@ -95,9 +95,9 @@ class Modul {
    * @param {String} swopCard2Id
    */
   createMatch (swopCard1Id, swopCard2Id) {
-    db.modules.post('createMatch', {
-      swopCard1Id,
-      swopCard2Id
+    return db.modules.post('createMatch', {
+      swopCard1: swopCard1Id,
+      swopCard2: swopCard2Id
     })
   }
 
