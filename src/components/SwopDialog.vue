@@ -23,7 +23,7 @@
 
           <!-- courseFrom Autocomplete  -->
           <b-field>
-            <b-autocomplete v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine aktuelle Veranstaltung" @select="option => coursesObjectAutocomplete.selected = option">
+            <b-autocomplete @click.native="createNewCourse" @keyup.native="createNewCourse" v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine aktuelle Veranstaltung"  @select="option => coursesObjectAutocomplete.selected = option">
             </b-autocomplete>
           </b-field>
 
@@ -34,10 +34,8 @@
 
           <!-- courseGroupFrom Untergruppe hinzufügen-Input courseGroupFrom (nur bei Klick auf Label)-->
           <div v-if="hasCourseGroupFrom">
-            <b-field has-addons>
-              <p class="control is-expanded">
-                <b-input placeholder="Deine aktuelle Untergruppe"></b-input>
-              </p>
+            <b-field grouped>
+                <b-input placeholder="Deine aktuelle Untergruppe" expanded></b-input>
               <p class="control">
                 <a class="button" @click="removeGroup">
                 <span class="icon is-small">
@@ -47,21 +45,17 @@
               </p>
             </b-field>
           </div>
-        </br>
-          <p :class="{ 'help': true, 'has-text-primary': true}" @click="addCourse">
-            Deine Veranstaltung ist nicht dabei?
-          </p>
         </div>
         <!-- / Step 1 -->
 
         <!-- Step 1.2 Course erstellen -->
         <div v-if="firstStepActive && newCourse">
-          <h4 class="description is-5 has-text-centered">Aus welcher Veranstaltung möchtest Du <strong>heraus</strong> wechseln?</h4>
+          <h4 class="description is-5 has-text-centered">Erstelle hier die Veranstaltung aus der Du <strong>heraus</strong> wechseln möchtest.</h4>
 
           <!-- courseFrom Input -->
           <b-field>
             <p class="control is-expanded">
-              <b-input placeholder="Vollständiger Name Deiner aktuellen Veanstaltung" v-model="courseTitleFrom"></b-input>
+              <b-input placeholder="Vollständiger Name Deiner aktuellen Veranstaltung" v-model="courseTitleFrom"></b-input>
             </p>
           </b-field>
           <b-field>
@@ -69,27 +63,6 @@
               <b-input placeholder="ID Deiner aktuellen Veranstaltung" v-model="courseIdFrom"></b-input>
             </p>
           </b-field>
-
-          <!-- Untergruppe hinzufügen-Label (nur wenn noch keine hinzugefügt)-->
-          <p v-if="!hasCourseGroupFrom" :class="{ 'help': true, 'add-group': true}" @click="addGroup">
-            + Untergruppe hinzufügen
-          </p>
-
-          <!-- Untergruppe hinzufügen-Input (nur bei Klick auf Label)-->
-          <div v-if="hasCourseGroupFrom">
-            <b-field has-addons>
-              <p class="control is-expanded">
-                <b-input placeholder="Deine aktuelle Untergruppe"></b-input>
-              </p>
-              <p class="control">
-                <a class="button" @click="removeGroup">
-                <span class="icon is-small">
-                  <i class="fa fa-trash-o"></i>
-                </span>
-            </a>
-              </p>
-            </b-field>
-          </div>
         </div>
         <!-- / Step 1.2 Course erstellen -->
 
@@ -100,7 +73,7 @@
 
           <!-- courseTo Autocomplete -->
           <b-field>
-            <b-autocomplete v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine Wunschveranstaltung" @select="option => coursesObjectAutocomplete.selected = option">
+            <b-autocomplete  v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine Wunschveranstaltung" @select="option => coursesObjectAutocomplete.selected = option">
             </b-autocomplete>
           </b-field>
 
@@ -139,7 +112,7 @@
             <router-link v-if="firstStepActive" @click="back" :to="backLink">{{backItem}}</router-link>
             <div v-if="!firstStepActive" @click="back">{{backItem}}</div>
           </div>
-          <div slot="forwardItem" @click="forward">Weiter</div>
+          <div slot="forwardItem" @click="forward">{{forwardItem}}</div>
         </button-group>
         <!-- / Button-Group Navigation -->
 
@@ -177,6 +150,7 @@ export default {
       canHaveCourseGroupTo: false, // initial
       msg: 'Welcome to Your Vue.js and Baqend App',
       isLoggedIn: null,
+      forwardItem: 'Weiter',
       backItem: 'Abbrechen', // Beschriftung für zurück-Button in Button-Group (inital: Abbrechen)
       backLink: {
         name: 'dashboard' // Link von zurück-Button in Button-Group (initial: Dashboard)
@@ -196,11 +170,18 @@ export default {
       selected: null,
       coursesArray: [], // Array aller Kurse, beinhaltet nur courseItem (für Autocomplete) und courseid (zum Matchen)
       courseGroupToArray: [] // Array aller courseGroupTo-Strings
+      // addNewCourseString: 'Deine Veranstaltung ist nicht dabei?'
     }
   },
 
   methods: {
     // --- Autocomplete ---
+    createNewCourse () {
+      if (this.coursesObjectAutocomplete.name === 'Deine Veranstaltung ist nicht dabei?') {
+        this.coursesObjectAutocomplete.selected = this.coursesObjectAutocomplete.name
+        this.addCourse()
+      }
+    },
     // Hilfsfunktion: reine ID aus ID-Directory aus DB
     getCourseId (courseid) {
       courseid = courseid.substring(11)
@@ -211,6 +192,7 @@ export default {
       for (var course in this.coursesArray) {
         this.coursesObjectAutocomplete.data.push(this.coursesArray[course].courseItem)
       }
+      this.coursesObjectAutocomplete.data.push('Deine Veranstaltung ist nicht dabei?')
     },
     // Befüllen des Arrays mit courseItem und courseid
     createCoursesArray () {
@@ -228,13 +210,14 @@ export default {
     // Hilfsfunktion zur Anzeige des Kurserstellungs-Dialogs
     addCourse () {
       this.newCourse = true
+      this.forwardItem = 'Veranstaltung erstellen'
+      this.backItem = 'Zurück'
     },
     // Untergruppe zur Veranstaltung hinzufügen
     addGroup () {
       if (this.firstStepActive) {
         this.hasCourseGroupFrom = true
         this.canHaveCourseGroupTo = true
-        this.courseGroupToArray.push(null)
       } else if (this.secondStepActive) {
         this.hasCourseGroupTo = true
       }
@@ -270,6 +253,10 @@ export default {
         this.thirdStepDone = true
       } else if (this.newCourse) {
         this.newCourse = false
+        M.createCourse(this.courseTitleFrom, this.courseIdFrom)
+        this.backItem = 'Abbrechen'
+        this.forwardItem = 'Weiter'
+        M.getAllCourses()
       }
     },
     // Aktionen bei Klick auf zurück-Button
@@ -298,10 +285,13 @@ export default {
     // --- forgiving formatting der Daten für das Autocomplete  ---
     filteredDataArray () {
       return this.coursesObjectAutocomplete.data.filter((option) => {
+        if (option === 'Deine Veranstaltung ist nicht dabei?') { // Option für denn Fall, dass die gewüsnchte Veranstaltung noch nicht in der Liste ist
+          option = this.coursesObjectAutocomplete.name // damit steht Deine Veranstaltung ist nicht dabei?' immer als Option zur Verfügung
+        }
         return option
-          .toString()
-          .toLowerCase()
-          .indexOf(this.coursesObjectAutocomplete.name.toLowerCase()) >= 0
+        .toString()
+        .toLowerCase()
+        .indexOf(this.coursesObjectAutocomplete.name.toLowerCase()) >= 0
       })
     }
   },
@@ -380,5 +370,11 @@ export default {
 
 .add-group {
   cursor: pointer;
+}
+
+.dropdown-content {
+  background: #F7154C !important;
+  color: #F7154C !important;
+  font-weight: bolder !important;
 }
 </style>
