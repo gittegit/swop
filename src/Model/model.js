@@ -105,7 +105,7 @@ class Modul {
   }
 
   /**
-   * TODO: creates a match with the given swopCards
+   * creates a match with the given swopCards
    * @param {String} swopCard1Id
    * @param {String} swopCard2Id
    */
@@ -113,6 +113,19 @@ class Modul {
     return db.modules.post('createMatch', {
       swopCard1: swopCard1Id,
       swopCard2: swopCard2Id
+    })
+  }
+
+  /**
+   * updates the Match object with the new status from the current user, which is logged In
+   * @param matchId
+   * @param {String} newStatus: only ACCEPTED or DECLINED allowed
+   * @returns {Promise.<*>}
+   */
+  updateMatch (matchId, newStatus) {
+    return db.modules.post('updateMatch', {
+      id: matchId,
+      status: newStatus
     })
   }
 
