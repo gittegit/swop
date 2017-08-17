@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="190px" height="196px" viewBox="0 0 190 196" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>swop-declined-invert</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-2" transform="translate(-907.000000, -1220.000000)" fill="#FFFFFF">
+            <g id="swop-declined-invert" transform="translate(907.000000, 1220.000000)">
+                <g id="Group-3-Copy-2">
+                    <g id="Combined-Copy-2">
+                        <g id="User">
+                            <path d="M70.0359489,133.971435 C70.0239709,133.980669 70.0119879,133.989897 70,133.999119 L70,169.5 C70,184.135546 58.1355459,196 43.5,196 C28.8644541,196 17,184.135546 17,169.5 L17,133.999119 C16.9880121,133.989897 16.9760291,133.980669 16.9640511,133.971435 C16.6451256,133.990388 16.3236852,134 16,134 C7.49929467,134 0.546938383,127.37073 0.0307419841,119 L0,119 L0,99.002078 C0.269670307,75.2070928 19.6418067,56 43.5,56 C67.3581933,56 86.7303297,75.2070928 86.997209,99.002078 L87,119 L86.969258,119 C86.4530616,127.37073 79.5007053,134 71,134 C70.6763148,134 70.3548744,133.990388 70.0359489,133.971435 Z M43.5,53 C28.8644541,53 17,41.1355459 17,26.5 C17,11.8644541 28.8644541,0 43.5,0 C58.1355459,0 70,11.8644541 70,26.5 C70,41.1355459 58.1355459,53 43.5,53 Z" id="Combined-Shape"></path>
+                        </g>
+                    </g>
+                </g>
+                <g id="Group-5" transform="translate(150.000000, 96.500000) rotate(45.000000) translate(-150.000000, -96.500000) translate(106.000000, 53.000000)">
+                    <rect id="Rectangle-3" x="32" y="0" width="24" height="87"></rect>
+                    <rect id="Rectangle-3" transform="translate(44.000000, 43.500000) rotate(90.000000) translate(-44.000000, -43.500000) " x="32" y="0" width="24" height="87"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
