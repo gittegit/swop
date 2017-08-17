@@ -1,33 +1,5 @@
 <template>
   <div class="main-content">
-    <!-- <div class="container">
-      <div class="row">
-        <div class="col-sm-offset-3 col-sm-6 col-1">
-          <div class="panel panel-default">
-            <div class="panel-heading">User registration example</div>
-            <div class="panel-body">
-              <form>
-                <div class="row">
-                  <div class="form-group col-lg-12">
-                    <label>Username</label>
-                    <input type="text" v-model.trim="username" class="form-control" name="username" required>
-                  </div>
-                  <div class="form-group col-lg-12">
-                    <label>Password</label>
-                    <input type="password" v-model="password" class="form-control" name="password" required>
-                  </div>
-                </div>
-                <div class="pull-right">
-                  <button class="btn btn-info" type="button" @click="register" :disabled.prop="!isValid">Register</button>
-                  <button class="btn btn-info" type="button" @click="logIn" :disabled.prop="!isValid">Log In</button>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div class="alert alert-danger" role="alert" v-if="error">{{ error }}</div>
-        </div>
-      </div>
-    </div> -->
     <div class="container">
       <div class="columns is-centered">
         <div class="column is-8 is-narrow">
@@ -93,9 +65,8 @@
               </p>
             </div>
             </b-field>
-          <p v-if="mailError" class="help is-danger">Du kannst dich nur mit einer Uni-Mail registrieren.</p>
+          <p v-if="mailError" class="help is-danger">Es gibt ein Problem mit Deiner Mail-Adresse. <br> Kontrolliere, ob es sich um eine Uni-Mail handeln oder Du bereits einen Account hast.</p>
           <p v-if="passwordError" class="help is-danger">Deine Passwörter müssen übereinstimmen damit Du Dich registrieren kann.</p>
-          <p v-if="error" class="help is-danger">Fehler beim registrieren.</p>
           </form>
           <!-- Registierungsbutton -->
           <p class="has-text-right flex-center"><router-link :to="{name: 'login-sample'}" class="is-white font-klein margin-right">Bereits Mitglied? </router-link><a class="button is-primary" @click="registerPossible">Registrieren</a></p>
@@ -115,12 +86,11 @@ export default {
     return {
       name: null,
       username: null,
-      password: '',
-      bPassword: '',
+      password: null,
+      bPassword: null,
       isDanger: false,
       mailError: false,
-      passwordError: false,
-      error: false
+      passwordError: false
     }
   },
 
@@ -128,8 +98,9 @@ export default {
     register () {
       db.User.register(this.username, this.password).then(_ => {
         router.push('me')
-      }).catch(e => {
-        this.error = true
+      }).catch((err) => {
+        console.log(err)
+        this.mailError = true
       })
     },
     registerPossible () {

@@ -23,7 +23,7 @@
 
           <!-- courseFrom Autocomplete  -->
           <b-field>
-            <b-autocomplete @click.native="createNewCourse" @keyup.native="createNewCourse" v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine aktuelle Veranstaltung"  @select="option => coursesObjectAutocomplete.selected = option">
+            <b-autocomplete @click.native="createNewCourse" @keyup.native="createNewCourse" v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine aktuelle Veranstaltung" @select="option => coursesObjectAutocomplete.selected = option">
             </b-autocomplete>
           </b-field>
 
@@ -35,7 +35,7 @@
           <!-- courseGroupFrom Untergruppe hinzufügen-Input courseGroupFrom (nur bei Klick auf Label)-->
           <div v-if="hasCourseGroupFrom">
             <b-field grouped>
-                <b-input placeholder="Deine aktuelle Untergruppe" expanded></b-input>
+              <b-input placeholder="Deine aktuelle Untergruppe" expanded></b-input>
               <p class="control">
                 <a class="button" @click="removeGroup">
                 <span class="icon is-small">
@@ -73,30 +73,33 @@
 
           <!-- courseTo Autocomplete -->
           <b-field>
-            <b-autocomplete  v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine Wunschveranstaltung" @select="option => coursesObjectAutocomplete.selected = option">
+            <b-autocomplete v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine Wunschveranstaltung" @select="option => coursesObjectAutocomplete.selected = option">
             </b-autocomplete>
           </b-field>
 
+          <!-- courseGroupFrom Untergruppe hinzufügen-Input courseGroupFrom (nur bei Klick auf Label)-->
+         <!-- / - HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! -->
+          <div v-for="(courseGroupToItem, index) in courseGroupToArray" ref="crs" :key="courseGroupToItem">
 
           <!-- courseGroupToArray Untergruppe hinzufügen-Input-->
-          <div v-if="hasCourseGroupFrom && canHaveCourseGroupTo" v-for="courseCroupTo in courseGroupToArray">
-
-            <b-field has-addons>
-              <p class="control is-expanded">
-                <b-input placeholder="Deine Wunsch-Untergruppen"></b-input>
-              </p>
+          <div>
+            <b-field grouped>
+              <b-input placeholder="Deine aktuelle Untergruppe" expanded></b-input>
               <p class="control">
-                <a class="button" @click="removeGroup">
+                <a class="button"  @click="removeGroup" >
                 <span class="icon is-small">
                   <i class="fa fa-trash-o"></i>
                 </span>
             </a>
               </p>
             </b-field>
-            <!-- Untergruppe hinzufügen-Label (nur wenn noch keine hinzugefügt)-->
           </div>
 
-          <p v-if="canHaveCourseGroupTo" :class="{ 'help': true, 'add-group': true}" @click="addGroup">+ Untergruppe hinzufügen</p>
+          </div>
+          <!-- Untergruppe hinzufügen-Label (nur wenn noch keine hinzugefügt)-->
+          <p :class="{ 'help': true, 'add-group': true}" @click="addGroup">
+            + Untergruppe hinzufügen
+          </p>
 
         </div>
         <!-- / Step 2 -->
@@ -168,8 +171,10 @@ export default {
       courseid: '', // Kurs-Id
       search: '',
       selected: null,
+      // crs: '', // Referenzname für Kursgruppen-Inputfelder
       coursesArray: [], // Array aller Kurse, beinhaltet nur courseItem (für Autocomplete) und courseid (zum Matchen)
-      courseGroupToArray: [] // Array aller courseGroupTo-Strings
+      courseGroupToArray: [], // Array aller courseGroupTo-Strings
+      groupCounter: -1
       // addNewCourseString: 'Deine Veranstaltung ist nicht dabei?'
     }
   },
@@ -217,8 +222,15 @@ export default {
     addGroup () {
       if (this.firstStepActive) {
         this.hasCourseGroupFrom = true
-        this.canHaveCourseGroupTo = true
       } else if (this.secondStepActive) {
+        // this.courseGroupToArray.push({
+        //  groupName: '',
+        //  groupIndex: this.groupCounter++
+        // })
+        this.courseGroupToArray.unshift(this.groupCounter++)
+        console.log('Item group counter: ' + this.courseGroupToArray.groupCounter)
+        console.log('Group counter: ' + this.groupCounter)
+        this.canHaveCourseGroupTo = true
         this.hasCourseGroupTo = true
       }
     },
@@ -228,7 +240,14 @@ export default {
         this.hasCourseGroupFrom = false
         this.canHaveCourseGroupTo = false
       } else if (this.secondStepActive) {
-        this.hasCourseGroupTo = false
+        // --- HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!!
+        // this.courseGroupToArray.pop()
+        console.log(this.groupCounter)
+        console.log('ref: ' + this.$refs.crs[0])
+
+        // this.courseGroupToArray = this.courseGroupToArray.filter(function (courseGroupToItem) {
+          // return courseGroupToItem.groupIndex.match(0)
+        // })
       }
     },
     // Aktionen bei Klick auf Weiter-Button
@@ -251,12 +270,13 @@ export default {
         this.thirdStepActive = true
         // Formular setzen
         this.thirdStepDone = true
-      } else if (this.newCourse) {
-        this.newCourse = false
-        M.createCourse(this.courseTitleFrom, this.courseIdFrom)
-        this.backItem = 'Abbrechen'
-        this.forwardItem = 'Weiter'
-        M.getAllCourses()
+      } else if (this.newCourse) { // 'Neuen Kurs erstellen' nach Kurserstellungs-Dialog
+        M.createCourse(this.courseTitleFrom, this.courseIdFrom) // Erstellung des neuen Kurses
+        M.getAllCourses() // Neuladen aller Kurse inklusive des neuen
+        this.backItem = 'Abbrechen' // Anpassen der Buttongroup
+        this.forwardItem = 'Weiter' // Anpassen der Buttongroup
+        this.newCourse = false // schließen des Formulars/Dialogs
+        this.coursesObjectAutocomplete.name = this.courseIdFrom.concat(' – ').concat(this.courseTitleFrom)
       }
     },
     // Aktionen bei Klick auf zurück-Button
