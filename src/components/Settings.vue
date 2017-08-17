@@ -87,7 +87,7 @@
                 <p v-if="passwordSuccess" class="help is-success">Deine Passwort wurde erfolgreich geändert!</p>
                 <p v-if="passwordErrorDifferent" class="help is-danger">Dein Passwort konnte nicht geändert werden. Überprüfe ob sich Dein neues und Dein alter Passwort unterscheiden.</p>
                 <p v-if="passwordEmpty" class="help is-danger">Du musst ein neues Passwort eingeben.</p>
-                <div id="password-validator-button" hidden><p class="has-text-right"><a class="button is-primary" v-on:click="PasswordValidator">Passwort bestätigen</a></p></div>
+                <p v-if="passwordButton" class="has-text-right"><a class="button is-primary" v-on:click="PasswordValidator">Passwort bestätigen</a></p>
             </form>
             <p class="flex-center flex-center-left">
               <a class="has-text-secondary is-white font-klein margin-right" v-on:click="deleteAccount">Account löschen</a>
@@ -110,16 +110,17 @@ export default {
   data () {
     return {
       name: 'Juli',  // hier sollte der Name von der Datenbank geholen werden
-      email: '',
+      email: '', // hier sollte die Mail von der Datenbank geholen werden
       mailSuccess: false,
       mailError: false,
-      aPassword: '',
-      nPassword: '',
-      bPassword: '',
+      aPassword: null,
+      nPassword: null,
+      bPassword: null,
       passwordError: false,
       passwordSuccess: false,
       passwordErrorDifferent: false,
       passwordEmpty: false,
+      passwordButton: false,
       Pass: '123',  // hier sollte das Passwort von der Datenbank geholen werden
       isDanger: false,
       msg: 'Welcome to Your Vue.js and Baqend App',
@@ -132,6 +133,11 @@ export default {
   },
 
   methods: {
+    /*
+    * Alles was man für die Änderung des Namens brauch.
+    * Button anzeigen lassen (showNameButton)
+    * Namen in der Datenbank ändern (changeName)
+    */
     showNameButton () {
       var buttonElem = document.getElementById('change-name-button')
       var disabledElem = document.getElementById('disabled-change-name-button')
@@ -151,6 +157,14 @@ export default {
       disabledElem.style.display = 'block'
     },
 
+    /*
+    * Alles was man für das Hinzufügen und die Änderung der Extra-Mail brauch.
+    * Button anzeigen lassen (showMailButton)
+    * kontrollieren ob es sich um eine echt Mail-Adresse handelt (validateEmail)
+    * und entsprechende Meldungen anzeigen (mailValidator)
+    * Mail in die Datenbank (mailValidator)
+    * Mailanzeige leeren (mailClear)
+    */
     showMailButton () {
       var disabledButton = document.getElementById('disabledMailCheckButton')
       var checkButton = document.getElementById('mailCheckButton')
@@ -182,6 +196,7 @@ export default {
         checkButton.style.display = 'none'
         clearButton.style.display = 'block'
         // hier sollte die Mail in die Datenbank hinzugefügt werden
+        console.log(db.User.me.username)
       } else {
         this.mailSuccess = false
         this.mailError = true
@@ -207,7 +222,13 @@ export default {
         return true
       }
     },
-
+    /*
+    * Hier wird alles vom Passwort alles was man beim Passwort so falsch machen kann abgefangen.
+    * Testen ob altes Passwort und neues Passwort unterschiedlich sind (newPasswordValidator)
+    * Testen, dass neues Passwort geschrieben wurde (emptyPasswordValidator)
+    * neues Passwort bestätigen (confirmPasswordValidator)
+    * altes Passwort mit der Datenbank abgleichen und neues Passwort setzen (PasswordValidator)
+    */
     newPasswordValidator () {
       if (this.aPassword === this.nPassword) {
         this.passwordErrorDifferent = true
@@ -216,7 +237,6 @@ export default {
         return true
       }
     },
-
     emptyPasswordValidator () {
       if (this.nPassword === '') {
         this.passwordEmpty = true
@@ -225,39 +245,39 @@ export default {
         return true
       }
     },
-
     confirmPasswordValidator () {
-      var buttonElem = document.getElementById('password-validator-button')
       if (this.nPassword !== this.bPassword) {
         this.isDanger = true
-        buttonElem.style.display = 'none'
+        this.passwordButton = false
         return false
       } else {
         this.isDanger = false
-        buttonElem.style.display = 'block'
+        this.passwordButton = true
         return true
       }
     },
-
     PasswordValidator () {
-      if (this.oldPasswordValidator(this.aPassword) && this.newPasswordValidator() && this.emptyPasswordValidator() && this.confirmPasswordValidator()) {
-        this.passwordSuccess = true
-        this.aPassword = this.nPassword
-        // hier sollte er noch das alte Passwort in der Datenbank durch das neue ersetzten.
-        this.aPassword = ''
-        this.nPassword = ''
-        this.bPassword = ''
+      if (this.newPasswordValidator() && this.emptyPasswordValidator() && this.confirmPasswordValidator()) {
+        m.changePassword(this.aPassword, this.nPassword)
+        .then((result) => {
+          console.log(result)
+          this.passwordSuccess = true
+          this.aPassword = null
+          this.nPassword = null
+          this.bPassword = null
+          this.passwordButton = false
+        }).catch((error) => {
+          console.log(error)
+          this.passwordError = true
+        })
       } else {
         this.passwordSuccess = false
       }
-      m.changePassword(this.aPassword, this.nPassword)
-      .then((result) => {
-        console.log(result)
-      }).catch((error) => {
-        console.log(error)
-      })
     },
 
+    /*
+    * Hier wird der Account gelöscht.
+    */
     deleteAccoutPasswordValidator (password) {
       if (password !== this.Pass) {
         return false
@@ -266,19 +286,31 @@ export default {
       }
     },
     deleteAccount () {
-      this.$dialog.prompt({
+      this.$dialog.confirm({
         title: 'Account löschen',
-        message: 'Bist Du Dir sicher, dass Du Deinen Account <strong>löschen</strong> willst? Diese Aktion kann nicht rückgängig gemacht werden.<br>Wenn Du Dir sicher bist gib hier Dein Passwort an:',
+        message: 'Bist Du Dir sicher, dass Du Deinen Account <strong>löschen</strong> willst? Diese Aktion kann nicht rückgängig gemacht werden.',
         confirmText: 'Löschen',
         cancelText: 'Doch nicht löschen',
-        inputMaxlength: 20,
-        inputPlaceholder: 'Dein Passwort',
         type: 'is-danger',
-        onConfirm: (value) => { this.deleteAccoutPasswordValidator(value) },
-        onCancel: () => { this.$toast.open('Zum Glück bleibst du bei uns!') }
+        onConfirm: (value) => {
+          m.delete().then((result) => {
+            router.push('login-sample')
+            this.$parent.isLoggedIn = false
+            console.log('Gelöscht!')
+            console.log(result)
+          }).catch((error) => {
+            console.log('Ein Fehler')
+            console.log(error)
+          })
+        },
+        onCancel: () => { this.$toast.open({message: 'Zum Glück bleibst du bei uns!', type: 'is-success'}) }
       })
     },
 
+    /*
+    * hier wird der User ausgeloggt
+    * und auf die LogIn-Seite geleitet
+    */
     swopLogout () {
       db.User.logout().then(() => {
         router.push('login-sample')
