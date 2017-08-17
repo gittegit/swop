@@ -77,6 +77,14 @@ class Modul {
   }
 
   /**
+   * load a swopcard object by its id
+   * @param swopCardId
+   */
+  loadSwopCardById (swopCardId) {
+    return db.SwopCard.load(swopCardId)
+  }
+
+  /**
    * get all swopCards from the current User
    * @returns Set
    */
