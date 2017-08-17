@@ -73,7 +73,7 @@
           </div>
           </form>
           <!-- Registierungsbutton -->
-          <p class="has-text-right flex-center"><router-link :to="{name: 'login-sample'}" class="is-white font-klein margin-right">Bereits Mitglied? </router-link><a class="button is-primary" @click="registerPossible">Registrieren</a></p>
+          <p class="has-text-right flex-center"><router-link :to="{name: 'login'}" class="is-white font-klein margin-right">Bereits Mitglied? </router-link><a class="button is-primary" @click="registerPossible">Registrieren</a></p>
         </div>
       </div>
   </div>

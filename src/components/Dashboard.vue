@@ -24,7 +24,7 @@
             <div class="swop-status-icon">
               <img v-if="swopCard.status === 'DECLINED'"src="../assets/swop-declined-invert.svg">
               <img v-if="swopCard.status === 'ACCEPTED'"src="../assets/swop-accepted.svg">
-              <img v-if="swopCard.status === 'PENDING && swopCard.match.'"src="../assets/swop-pending.svg">
+              <img v-if="swopCard.status === 'PENDING'"src="../assets/swop-pending.svg">
               <img v-if="swopCard.status === 'WAITING'"src="../assets/swop-waiting-invert.svg">
             </div>
             <div class="swop-status-courses">
