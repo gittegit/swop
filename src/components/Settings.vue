@@ -56,7 +56,7 @@
 
                 <b-field>
                     <p class="control has-icons-left ">
-                      <input class="input" type="password" v-model="aPassword" placeholder="Dein altes Passwort"></input>
+                      <input class="input" type="password" v-model="aPassword" :class="{'is-danger': passwordError}" placeholder="Dein altes Passwort"></input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
@@ -67,7 +67,7 @@
 
                 <b-field>
                     <p class="control has-icons-left">
-                        <input class="input" type="password" v-model="nPassword" placeholder="Dein neues Passwort"></input>
+                        <input class="input" type="password" v-model="nPassword" :class="{'is-danger': passwordErrorDifferent }" placeholder="Dein neues Passwort"></input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
