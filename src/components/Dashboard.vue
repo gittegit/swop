@@ -198,6 +198,14 @@ export default {
   },
   created () {
     console.log(db.User.me)
+    M.getMySwopCards().then((swopCards) => {
+      console.log(swopCards)
+    })
+//      .then((mySwopCards) => {
+//      console.log(mySwopCards)
+//    }).catch((err) => {
+//      console.log(err)
+//    })
   },
   methods: {
     manageCards: function (event) {
