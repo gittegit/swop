@@ -48,34 +48,57 @@
 
           <div class="task-description">
             <p class="description has-text-centered">Melde Dich mit Deiner Uni-Mail an und erstelle Deinen kostenlosen swop-Account.</p>
-            <p class="description has-text-centered has-text-danger">TODO Passwort Confirm und Display Name</p>
           </div>
 
           <div class="spacer"></div>
 
           <!-- Formulare -->
           <form class="signUp">
-            <div class="field">
+            <b-field>
               <p class="control has-icons-left ">
-                <input v-model.trim="username" class="input" :class="{'is-danger': error}" type="mail" placeholder="Deine Uni-Mail" name="username" required>
+                <input v-model.trim="name" class="input" type="text" placeholder="Deine Name" name="name" required>
                 <span class="icon is-small is-left">
-                        <i class="fa fa-envelope"></i>
-                      </span>
+                  <i class="fa fa-user"></i>
+                </span>
               </p>
-            </div>
+            </b-field>
+            <div class="spacer"></div>
 
-            <div class="field">
-              <p class="control has-icons-left">
-                <input v-model="password" class="input" :class="{'is-danger': error}" type="password" placeholder="Dein swop-Passwort" name="password" required>
+            <b-field>
+              <p class="control has-icons-left ">
+                <input v-model.trim="username" class="input" :class="{'is-danger': mailError}" type="mail" placeholder="Deine Uni-Mail" name="username" required>
                 <span class="icon is-small is-left">
-                          <i class="fa fa-lock"></i>
-                        </span>
+                  <i class="fa fa-envelope"></i>
+                </span>
               </p>
-              <p v-if="error" class="help is-danger">E-Mail oder Passwort ist falsch</p>
+            </b-field>
+            <div class="spacer"></div>
+
+            <b-field>
+              <p class="control has-icons-left">
+                <input v-model="password" class="input" type="password" placeholder="Dein swop-Passwort" name="password" required>
+                <span class="icon is-small is-left">
+                  <i class="fa fa-lock"></i>
+                </span>
+              </p>
+            </b-field>
+
+            <b-field>
+            <div v-on:keyup="confirmPasswordValidator">
+              <p class="control has-icons-left">
+                <input v-model="bPassword" class="input" v-bind:class="{ dangerInput : isDanger }" type="password" placeholder="Bestätige Dein swop-Passwort" name="bPassword" required>
+                <span class="icon is-small is-left">
+                  <i class="fa fa-lock"></i>
+                </span>
+              </p>
             </div>
+            </b-field>
+          <p v-if="mailError" class="help is-danger">Du kannst dich nur mit einer Uni-Mail registrieren.</p>
+          <p v-if="passwordError" class="help is-danger">Deine Passwörter müssen übereinstimmen damit Du Dich registrieren kann.</p>
+          <p v-if="error" class="help is-danger">Fehler beim registrieren.</p>
           </form>
           <!-- Registierungsbutton -->
-          <p class="has-text-right flex-center"><router-link :to="{name: 'login-sample'}" class="is-white font-klein margin-right">Bereits Mitglied? </router-link><a class="button is-primary" @click="register">Registrieren</a></p>
+          <p class="has-text-right flex-center"><router-link :to="{name: 'login-sample'}" class="is-white font-klein margin-right">Bereits Mitglied? </router-link><a class="button is-primary" @click="registerPossible">Registrieren</a></p>
         </div>
       </div>
   </div>
@@ -90,11 +113,17 @@ export default {
   name: 'signup',
   data () {
     return {
+      name: null,
       username: null,
-      password: null,
-      error: null
+      password: '',
+      bPassword: '',
+      isDanger: false,
+      mailError: false,
+      passwordError: false,
+      error: false
     }
   },
+
   methods: {
     register () {
       db.User.register(this.username, this.password).then(_ => {
@@ -102,8 +131,26 @@ export default {
       }).catch(e => {
         this.error = true
       })
+    },
+    registerPossible () {
+      if (this.isDanger) {
+        this.passwordError = true
+      } else {
+        this.register()
+      }
+    },
+
+    confirmPasswordValidator () {
+      if (this.password !== this.bPassword) {
+        this.isDanger = true
+        return false
+      } else {
+        this.isDanger = false
+        return true
+      }
     }
   },
+
   computed: {
     isValid () {
       return this.username && this.password
@@ -136,5 +183,9 @@ export default {
 .is-form {
   border-color: #ffffff;
   box-shadow: 0px 40px 20px -20px rgba(#000000, 0.05);
+}
+
+.dangerInput {
+  border-color: #ff0000 !important;
 }
 </style>
