@@ -27,6 +27,16 @@ class Modul {
   }
 
   /**
+   * Registriert einen neuen User
+   * @param username
+   * @param password
+   * @returns {*|Promise.<model.User>}
+   */
+  register (username, password) {
+    return db.User.register(username, password)
+  }
+
+  /**
    * change the password
    * @param {String} oldPassword
    * @param {String} newPassword
