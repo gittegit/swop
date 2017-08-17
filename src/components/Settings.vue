@@ -12,16 +12,19 @@
             <h4 class="title is-6">Namen ändern</h4>
             <p class="subtitle">Dieser Name wird Deinem swop-Partner angezeigt.</p>
             <b-field>
-              <div>
-                <p class="control has-icons-left">
-                  <b-input type="text" v-model="name" placeholder="Dein Name"></b-input>
-                    <span class="icon is-small is-left">
-                      <i class="fa fa-user"></i>
-                    </span>
-                </p>
+              <div class="control has-icons-left is-expanded" v-on:keyup="showNameButton">
+                <b-input type="text" v-model="name" placeholder="Dein Name"></b-input>
+                  <span class="icon is-small is-left">
+                    <i class="fa fa-user"></i>
+                  </span>
               </div>
+                <div class="control" id="disabled-change-name-button" visible>
+                    <a class="button is-primary" disabled><i class="fa fa-check"></i></a>
+                </div>
+                <div class="control" id="change-name-button" hidden>
+                    <a class="button is-primary" v-on:click="changeName"><i class="fa fa-check"></i></a>
+                </div>
             </b-field>
-            <div><p class="has-text-right"><a class="button is-primary" v-on:click="changeName">Name bestätigen</a></p></div>
           </form>
 
             <form class="add-email">
@@ -34,16 +37,16 @@
                         <i class="fa fa-envelope"></i>
                       </span>
                   </div>
+                    <div class="control" id="disabledMailCheckButton" visible>
+                        <a class="button is-primary" disabled><i class="fa fa-check"></i></a>
+                    </div>
                     <div class="control" id="mailCheckButton" hidden>
-                        <a class="button is-primary" v-on:click="mailValidator"><i class="fa fa-check" aria-hidden="true"></i></a>
+                        <a class="button is-primary" v-on:click="mailValidator"><i class="fa fa-check"></i></a>
                     </div>
                     <div class="control" id="mailClearButton" hidden>
-                        <a class="button is-primary" v-on:click="mailClear"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        <a class="button is-primary" v-on:click="mailClear"><i class="fa fa-trash"></i></a>
                     </div>
-
                 </b-field>
-
-
                 <div id="mail-success-message" hidden><p class="help is-success">Diese Mail-Adresse wurde erfolgreich hinzugefügt!</p></div>
                 <div id="mail-fail-message" hidden><p class="help is-danger">Gib bitte eine korrekte Mail-Adresse an.</p></div>
             </form>
@@ -84,11 +87,11 @@
                 <div id="password-success-message" hidden><p class="help is-success">Deine Passwort wurde erfolgreich geändert!</p></div>
                 <div id="password-not-different-message" hidden><p class="help is-danger">Dein Passwort konnte nicht geändert werden. Überprüfe ob sich Dein neues und Dein alter Passwort unterscheiden.</p></div>
                 <div id="password-empty-message" hidden><p class="help is-danger">Du musst ein neues Passwort eingeben.</p></div>
-                <div><p class="has-text-right"><a class="button is-primary" v-on:click="PasswordValidator">Passwort bestätigen</a></p></div>
+                <div id="password-validator-button" hidden><p class="has-text-right"><a class="button is-primary" v-on:click="PasswordValidator">Passwort bestätigen</a></p></div>
             </form>
-            <p class="flex-center">
+            <p class="flex-center flex-center-left">
               <a class="has-text-secondary is-white font-klein margin-right" v-on:click="deleteAccount">Account löschen</a>
-              <a class="button is-primary" v-on:click="swopLogout"><i class="fa fa-sign-out"></i> LogOut</a>
+              <a class="button is-primary has-icon-right" v-on:click="swopLogout">LogOut<i class="fa fa-sign-out icon-margin"></i></a>
             </p>
         </div>
 <!-- Form zu Ende -->
@@ -123,23 +126,41 @@ export default {
   },
 
   methods: {
+    showNameButton () {
+      var buttonElem = document.getElementById('change-name-button')
+      var disabledElem = document.getElementById('disabled-change-name-button')
+      if (this.name === '') {
+        buttonElem.style.display = 'none'
+        disabledElem.style.display = 'block'
+      } else {
+        buttonElem.style.display = 'block'
+        disabledElem.style.display = 'none'
+      }
+    },
     changeName () {
+      var buttonElem = document.getElementById('change-name-button')
+      var disabledElem = document.getElementById('disabled-change-name-button')
       this.$toast.open('Jetzt müsste der Name "' + this.name + '" in die Datenbank gepackt werden.')
+      buttonElem.style.display = 'none'
+      disabledElem.style.display = 'block'
     },
 
     showMailButton () {
       var successElem = document.getElementById('mail-success-message')
       var failElem = document.getElementById('mail-fail-message')
+      var disabledButton = document.getElementById('disabledMailCheckButton')
       var checkButton = document.getElementById('mailCheckButton')
       var clearButton = document.getElementById('mailClearButton')
       if (this.email === '') {
         successElem.style.display = 'none'
         failElem.style.display = 'none'
+        disabledButton.style.display = 'block'
         checkButton.style.display = 'none'
         clearButton.style.display = 'none'
       } else {
         successElem.style.display = 'none'
         failElem.style.display = 'none'
+        disabledButton.style.display = 'none'
         checkButton.style.display = 'block'
         clearButton.style.display = 'none'
       }
@@ -165,11 +186,13 @@ export default {
       }
     },
     mailClear () {
+      var disabledButton = document.getElementById('disabledMailCheckButton')
       var successElem = document.getElementById('mail-success-message')
       var clearButton = document.getElementById('mailClearButton')
       if (this.email !== '') {
         clearButton.style.display = 'none'
         successElem.style.display = 'none'
+        disabledButton.style.display = 'block'
         // hier die Mail in der Datenbank löschen
         this.email = ''
       }
@@ -206,11 +229,14 @@ export default {
     },
 
     confirmPasswordValidator () {
+      var buttonElem = document.getElementById('password-validator-button')
       if (this.nPassword !== this.bPassword) {
         this.isDanger = true
+        buttonElem.style.display = 'none'
         return false
       } else {
         this.isDanger = false
+        buttonElem.style.display = 'block'
         return true
       }
     },
