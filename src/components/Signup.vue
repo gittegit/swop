@@ -93,9 +93,8 @@
               </p>
             </div>
             </b-field>
-          <p v-if="mailError" class="help is-danger">Du kannst dich nur mit einer Uni-Mail registrieren.</p>
+          <p v-if="mailError" class="help is-danger">Es gibt ein Problem mit Deiner Mail-Adresse. <br> Kontrolliere, ob es sich um eine Uni-Mail handeln oder Du bereits einen Account hast.</p>
           <p v-if="passwordError" class="help is-danger">Deine Passwörter müssen übereinstimmen damit Du Dich registrieren kann.</p>
-          <p v-if="error" class="help is-danger">Fehler beim registrieren.</p>
           </form>
           <!-- Registierungsbutton -->
           <p class="has-text-right flex-center"><router-link :to="{name: 'login-sample'}" class="is-white font-klein margin-right">Bereits Mitglied? </router-link><a class="button is-primary" @click="registerPossible">Registrieren</a></p>
@@ -115,12 +114,11 @@ export default {
     return {
       name: null,
       username: null,
-      password: '',
-      bPassword: '',
+      password: null,
+      bPassword: null,
       isDanger: false,
       mailError: false,
-      passwordError: false,
-      error: false
+      passwordError: false
     }
   },
 
@@ -128,8 +126,9 @@ export default {
     register () {
       db.User.register(this.username, this.password).then(_ => {
         router.push('me')
-      }).catch(e => {
-        this.error = true
+      }).catch((err) => {
+        console.log(err)
+        this.mailError = true
       })
     },
     registerPossible () {
