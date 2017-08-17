@@ -217,6 +217,9 @@ form:not(:last-child) {
   align-items: center;
   justify-content: flex-end;
 }
+.flex-center-left {
+  justify-content: space-between;
+}
 .margin-right {
   margin-right: 0.75rem;
 }
