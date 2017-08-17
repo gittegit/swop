@@ -37,6 +37,14 @@ class Modul {
   }
 
   /**
+   * Deletes the user for EVER
+   * @returns {*|{value}}
+   */
+  delete () {
+    return db.User.me.delete()
+  }
+
+  /**
    * change the password
    * @param {String} oldPassword
    * @param {String} newPassword
