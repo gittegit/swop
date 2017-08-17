@@ -16,16 +16,15 @@
           </li>
         </ul>
       </div>
-
       <!-- Beginn einer Karte / mit Swop-->
-      <div v-for="swopCard in mySwopCards" v-if="swopCard.status === filtered || filtered === 'ALL'" class="swop-card card" :class="{'swop-accepted':swopCard.match}">
+      <div v-if="swopCard.status === filtered || filtered === 'ALL'" v-for="swopCard in mySwopCards" class="swop-card card" :class="{'swop-accepted':swopCard.match}">
         <!-- Kartenheader -->
         <header class="card-header" v-on:click="toggleOpen(swopCard.id); logMal(swopCard)">
           <div class="swop-status">
             <div class="swop-status-icon">
               <img v-if="swopCard.status === 'DECLINED'"src="../assets/swop-declined-invert.svg">
               <img v-if="swopCard.status === 'ACCEPTED'"src="../assets/swop-accepted.svg">
-              <img v-if="swopCard.status === 'PENDING'"src="../assets/swop-pending.svg">
+              <img v-if="swopCard.status === 'PENDING && swopCard.match.'"src="../assets/swop-pending.svg">
               <img v-if="swopCard.status === 'WAITING'"src="../assets/swop-waiting-invert.svg">
             </div>
             <div class="swop-status-courses">
@@ -203,24 +202,19 @@ export default {
       this.mySwopCards = Array.from(swopCards)
       console.log(db.User.me.username)
     })
-//      .then((mySwopCards) => {
-//      console.log(mySwopCards)
-//    }).catch((err) => {
-//      console.log(err)
-//    })
-// Einzelne SwopCard hat folgende Einträge:
-// acl,
-// course,
-// createdAt,
-// createdBy,
-// id,
-// match,
-// myGroup,
-// searchedCourses,
-// searchedGroups,
-// status,
-// updatedAt,
-// version
+    // Einzelne SwopCard hat folgende Einträge:
+    // acl,
+    // course,
+    // createdAt,
+    // createdBy,
+    // id,
+    // match,
+    // myGroup,
+    // searchedCourses,
+    // searchedGroups,
+    // status,
+    // updatedAt,
+    // version
   },
   methods: {
     manageCards: function (event) {

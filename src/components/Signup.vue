@@ -1,33 +1,5 @@
 <template>
   <div class="main-content">
-    <!-- <div class="container">
-      <div class="row">
-        <div class="col-sm-offset-3 col-sm-6 col-1">
-          <div class="panel panel-default">
-            <div class="panel-heading">User registration example</div>
-            <div class="panel-body">
-              <form>
-                <div class="row">
-                  <div class="form-group col-lg-12">
-                    <label>Username</label>
-                    <input type="text" v-model.trim="username" class="form-control" name="username" required>
-                  </div>
-                  <div class="form-group col-lg-12">
-                    <label>Password</label>
-                    <input type="password" v-model="password" class="form-control" name="password" required>
-                  </div>
-                </div>
-                <div class="pull-right">
-                  <button class="btn btn-info" type="button" @click="register" :disabled.prop="!isValid">Register</button>
-                  <button class="btn btn-info" type="button" @click="logIn" :disabled.prop="!isValid">Log In</button>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div class="alert alert-danger" role="alert" v-if="error">{{ error }}</div>
-        </div>
-      </div>
-    </div> -->
     <div class="container">
       <div class="columns is-centered">
         <div class="column is-8 is-narrow">
