@@ -313,7 +313,7 @@ export default {
     */
     swopLogout () {
       db.User.logout().then(() => {
-        router.push('login-sample')
+        router.push('/')
         this.$parent.isLoggedIn = false
       })
     }

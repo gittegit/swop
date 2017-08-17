@@ -1,5 +1,5 @@
 import db from 'baqend'
-import Hello from './components/Hello'
+import Login from './components/Login'
 import VueRouter from 'vue-router'
 
 function dbReady (to, from, next) {
@@ -17,7 +17,7 @@ function view (name) {
 }
 
 const routes = [
-  { path: '/', component: Hello },
+  { path: '/', component: Login },
   { path: '/dashboard', name: 'dashboard', component: view('Dashboard'), beforeEnter: dbReady },
   { path: '/settings', name: 'settings', component: view('Settings'), beforeEnter: dbReady },
   { path: '/swop-dialog', name: 'swop-dialog', component: view('SwopDialog'), beforeEnter: dbReady },

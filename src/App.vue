@@ -12,6 +12,7 @@
 
 <script>
 import Navigation from 'components/Navigation.vue'
+import db from 'baqend'
 // import LoginSample from 'components/LoginSample.vue'
 
 export default {
@@ -21,8 +22,12 @@ export default {
   },
   data () {
     return {
-      isLoggedIn: true
+      isLoggedIn: db.User.me !== null
     }
+  },
+  created () {
+    console.log(this.db.User.me)
+    // this.isLoggedIn = db.User.me !== null
   }
 }
 </script>
@@ -223,6 +228,12 @@ form:not(:last-child) {
 .margin-right {
   margin-right: 0.75rem;
 }
+.modal-background {
+  background-color: rgba($primary, 0.8);
+}
+.message-header {
+  background-color: $secondary;
+}
 /* ---- Main Content ---- */
 .main-content {
   padding-top: 8rem;
@@ -294,6 +305,14 @@ a.navbar-item.router-link-active:after {
   right: 0;
   margin: 0 auto;
   font-size: 30px;
+}
+.checkbox input[type=checkbox]:checked + .check{
+  background: $primary url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Cpath d='M.04.627L.146.52.43.804.323.91zm.177.177L.854.167.96.273.323.91z' fill='%23fff'/%3E%3C/svg%3E") no-repeat 50%;
+  border-color: $primary;
+  box-shadow: none !important;
+}
+.checkbox:hover input[type=checkbox] + .check {
+  border-color: $primary !important;
 }
 
 /* -----------------------------------------

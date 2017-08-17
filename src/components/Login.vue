@@ -61,10 +61,9 @@ import db from 'baqend'
 import router from '../router'
 
 export default {
-  name: 'login-sample',
+  name: 'login',
   data () {
     return {
-      isLoggedIn: false,
       username: null,
       password: null,
       error: null
@@ -83,8 +82,8 @@ export default {
   methods: {
     logIn () {
       db.User.login(this.username, this.password).then(_ => {
-        router.push('dashboard')
         this.$parent.isLoggedIn = true
+        router.push('dashboard')
         this.error = false
       }).catch(e => {
         this.error = true
