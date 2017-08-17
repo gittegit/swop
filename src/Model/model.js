@@ -89,13 +89,10 @@ class Modul {
    * @returns Set
    */
   getMySwopCards () {
-    var currentUser = db.User.me
-    return currentUser.swopCards
-      // .matches('createdBy', currentUser)
-      // .ascending('createdAt')
-      // .resultList().then((swopCards) => {
-      //   return swopCards
-      // })
+    // var currentUser = db.User.me
+    return db.User.load(db.User.me.id, {depth: 1}).then((currentUser) => {
+      return Array.from(currentUser.swopCards)
+    })
   }
 
   /**

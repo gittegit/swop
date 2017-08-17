@@ -109,6 +109,7 @@
 import db from 'baqend'
 import Vue from 'vue'
 import VueClipboard from 'vue-clipboard2'
+import M from '../Model/model.js'
 
 Vue.use(VueClipboard)
 export default {
@@ -133,6 +134,7 @@ export default {
           active: false
         }
       ],
+      mySwopCards: [],
       swopCards: [
         {
           courseTitleFrom: 'Übungen zu Softwareentwicklung II',
