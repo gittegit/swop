@@ -22,7 +22,12 @@
         <!-- Kartenheader -->
         <header class="card-header" v-on:click="swopCard.open = !swopCard.open">
           <div class="swop-status">
-            <div class="swop-status-icon"><i class="fa fa-user-times" aria-hidden="true"></i></div>
+            <div class="swop-status-icon">
+              <img v-if="swopCard.status=== 'declined'"src="../assets/swop-declined-invert.svg">
+              <img v-if="swopCard.status=== 'accepted'"src="../assets/swop-accepted.svg">
+              <img v-if="swopCard.status=== 'pending'"src="../assets/swop-pending.svg">
+              <img v-if="swopCard.status=== 'waiting'"src="../assets/swop-waiting-invert.svg">
+            </div>
             <div class="swop-status-courses">
               <!-- Swop Kurse -->
               <div class="swop-status-course-from">
@@ -147,7 +152,7 @@ export default {
           time: '19:34',
           match: false,
           open: false,
-          status: 'waiting'
+          status: 'declined'
         },
         {
           courseTitleFrom: 'Denken lernen leicht gemacht',
@@ -160,7 +165,7 @@ export default {
           time: '18:34',
           match: true,
           open: false,
-          status: 'match'
+          status: 'accepted'
         },
         {
           courseTitleFrom: 'Wurst selber machen',
@@ -174,6 +179,19 @@ export default {
           match: false,
           open: false,
           status: 'waiting'
+        },
+        {
+          courseTitleFrom: 'Käse essen',
+          courseGroupFrom: 'Seminar F',
+          courseTitleTo: 'Bier trinken',
+          courseGroupTo: 'Seminar E',
+          userName: 'Harry',
+          userMail: 'harry@uni.rocks',
+          date: '4. Januar 2016',
+          time: '18:34',
+          match: true,
+          open: false,
+          status: 'pending'
         }
       ]
     }
@@ -242,5 +260,8 @@ export default {
   .main-content {
     padding-top: 10rem;
   }
+}
+.swop-status-icon img {
+  max-height: 1.7rem;
 }
 </style>

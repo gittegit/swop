@@ -86,10 +86,12 @@
                 <div id="password-empty-message" hidden><p class="help is-danger">Du musst ein neues Passwort eingeben.</p></div>
                 <div><p class="has-text-right"><a class="button is-primary" v-on:click="PasswordValidator">Passwort bestätigen</a></p></div>
             </form>
-            <p class="has-text-left">
+            <p class="flex-center">
               <a class="has-text-secondary is-white font-klein margin-right" v-on:click="deleteAccount">Account löschen</a>
+              <a class="button is-primary" v-on:click="swopLogout"><i class="fa fa-sign-out"></i> LogOut</a>
             </p>
         </div>
+<!-- Form zu Ende -->
     </div>
   </div>
 </div>
@@ -97,6 +99,8 @@
 
 <script type="text/babel">
 import db from 'baqend'
+import router from '../router'
+import m from '../Model/model.js'
 
 export default {
   name: 'settings',
@@ -223,6 +227,12 @@ export default {
       } else {
         successElem.style.display = 'none'
       }
+      m.changePassword(this.aPassword, this.nPassword)
+      .then((result) => {
+        console.log(result)
+      }).catch((error) => {
+        console.log(error)
+      })
     },
 
     deleteAccoutPasswordValidator (password) {
@@ -236,13 +246,20 @@ export default {
       this.$dialog.prompt({
         title: 'Account löschen',
         message: 'Bist Du Dir sicher, dass Du Deinen Account <strong>löschen</strong> willst? Diese Aktion kann nicht rückgängig gemacht werden.<br>Wenn Du Dir sicher bist gib hier Dein Passwort an:',
-        confirmText: 'löschen',
+        confirmText: 'Löschen',
         cancelText: 'Doch nicht löschen',
         inputMaxlength: 20,
         inputPlaceholder: 'Dein Passwort',
         type: 'is-danger',
         onConfirm: (value) => { this.deleteAccoutPasswordValidator(value) },
         onCancel: () => { this.$toast.open('Zum Glück bleibst du bei uns!') }
+      })
+    },
+
+    swopLogout () {
+      db.User.logout().then(() => {
+        router.push('login-sample')
+        this.$parent.isLoggedIn = false
       })
     }
 // Methoden zu Ende
