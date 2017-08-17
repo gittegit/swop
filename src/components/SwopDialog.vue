@@ -35,7 +35,7 @@
           <!-- courseGroupFrom Untergruppe hinzufügen-Input courseGroupFrom (nur bei Klick auf Label)-->
           <div v-if="hasCourseGroupFrom">
             <b-field grouped>
-              <b-input placeholder="Deine aktuelle Untergruppe" expanded></b-input>
+              <b-input v-model="courseGroupFrom" placeholder="Deine aktuelle Untergruppe" expanded></b-input>
               <p class="control">
                 <a class="button" @click="removeGroup">
                 <span class="icon is-small">
@@ -71,22 +71,62 @@
         <div v-if="secondStepActive">
           <h4 class="description is-5 has-text-centered">In welche Veranstaltung möchtest Du <strong>hinein</strong> wechseln?</h4>
 
+          <div v-if="!canHaveCourseGroupTo">
+
+            <div v-for="(courseTitleToItem, index) in courseTitleToArray"  ref="crs" :key="courseTitleToItem.titleIndex">
+
+            <!-- courseTitleToArray Veranstaltung hinzufügen-Input-->
+            <div>
+              <b-field grouped>
+                <!-- courseTitleToArray[index].courseName  oder  coursesObjectAutocomplete.name ? -->
+
+                  <b-autocomplete v-model="courseTitleToArray[index].courseName" :data="filteredDataArray" placeholder="Deine Wunschveranstaltung" @select="option => coursesObjectAutocomplete.selected = option" expanded>
+                  </b-autocomplete>
+
+
+                <!--<b-input v-model="courseTitleToArray[index].courseName" placeholder="Deine Wunsch-Untergruppe" expanded></b-input> -->
+                <p class="control">
+                  <a class="button"  @click="removeCourse(index)">
+                  <span class="icon is-small">
+                    <i class="fa fa-trash-o"></i>
+                  </span>
+              </a>
+                </p>
+              </b-field>
+            </div>
+
+            </div>
+
+
+
           <!-- courseTo Autocomplete -->
-          <b-field>
+          <!-- <b-field>
             <b-autocomplete v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine Wunschveranstaltung" @select="option => coursesObjectAutocomplete.selected = option">
             </b-autocomplete>
-          </b-field>
+          </b-field> -->
+
+          <p :class="{ 'help': true}" @click="addCourseTo">
+            + Wunschveranstaltung hinzufügen
+          </p>
+        </div>
 
           <!-- courseGroupFrom Untergruppe hinzufügen-Input courseGroupFrom (nur bei Klick auf Label)-->
-         <!-- / - HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! -->
-          <div v-for="(courseGroupToItem, index) in courseGroupToArray" ref="crs" :key="courseGroupToItem">
+          <div v-if="canHaveCourseGroupTo">
+
+            <b-field>
+              <b-input v-model="coursesObjectAutocomplete.name" :disabled="true">
+              </b-input>
+            </b-field>
+
+
+          <div v-for="(courseGroupToItem, index) in courseGroupToArray"  ref="crs" :key="courseGroupToItem.groupIndex">
 
           <!-- courseGroupToArray Untergruppe hinzufügen-Input-->
           <div>
             <b-field grouped>
-              <b-input placeholder="Deine aktuelle Untergruppe" expanded></b-input>
+              <b-input v-model="courseGroupToArray[index].groupName" placeholder="Deine Wunsch-Untergruppe" expanded></b-input>
               <p class="control">
-                <a class="button"  @click="removeGroup" >
+                <a class="button"  @click="removeGroup(index)">
                 <span class="icon is-small">
                   <i class="fa fa-trash-o"></i>
                 </span>
@@ -100,6 +140,7 @@
           <p :class="{ 'help': true, 'add-group': true}" @click="addGroup">
             + Untergruppe hinzufügen
           </p>
+        </div>
 
         </div>
         <!-- / Step 2 -->
@@ -171,11 +212,11 @@ export default {
       courseid: '', // Kurs-Id
       search: '',
       selected: null,
-      // crs: '', // Referenzname für Kursgruppen-Inputfelder
       coursesArray: [], // Array aller Kurse, beinhaltet nur courseItem (für Autocomplete) und courseid (zum Matchen)
       courseGroupToArray: [], // Array aller courseGroupTo-Strings
-      groupCounter: -1
-      // addNewCourseString: 'Deine Veranstaltung ist nicht dabei?'
+      courseTitleToArray: [], // Array aller courseTitleTo-Strings
+      groupCounter: 0,
+      courseCounter: 0
     }
   },
 
@@ -222,33 +263,42 @@ export default {
     addGroup () {
       if (this.firstStepActive) {
         this.hasCourseGroupFrom = true
+        this.canHaveCourseGroupTo = true
       } else if (this.secondStepActive) {
-        // this.courseGroupToArray.push({
-        //  groupName: '',
-        //  groupIndex: this.groupCounter++
-        // })
-        this.courseGroupToArray.unshift(this.groupCounter++)
-        console.log('Item group counter: ' + this.courseGroupToArray.groupCounter)
-        console.log('Group counter: ' + this.groupCounter)
+        this.courseGroupToArray.push({
+          groupName: '',
+          groupIndex: this.groupCounter++
+        })
+        // this.courseGroupToArray.unshift(this.groupCounter++)
         this.canHaveCourseGroupTo = true
         this.hasCourseGroupTo = true
+        console.log(this.courseGroupToArray)
       }
     },
+    addCourseTo () {
+      console.log('addCourseTo')
+      var lastCourseName = this.coursesObjectAutocomplete.name
+      this.coursesObjectAutocomplete.name = ''
+      this.courseTitleToArray.push({
+        courseName: lastCourseName,
+        courseIndex: this.courseCounter++
+      })
+      // this.courseGroupToArray.unshift(this.groupCounter++)
+      console.log(this.courseTitleToArray)
+      // this.courseTitleToArray.push(this.coursesObjectAutocomplete.name)
+    },
     // Untergruppe zur Veranstaltung entfernen
-    removeGroup () {
+    removeGroup (index) {
       if (this.firstStepActive) {
         this.hasCourseGroupFrom = false
         this.canHaveCourseGroupTo = false
       } else if (this.secondStepActive) {
-        // --- HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!! HEEEEEEEEEEERE!!!!!!!
-        // this.courseGroupToArray.pop()
-        console.log(this.groupCounter)
-        console.log('ref: ' + this.$refs.crs[0])
-
-        // this.courseGroupToArray = this.courseGroupToArray.filter(function (courseGroupToItem) {
-          // return courseGroupToItem.groupIndex.match(0)
-        // })
+        this.courseGroupToArray.splice(index, 1)
       }
+    },
+    // Veranstaltung von Wunsch-LIste entfernen
+    removeCourse (index) {
+      this.courseTitleToArray.splice(index, 1)
     },
     // Aktionen bei Klick auf Weiter-Button
     forward () {
@@ -261,8 +311,13 @@ export default {
         // Zurück-Button setzen
         this.backItem = 'Zurück'
         // Eingaben speichern
+        this.courseTitleFrom = this.coursesObjectAutocomplete.name
+        this.createCoursesObjectAutocomplete = ''
         if (!this.newCourse) {
           this.courseTitleFrom = this.coursesObjectAutocomplete.name
+        }
+        if (!this.canHaveCourseGroupTo) {
+          this.coursesObjectAutocomplete.name = this.courseTitleTo
         }
       } else if (this.firstStepDone && this.secondStepDone) {
         // Nav-Dots setzen
@@ -270,6 +325,8 @@ export default {
         this.thirdStepActive = true
         // Formular setzen
         this.thirdStepDone = true
+        this.courseTitleTo = this.coursesObjectAutocomplete.name
+        this.coursesObjectAutocomplete.name = this.courseTitleTo
       } else if (this.newCourse) { // 'Neuen Kurs erstellen' nach Kurserstellungs-Dialog
         M.createCourse(this.courseTitleFrom, this.courseIdFrom) // Erstellung des neuen Kurses
         M.getAllCourses() // Neuladen aller Kurse inklusive des neuen
@@ -284,6 +341,9 @@ export default {
       if (this.firstStepActive) {
         this.backLink.name = 'dashboard'
       } else if (this.secondStepActive) {
+        // Input setzen
+        this.courseTitleTo = this.coursesObjectAutocomplete.name
+        this.coursesObjectAutocomplete.name = this.courseTitleFrom
         // Nav-Dots setzen
         this.firstStepActive = true
         this.secondStepActive = false
