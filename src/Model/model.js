@@ -43,7 +43,7 @@ class Modul {
    * @returns {*|{value}}
    */
   changePassword (oldPassword, newPassword) {
-    return db.User.me.newPassword(oldPassword, newPassword)
+    return db.User.newPassword(db.User.me.username, oldPassword, newPassword)
   }
 
   /**
