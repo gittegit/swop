@@ -1,18 +1,21 @@
-# vue-starter
+# swop
 
-> A Vue.js project
+> Dein Tauschtool zum Tauschen von Uni-Veranstaltungen und mehr
 
 ## Build Setup
 
 ``` bash
-# install dependencies
-npm install
 
-# serve with hot reload at localhost:8080
+# Repo clonen
+git clone https://github.com/gittegit/swop.git
+cd swop
+
+# Dependencies installieren
+(sudo) npm install
+
+# Webpack Dev Server
 npm run dev
 
-# build for production with minification
+# Production Build
 npm run build
 ```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
