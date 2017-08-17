@@ -122,7 +122,7 @@ class Modul {
    * @param {String} newStatus: only ACCEPTED or DECLINED allowed
    * @returns {Promise.<*>}
    */
-  updateMatch (matchId, newStatus) {
+  updateMatchStatus (matchId, newStatus) {
     return db.modules.post('updateMatch', {
       id: matchId,
       status: newStatus
