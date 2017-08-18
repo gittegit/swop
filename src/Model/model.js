@@ -27,9 +27,11 @@ class Modul {
     return db.User.logout()
   }
 
-  register (username, password) {
+  register (displayName, username, password) {
     username = username.toLowerCase()
-    return db.User.register(username, password)
+    return db.User.register(username, password).then((userObject) => {
+      return db.modules.post('updateRestrictedUserInfo', {id: userObject, displayName: displayName})
+    })
   }
 
   // /**

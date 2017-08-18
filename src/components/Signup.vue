@@ -107,7 +107,8 @@ Verordnung (EWG) Nr. 1677/88 der Kommission vom 15. Juni 1988 zur Festsetzung vo
 
 <script type="text/babel">
 import db from 'baqend'
-import router from '../router'
+// import router from '../router'
+import M from '../Model/model.js'
 
 export default {
   name: 'signup',
@@ -127,8 +128,9 @@ export default {
 
   methods: {
     register () {
-      db.User.register(this.username, this.password).then(_ => {
-        router.push('me')
+      M.register(this.name, this.username, this.password).then((result) => {
+        console.log(result)
+//        router.push('me')
       }).catch((err) => {
         console.log(err)
         this.mailError = true
