@@ -28,7 +28,9 @@ const routes = [
   // { path: '/chats', name: 'chats', component: view('Chats'), beforeEnter: dbReady },
   // { path: '/chat/:id', name: 'chat', component: view('Chat'), beforeEnter: dbReady },
   { path: '/signup', name: 'signup', component: view('Signup'), beforeEnter: dbReady },
-  { path: '/me', name: 'me', component: view('Me'), beforeEnter: dbReady }
+  { path: '/me', name: 'me', component: view('Me'), beforeEnter: dbReady },
+  { path: '/passwort-vergessen', name: 'passwort-vergessen', component: view('ForgotPassword'), beforeEnter: dbReady },
+  { path: '/passwort-reset', name: 'passwort-reset', component: view('ResetPassword'), beforeEnter: dbReady }
 ]
 
 const router = new VueRouter({
