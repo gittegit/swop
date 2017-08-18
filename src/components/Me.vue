@@ -29,7 +29,6 @@
 <script type="text/babel">
 import db from 'baqend'
 import router from '../router'
-import m from '../Model/model.js'
 
 export default {
   data () {
