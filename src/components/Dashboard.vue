@@ -159,7 +159,6 @@ export default {
     M.getMySwopCards().then((swopCards) => {
       this.mySwopCards = Array.from(swopCards)
       console.log(db.User.me.username)
-      console.log(swopCards)
     })
     // Einzelne SwopCard hat folgende Einträge:
     // acl, course, createdAt, createdBy, id, match, myGroup, searchedCourses, searchedGroups, status, updatedAt, version
