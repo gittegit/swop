@@ -71,7 +71,7 @@ class Modul {
    * @returns {Promise.<*>}
    */
   updateUsername (displayName) {
-    return db.modules.post('updateRestrictedUserInfo', {displayName: displayName})
+    return db.modules.post('updateDisplayName', {displayName: displayName})
   }
 
   updateEmail (email) {
