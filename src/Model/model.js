@@ -59,6 +59,11 @@ class Modul {
     })
   }
 
+  /**
+   * TODO: rename and check functionality
+   * @param displayName
+   * @returns {Promise.<*>}
+   */
   updateUsername (displayName) {
     return db.modules.post('updateRestrictedUserInfo', {displayName: displayName})
   }
