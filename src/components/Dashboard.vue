@@ -16,6 +16,8 @@
           </li>
         </ul>
       </div>
+
+      <a v-show="testing" @click="createSampleSwopCard()">Mach mir mal ne SwopKarte</a>
       <!-- Beginn einer Karte / mit Swop-->
       <div v-if="swopCard.status === filtered || filtered === 'ALL'" v-for="swopCard in mySwopCards" class="swop-card card" :class="{'swop-accepted':swopCard.match}">
         <!-- Kartenheader -->
@@ -121,9 +123,9 @@ export default {
   data () {
     return {
       copyData: 'test',
-      msg: 'Welcome to Your Vue.js and Baqend App',
       isLoggedIn: null,
       filtered: 'ALL',
+      testing: false,
       open: null,
       swopCardTabs: [
         {
@@ -139,61 +141,7 @@ export default {
           active: false
         }
       ],
-      mySwopCards: [],
-      swopCards: [
-        {
-          courseTitleFrom: 'Übungen zu Softwareentwicklung II',
-          courseGroupFrom: 'Gruppe F',
-          courseTitleTo: 'Übungen zu Softwareentwicklung II',
-          courseGroupTo: 'Gruppe E',
-          userName: 'Marco',
-          userMail: 'marco@uni.rocks',
-          createdAt: '2. Januar 2016',
-          time: '19:34',
-          match: false,
-          open: false,
-          status: 'declined'
-        },
-        {
-          courseTitleFrom: 'Denken lernen leicht gemacht',
-          courseGroupFrom: 'Seminar F',
-          courseTitleTo: 'Denken lernen leicht gemacht',
-          courseGroupTo: 'Seminar E',
-          userName: 'Stefan',
-          userMail: 'stefan@uni.rocks',
-          createdAt: '4. Januar 2016',
-          time: '18:34',
-          match: true,
-          open: false,
-          status: 'accepted'
-        },
-        {
-          courseTitleFrom: 'Wurst selber machen',
-          courseGroupFrom: 'Seminar F',
-          courseTitleTo: 'Mittelalter Vogelkunde',
-          courseGroupTo: 'Seminar E',
-          userName: 'Dieter',
-          userMail: 'dieter@uni.rocks',
-          createdAt: '4. Januar 2016',
-          time: '18:34',
-          match: false,
-          open: false,
-          status: 'waiting'
-        },
-        {
-          courseTitleFrom: 'Käse essen',
-          courseGroupFrom: 'Seminar F',
-          courseTitleTo: 'Bier trinken',
-          courseGroupTo: 'Seminar E',
-          userName: 'Harry',
-          userMail: 'harry@uni.rocks',
-          createdAt: '4. Januar 2016',
-          time: '18:34',
-          match: true,
-          open: false,
-          status: 'pending'
-        }
-      ]
+      mySwopCards: []
     }
   },
   created () {
@@ -203,37 +151,24 @@ export default {
       console.log(db.User.me.username)
     })
     // Einzelne SwopCard hat folgende Einträge:
-    // acl,
-    // course,
-    // createdAt,
-    // createdBy,
-    // id,
-    // match,
-    // myGroup,
-    // searchedCourses,
-    // searchedGroups,
-    // status,
-    // updatedAt,
-    // version
+    // acl, course, createdAt, createdBy, id, match, myGroup, searchedCourses, searchedGroups, status, updatedAt, version
   },
   methods: {
     manageCards: function (event) {
-      // Toggle die Active Klassen der Tabs
+      // Toggle die Active Klassen der Tabs erstmal auf false
       for (var swopCardTab in this.swopCardTabs) {
         this.swopCardTabs[swopCardTab].active = false
       }
+      // Stelle das gewählte Tab auf is-active
       event.active = true
-      // Toggle
+      // Manage die Kartensicht
       this.filtered = event.statusMessage
       if (this.filtered === 'Ausstehend') {
         this.filtered = 'WAITING'
-        console.log(this.filtered)
       } else if (this.filtered === 'Match') {
         this.filtered = 'PENDING' || 'ACCEPTED'
-        console.log(this.filtered)
       } else {
         this.filtered = 'ALL'
-        console.log(this.filtered)
       }
     },
     onSuccess: function () {
@@ -251,12 +186,6 @@ export default {
         type: 'is-danger'
       })
     },
-    toCommaSeparatedString: function (array) {
-      for (var element in array) {
-        element = element + ' '
-      }
-      return array.join()
-    },
     setToArray: function (set) {
       console.log(Array.from(set))
       return Array.from(set)
@@ -265,9 +194,8 @@ export default {
       return date.getDay()
     },
     getStringMonth: function (date) {
-      // string = string.substring(6, 7)
+      // Monat in Klartext
       date = date.getMonth()
-
       switch (date) {
         case (1): return 'Januar'
         case (2): return 'Februar'
@@ -288,6 +216,7 @@ export default {
       return date.getHours() + ':' + date.getMinutes()
     },
     toggleOpen: function (swopCard) {
+      // Öffne eine angeklickte Swopcard. Schließe alle geöffneten dabei
       if (this.open === null) {
         this.open = swopCard
       } else if (this.open !== swopCard) {
@@ -297,13 +226,17 @@ export default {
       }
     },
     logMal: function (event) {
+      // Testfunktion, die man an alle Events dranhängen kann, um sie zu loggen
       console.log(event)
+    },
+    createSampleSwopCard: function () {
+      // Testfunktion zur Erstellung einer SwopKarte
+      M.createSwopCard(['123-22', '83-124'], [], '902-38', '')
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .card-tabs {
   position: fixed;
