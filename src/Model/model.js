@@ -55,7 +55,7 @@ class Modul {
    * @returns {*|{value}}
    */
   delete () {
-    return db.User.me.delete()
+    return db.modules.post('deleteUser')
   }
 
   /**
