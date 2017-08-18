@@ -194,6 +194,10 @@ class Modul {
     })
   }
 
+  getMatchStatus (matchId) {
+    return db.modules.post('getMatchStatus', {id: matchId})
+  }
+
     /**
     gibt einen Teststring aus
     */

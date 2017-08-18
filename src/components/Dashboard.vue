@@ -247,9 +247,11 @@ export default {
       M.createSwopCard(['123-22', '83-124'], [], '902-38', '')
     },
     deleteSwopCard: function (swopCard) {
-      console.log(swopCard)
+//      console.log(swopCard)
       // Löscht eine swopCard anhand ihrere id
-      M.deleteSwopCard(swopCard)
+      M.deleteSwopCard(swopCard).then((result) => {
+        console.log(result)
+      })
     }
   }
 }
