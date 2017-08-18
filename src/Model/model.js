@@ -59,6 +59,12 @@ class Modul {
     })
   }
 
+  getEmail () {
+    return db.User.load(db.User.me.id, {depth: 1}).then((user) => {
+      return user.restrictedUserInfo.email
+    })
+  }
+
   /**
    * TODO: rename and check functionality
    * @param displayName
