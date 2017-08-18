@@ -49,6 +49,16 @@ class Modul {
   //   })
   // }
 
+  /**
+   * getDisplayName from the current user
+   * @returns {Promise.<TResult>}
+   */
+  getDisplayName () {
+    return db.User.load(db.User.me.id, {depth: 1}).then((user) => {
+      return user.restrictedUserInfo.displayName
+    })
+  }
+
   updateUsername (displayName) {
     return db.modules.post('updateRestrictedUserInfo', {displayName: displayName})
   }
