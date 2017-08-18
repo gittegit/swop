@@ -50,6 +50,14 @@ class Modul {
   //   })
   // }
 
+  updateUsername (displayName) {
+    return db.modules.post('updateRestrictedUserInfo', {displayName: displayName})
+  }
+
+  updateEmail (email) {
+    return db.modules.post('updateRestrictedUserInfo', {email: email})
+  }
+
   /**
    * Deletes the user for EVER
    * @returns {*|{value}}
