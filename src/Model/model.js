@@ -75,7 +75,7 @@ class Modul {
   }
 
   updateEmail (email) {
-    return db.modules.post('updateRestrictedUserInfo', {email: email})
+    return db.modules.post('updateEmail', {email: email})
   }
 
   /**
