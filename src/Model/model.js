@@ -66,7 +66,7 @@ class Modul {
   }
 
   /**
-   * TODO: rename and check functionality
+   * updates the displayName of the user
    * @param displayName
    * @returns {Promise.<*>}
    */
@@ -74,6 +74,11 @@ class Modul {
     return db.modules.post('updateDisplayName', {displayName: displayName})
   }
 
+  /**
+   * updates the email of the user, but it is not the login email
+   * @param email
+   * @returns {Promise.<*>}
+   */
   updateEmail (email) {
     return db.modules.post('updateEmail', {email: email})
   }
@@ -150,7 +155,7 @@ class Modul {
    */
   getMySwopCards () {
     // var currentUser = db.User.me
-    return db.User.load(db.User.me.id, {depth: 3}).then((currentUser) => {
+    return db.User.load(db.User.me.id, {depth: 2}).then((currentUser) => {
       return Array.from(currentUser.swopCards)
     })
   }
