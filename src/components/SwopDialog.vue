@@ -243,8 +243,8 @@ export default {
       groupCounter: 0,
       courseCounter: 0,
       groupAdding: '',
-      groupToArray: [],
-      courseToArray: null
+      searchedGroups: [],
+      searchedCourses: []
     }
   },
 
@@ -308,18 +308,18 @@ export default {
         // this.courseGroupToArray.unshift(this.groupCounter++)
         this.canHaveCourseGroupTo = true
         this.hasCourseGroupTo = true
-        console.log(this.courseGroupToArray)
+        // console.log(this.courseGroupToArray)
       }
     },
     addCourseTo () {
-      console.log('addCourseTo')
+      // console.log('addCourseTo')
       var lastCourseName = this.coursesObjectAutocomplete.name
       this.coursesObjectAutocomplete.name = ''
       this.courseTitleToArray.push({
         courseName: lastCourseName,
         courseIndex: this.courseCounter++
       })
-      console.log(this.courseTitleToArray)
+      // console.log(this.courseTitleToArray)
       // this.courseGroupToArray.unshift(this.groupCounter++)
       // console.log(this.courseTitleToArray)
       // this.courseTitleToArray.push(this.coursesObjectAutocomplete.name)
@@ -343,14 +343,20 @@ export default {
       console.log(index)
       console.log(this.courseCounter)
     },
-    properCourseGroupToArray () {
+    createSearchedGroups () {
       for (var i = 1; i < this.courseGroupToArray.length; i++) {
-        this.groupToArray.push(this.courseGroupToArray[i].groupName)
+        this.searchedGroups.push(this.courseGroupToArray[i].groupName)
       }
     },
-    properCourseToArray () {
-      // this.courseToArray.push(this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')))
-      this.courseToArray = new Array(this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')))
+    createSearchedCourses () {
+      for (var i = 0; i < this.courseTitleToArray.length; i++) {
+        this.searchedCourses.push(this.courseTitleToArray[i].courseName.substring(0, this.courseTitleToArray[i].courseName.indexOf(' –')))
+        // console.log(this.courseTitleToArray[i].courseName.substring(0, this.courseTitleToArray[i].courseName.indexOf(' –')))
+      }
+      // console.log(this.searchedCourses)
+    },
+    createSearchedCoursesSingle () {
+      this.searchedCourses = new Array(this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')))
     },
     // Aktionen bei Klick auf Weiter-Button
     forward () {
@@ -365,8 +371,8 @@ export default {
         // Eingaben speichern
         this.courseTitleFrom = this.coursesObjectAutocomplete.name
         // console.log(this.courseTitleFrom)
-        console.log(this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –'))) // ----------------courseId
-        console.log(this.courseGroupFrom) // -----------------------------------------------------------------group
+        // console.log(this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –'))) // ----------------courseId
+        // console.log(this.courseGroupFrom) // -----------------------------------------------------------------group
         this.createCoursesObjectAutocomplete = ''
         if (!this.newCourse) {
           this.courseTitleFrom = this.coursesObjectAutocomplete.name
@@ -387,12 +393,16 @@ export default {
         this.courseTitleTo = this.coursesObjectAutocomplete.name
         this.coursesObjectAutocomplete.name = this.courseTitleTo
         if (this.hasCourseGroupFrom) {
-          this.properCourseGroupToArray()
-          this.properCourseToArray()
-          M.createSwopCard(this.courseToArray, this.groupToArray, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
+          this.createSearchedGroups()
+          this.createSearchedCoursesSingle()
+          M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
         } else if (!this.hasCourseGroupFrom) {
-          console.log(this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –'))) // ----------------searchedCourses
-          console.log(this.courseGroupFromArray) // -----------------------------------------------------------------searchedGroups
+          console.log(this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')))
+          console.log(this.searchedGroups)
+          this.createSearchedCourses()
+          console.log(this.searchedCourses)
+          console.log(this.courseGroupFrom)
+          M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
         }
       } else if (this.newCourse) { // 'Neuen Kurs erstellen' nach Kurserstellungs-Dialog
         M.createCourse(this.courseTitleFrom, this.courseIdFrom) // Erstellung des neuen Kurses
