@@ -94,7 +94,7 @@
           </div>
         <footer class="card-footer">
           <p class="card-footer-item help">{{getStringDay(swopCard.createdAt) }}. {{getStringMonth(swopCard.createdAt)}} — {{getStringTime(swopCard.createdAt)}} Uhr</p>
-          <a class="card-footer-item"><span class="icon"><i class="fa fa-trash" aria-hidden="true"></i></span> Löschen</a>
+          <a class="card-footer-item" v-on:click="deleteSwopCard(swopCard.id)"><span class="icon"><i class="fa fa-trash" aria-hidden="true"></i></span> Löschen</a>
         </footer>
       </div>
       <!-- Ende einer Karte -->
@@ -245,6 +245,11 @@ export default {
     createSampleSwopCard: function () {
       // Testfunktion zur Erstellung einer SwopKarte
       M.createSwopCard(['123-22', '83-124'], [], '902-38', '')
+    },
+    deleteSwopCard: function (swopCard) {
+      console.log(swopCard)
+      // Löscht eine swopCard anhand ihrere id
+      M.deleteSwopCard(swopCard)
     }
   }
 }

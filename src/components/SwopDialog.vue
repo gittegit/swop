@@ -18,6 +18,8 @@
         <!-- / Stepwise-Naviagtion / Fortschrittsanzeige -->
 
         <!-- courseFrom Step 1  -->
+        <!-- ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––- -->
+        <!-- STEP 1: AKTUELLE VERANSTALTUNG -->
         <div v-if="firstStepActive && !newCourse">
           <h4 class="description is-5 has-text-centered">Aus welcher Veranstaltung möchtest Du <strong>heraus</strong> wechseln?</h4>
 
