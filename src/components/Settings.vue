@@ -134,7 +134,6 @@ export default {
   },
 
   created () {
-    console.log(db.User.me)
   },
 
   methods: {
