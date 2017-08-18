@@ -2,12 +2,13 @@
 <div class="main-content">
   <div class="container main-content">
     <div class="columns is-centered">
-
+      <!-- Inhalt / Formulare -->
         <div class="column is-8 is-narrow is-form">
           <div class="task-description-title">
             <h4 class="title">Deine Einstellungen</h4>
           </div>
 
+          <!-- Hier kann man seinen Displaynamen ändern -->
           <form class="change-name">
             <h4 class="title is-6">Namen ändern</h4>
             <p class="subtitle">Dieser Name wird Deinem swop-Partner angezeigt.</p>
@@ -27,6 +28,7 @@
             </b-field>
           </form>
 
+          <!-- Hier kann man eine neue Mail-Adresse angeben und ändern -->
             <form class="add-email">
                 <h4 class="title is-6">Zusätzliche Mail-Adresse</h4>
                 <p class="subtitle">Benachrichtigungen aus dieser App werden zusätzlich an diese Mail geschickt. Du kannst Dich <strong>nicht</strong> mit dieser Mail einloggen.</p>
@@ -51,6 +53,7 @@
                 <p v-if="mailError" class="help is-danger">Gib bitte eine korrekte Mail-Adresse an.</p>
             </form>
 
+            <!-- Hier kann man sein Passwort ändern -->
             <form class="change-password ">
                 <h4 class="title is-6">Passwort ändern</h4>
 
@@ -84,11 +87,14 @@
                     </p>
                   </div>
                 </b-field>
+                <!-- Fehlermeldungen / Success-Meldung / Button -->
                 <p v-if="passwordSuccess" class="help is-success">Deine Passwort wurde erfolgreich geändert!</p>
                 <p v-if="passwordErrorDifferent" class="help is-danger">Dein Passwort konnte nicht geändert werden. Überprüfe ob sich Dein neues und Dein alter Passwort unterscheiden.</p>
                 <p v-if="passwordEmpty" class="help is-danger">Du musst ein neues Passwort eingeben.</p>
                 <p v-if="passwordButton" class="has-text-right"><a class="button is-primary" v-on:click="PasswordValidator">Passwort bestätigen</a></p>
             </form>
+
+            <!-- Button (Account löschen & Logout) -->
             <p class="flex-center flex-center-left">
               <a class="has-text-secondary is-white font-klein margin-right" v-on:click="deleteAccount">Account löschen</a>
               <a class="button is-primary has-icon-right" v-on:click="swopLogout">LogOut<i class="fa fa-sign-out icon-margin"></i></a>
@@ -121,7 +127,6 @@ export default {
       passwordErrorDifferent: false,
       passwordEmpty: false,
       passwordButton: false,
-      Pass: '123',  // hier sollte das Passwort von der Datenbank geholen werden
       isDanger: false,
       msg: 'Welcome to Your Vue.js and Baqend App',
       isLoggedIn: null
@@ -196,7 +201,6 @@ export default {
         checkButton.style.display = 'none'
         clearButton.style.display = 'block'
         // hier sollte die Mail in die Datenbank hinzugefügt werden
-        console.log(db.User.me.username)
       } else {
         this.mailSuccess = false
         this.mailError = true
@@ -214,14 +218,6 @@ export default {
       }
     },
 
-    oldPasswordValidator (password) {
-      if (password !== this.Pass) {
-        this.passwordError = true
-      } else {
-        this.passwordError = false
-        return true
-      }
-    },
     /*
     * Hier wird alles vom Passwort alles was man beim Passwort so falsch machen kann abgefangen.
     * Testen ob altes Passwort und neues Passwort unterschiedlich sind (newPasswordValidator)
@@ -294,16 +290,18 @@ export default {
         type: 'is-danger',
         onConfirm: (value) => {
           m.delete().then((result) => {
-            router.push('login-sample')
-            this.$parent.isLoggedIn = false
             console.log('Gelöscht!')
             console.log(result)
+            this.swopLogout()
           }).catch((error) => {
             console.log('Ein Fehler')
             console.log(error)
+            this.$toast.open({
+              duration: 5000,
+              message: `Dein Account konnte nicht gelöscht werden. Bitte kontaktiere den Support!`,
+              type: 'is-danger'})
           })
-        },
-        onCancel: () => { this.$toast.open({message: 'Zum Glück bleibst du bei uns!', type: 'is-success'}) }
+        }
       })
     },
 
