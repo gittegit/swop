@@ -26,7 +26,7 @@ export default {
     }
   },
   created () {
-    console.log(db.User.me.username)
+//    console.log(db.User.me.username)
     // this.isLoggedIn = db.User.me !== null
   }
 }
