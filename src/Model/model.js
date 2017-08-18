@@ -129,7 +129,7 @@ class Modul {
 
   /**
    * Deletes a swopcard by its given id
-   * @param id
+   * @param id of the swopCard
    * @returns {Promise.<*>}
    */
   deleteSwopCard (id) {
