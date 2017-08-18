@@ -45,24 +45,21 @@
           <!-- Icon -->
           <a class="card-header-icon">
             <span class="icon">
-                    <i v-if="!swopCard.open" class="fa fa-angle-down"></i>
+                    <i v-if="!(open === swopCard.id)" class="fa fa-angle-down"></i>
                     <i v-else class="fa fa-angle-up"></i>
                   </span>
           </a>
         </header>
 
         <!-- Karteninhalt - muss aufgetogglet werrden -->
-        <transition
-    name="expand-card"
-  >
           <div class="card-content" v-if="open === swopCard.id">
             <div class="content">
-              <div class="swop-match-info" v-if="swopCard.match">
-                <p>Du swopst deinen Platz mit <strong><span v-if="swopCard.match.user1.restrictedUserInfo.email != null">{{swopCard.match.user1.restrictedUserInfo.name}}</span></strong></p>
+              <div class="swop-match-info" v-if="swopCard.status === 'ACCEPTED'">
+                <p>Du swopst deinen Platz mit <strong><span>Tauschpartner</span></strong></p>
                 <form class="swop-partner-mail">
                   <div class="field has-addons">
                     <div class="control has-icons-left is-expanded">
-                      <input class="input is-medium" type="mail" v-model="swopCard.match.user1.restrictedUserInfo.email">
+                      <input class="input is-medium" type="mail" v-model="swopCard.createdBy">
                       <span class="icon is-small is-left">
                           <i class="fa fa-envelope"></i>
                           </span>
@@ -76,12 +73,25 @@
                   <p class="help">Bitte nimm zügig Kontakt auf, {{swopCard.userName}} wartet sicher schon!</p>
                 </form>
               </div>
+
+              <!-- IF Tauschkarte === 'PENDING' -->
+              <div class="swop-match-info" v-if="swopCard.status === 'PENDING'">
+                <!-- Du hast Accepted, der andere muss noch bestätigen -->
+                <p>Du hast Diesen Match bestätigt. Sobald Dein Partner bestätigt, wird Dir hier seine Mailadresse angezeigt.</p>
+
+                <!-- Der andere hat bestätigt, du musst noch accepten -->
+                <div>
+                  <p>Super! Wir haben einen swop-Partner für Dich! Bitte akzeptiere den swop oder, wenn du es dir anders überlegt hast, lösche ihn.</p>
+                  <p class="has-text-centered display-flex"><a class="button is-primary" @click="acceptSwop()"><span class="margin-right"><i class="fa fa-check-circle" aria-hidden="true"></i></span>Bestätigen</a></p>
+                </div>
+              </div>
+
+              <!-- IF Tauschkarte === 'WAITING' -->
               <div class="swop-no-match-info" v-else>
                 <p>Leider haben wir noch keinen Partner für Dich gefunden. Bleib' aber ständig auf Empfang, denn das kann sich jederzeit ändern!</p>
               </div>
             </div>
           </div>
-        </transition>
         <footer class="card-footer">
           <p class="card-footer-item help">{{getStringDay(swopCard.createdAt) }}. {{getStringMonth(swopCard.createdAt)}} — {{getStringTime(swopCard.createdAt)}} Uhr</p>
           <a class="card-footer-item"><span class="icon"><i class="fa fa-trash" aria-hidden="true"></i></span> Löschen</a>
@@ -224,6 +234,9 @@ export default {
       } else {
         this.open = null
       }
+    },
+    acceptSwop: function () {
+      console.log('Swop akzeptiert')
     },
     logMal: function (event) {
       // Testfunktion, die man an alle Events dranhängen kann, um sie zu loggen

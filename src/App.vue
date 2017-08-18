@@ -141,6 +141,9 @@ a.has-text-lightgrey:hover {
 .button.is-primary[disabled] {
   background-color: $primary;
 }
+.button.is-primary:focus, .button.is-primary.is-focused {
+  box-shadow: 0 0 0.5em rgba($primary, 0.25);
+}
 .button.is-primary.is-outlined {
   border-color: $primary;
   color: $primary;

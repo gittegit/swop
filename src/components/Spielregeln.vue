@@ -33,7 +33,7 @@
 
               <p class="has-text-centered">Noch Fragen?</p>
               <div class="spacer"></div>
-              <p class="has-text-centered"><a class="button is-primary">Kontaktiere den Support</a></p>
+              <p class="has-text-centered"><a target="_blank" href="https://rickrolled.fr/" class="button is-primary">Kontaktiere den Support</a></p>
 
           </div>
       </div>
