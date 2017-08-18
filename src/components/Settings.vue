@@ -31,7 +31,7 @@
           <!-- Hier kann man eine neue Mail-Adresse angeben und ändern -->
             <form class="add-email">
                 <h4 class="title is-6">Zusätzliche Mail-Adresse</h4>
-                <p class="subtitle">Benachrichtigungen aus dieser App werden zusätzlich an diese Mail geschickt. Du kannst Dich <strong>nicht</strong> mit dieser Mail einloggen.</p>
+                <p class="subtitle">Benachrichtigungen aus dieser App werden an diese Mail geschickt. Du kannst Dich weiterhin <strong>nur</strong> mit deiner Uni-Mail einloggen.</p>
                 <b-field>
                   <div class="control has-icons-left is-expanded" v-on:keyup.enter="mailValidator" v-on:keyup="showMailButton">
                       <b-input v-model="email" placeholder="Deine Mail-Adresse"></b-input>
@@ -115,8 +115,8 @@ export default {
   name: 'settings',
   data () {
     return {
-      name: 'Juli',  // hier sollte der Name von der Datenbank geholen werden
-      email: '', // hier sollte die Mail von der Datenbank geholen werden
+      name: 'Juli',  // hier sollte der Name von der Datenbank geholen werden (ToDo)
+      email: 'dummy@test.de', // hier sollte die Mail von der Datenbank geholen werden (ToDo)
       mailSuccess: false,
       mailError: false,
       aPassword: null,
@@ -140,7 +140,7 @@ export default {
   methods: {
     /*
     * Alles was man für die Änderung des Namens brauch.
-    * Button anzeigen lassen (showNameButton)
+    * macht den Button nicht mehr disabled oder wieder disabled (showNameButton)
     * Namen in der Datenbank ändern (changeName)
     */
     showNameButton () {
@@ -157,14 +157,23 @@ export default {
     changeName () {
       var buttonElem = document.getElementById('change-name-button')
       var disabledElem = document.getElementById('disabled-change-name-button')
-      this.$toast.open('Jetzt müsste der Name "' + this.name + '" in die Datenbank gepackt werden.')
-      buttonElem.style.display = 'none'
-      disabledElem.style.display = 'block'
+      m.updateUsername(this.name)
+      .then((result) => {
+        console.log(result)
+        buttonElem.style.display = 'none'
+        disabledElem.style.display = 'block'
+      }).catch((error) => {
+        console.log(error)
+        this.$toast.open({
+          duration: 5000,
+          message: `Dein Name könnte nicht geändert werden. Bitte kontaktiere den Support!`,
+          type: 'is-danger'})
+      })
     },
 
     /*
     * Alles was man für das Hinzufügen und die Änderung der Extra-Mail brauch.
-    * Button anzeigen lassen (showMailButton)
+    * macht den Button nicht mehr disabled oder wieder disabled (showMailButton)
     * kontrollieren ob es sich um eine echt Mail-Adresse handelt (validateEmail)
     * und entsprechende Meldungen anzeigen (mailValidator)
     * Mail in die Datenbank (mailValidator)
@@ -174,36 +183,41 @@ export default {
       var disabledButton = document.getElementById('disabledMailCheckButton')
       var checkButton = document.getElementById('mailCheckButton')
       var clearButton = document.getElementById('mailClearButton')
-      if (this.email === '') {
-        this.mailSuccess = false
-        this.mailError = false
-        disabledButton.style.display = 'block'
-        checkButton.style.display = 'none'
-        clearButton.style.display = 'none'
-      } else {
-        this.mailSuccess = false
-        this.mailError = false
-        disabledButton.style.display = 'none'
-        checkButton.style.display = 'block'
-        clearButton.style.display = 'none'
-      }
+      this.mailSuccess = false
+      this.mailError = false
+      disabledButton.style.display = 'none'
+      checkButton.style.display = 'block'
+      clearButton.style.display = 'none'
     },
     validateEmail (mail) {
       var re = /\S+@\S+\.\S+/
       return re.test(mail)
     },
     mailValidator () {
+      var disabledButton = document.getElementById('disabledMailCheckButton')
       var checkButton = document.getElementById('mailCheckButton')
       var clearButton = document.getElementById('mailClearButton')
       if (this.validateEmail(this.email)) {
-        this.mailSuccess = true
-        this.mailError = false
         checkButton.style.display = 'none'
         clearButton.style.display = 'block'
-        // hier sollte die Mail in die Datenbank hinzugefügt werden
+        m.updateEmail(this.email)
+        .then((result) => {
+          console.log(result)
+          this.mailSuccess = true
+          this.mailError = false
+        }).catch((error) => {
+          console.log(error)
+          this.$toast.open({
+            duration: 5000,
+            message: `Deine Mail könnte nicht bearbeitet werden. Bitte kontaktiere den Support!`,
+            type: 'is-danger'})
+        })
       } else {
         this.mailSuccess = false
         this.mailError = true
+        disabledButton.style.display = 'block'
+        checkButton.style.display = 'none'
+        clearButton.style.display = 'none'
       }
     },
     mailClear () {
@@ -213,7 +227,7 @@ export default {
         this.mailSuccess = false
         clearButton.style.display = 'none'
         disabledButton.style.display = 'block'
-        // hier die Mail in der Datenbank löschen
+        // hier die Mail in der Datenbank löschen (ToDo)
         this.email = ''
       }
     },
@@ -233,14 +247,14 @@ export default {
         return true
       }
     },
-    emptyPasswordValidator () {
+  /*  emptyPasswordValidator () {
       if (this.nPassword === '') {
         this.passwordEmpty = true
       } else {
         this.passwordEmpty = false
         return true
       }
-    },
+    }, */
     confirmPasswordValidator () {
       if (this.nPassword !== this.bPassword) {
         this.isDanger = true
@@ -253,7 +267,8 @@ export default {
       }
     },
     PasswordValidator () {
-      if (this.newPasswordValidator() && this.emptyPasswordValidator() && this.confirmPasswordValidator()) {
+    //  if (this.newPasswordValidator() && this.emptyPasswordValidator() && this.confirmPasswordValidator()) {
+      if (this.newPasswordValidator() && this.confirmPasswordValidator()) {
         m.changePassword(this.aPassword, this.nPassword)
         .then((result) => {
           console.log(result)
