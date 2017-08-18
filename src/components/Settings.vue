@@ -134,6 +134,14 @@ export default {
   },
 
   created () {
+    m.getDisplayName().then((displayName) => {
+      this.name = displayName
+    }).catch((err) => {
+      console.log(err)
+    })
+    m.getEmail().then((email) => {
+      this.email = email
+    })
   },
 
   methods: {
