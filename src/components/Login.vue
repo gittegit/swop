@@ -36,12 +36,17 @@
             </p>
           </div>
 
-          <div class="field">
-            <p class="control has-icons-left">
+          <div class="field has-addons is-expanded">
+            <p class="control has-icons-left is-expanded">
               <input v-model="password" class="input" :class="{'is-danger': error}" type="password" placeholder="Dein swop-Passwort" name="password" required>
               <span class="icon is-small is-left">
                         <i class="fa fa-lock"></i>
-                      </span>
+              </span>
+            </p>
+            <p class="control">
+              <router-link :to="{name: 'passwort-vergessen'}"class="button is-outlined has-text-primary">
+                Vergessen?
+              </router-link>
             </p>
             <p v-if="error" class="help is-danger">E-Mail oder Passwort ist falsch</p>
           </div>

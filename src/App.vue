@@ -113,8 +113,8 @@ a.has-text-primary {
 .has-text-primary {
   color: $primary !important;
 }
-a.has-text-primary:hover {
-  color: rgba($primary, 0.8);
+a.has-text-primary:hover, a.has-text-primary:focus {
+  color: rgba($primary, 0.8) !important;
 }
 a.has-text-secondary {
   color: $secondary;
@@ -141,6 +141,14 @@ a.has-text-lightgrey:hover {
 .button.is-primary[disabled] {
   background-color: $primary;
 }
+.button.is-primary.is-outlined {
+  border-color: $primary;
+  color: $primary;
+}
+.button.is-primary.is-outlined:hover {
+  background-color: $primary;
+  border-color: $primary;
+}
 .button.is-secondary {
   background-color: $secondary;
   color: $white;
@@ -150,6 +158,12 @@ a.has-text-lightgrey:hover {
   background-color: rgba($secondary, 0.8);
   color: $white;
   border-color: rgba($secondary,0.8);
+}
+.button.is-outlined:active {
+  border-color: $lightgrey;
+}
+.button.is-outlined:hover {
+  color: $primary;
 }
 input:focus {
   border-color: $primary !important;
