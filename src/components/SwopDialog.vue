@@ -460,7 +460,6 @@ export default {
     // Initiales Laden aller Kurse für Autocomplete
     M.getAllCourses()
       .then((courses) => {
-      // hier mit den courses arbeiten
         this.courses = courses
         this.createCoursesArray()
       })
