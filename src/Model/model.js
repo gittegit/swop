@@ -66,7 +66,7 @@ class Modul {
   }
 
   /**
-   * TODO: rename and check functionality
+   * updates the displayName of the user
    * @param displayName
    * @returns {Promise.<*>}
    */
@@ -74,6 +74,11 @@ class Modul {
     return db.modules.post('updateDisplayName', {displayName: displayName})
   }
 
+  /**
+   * updates the email of the user, but it is not the login email
+   * @param email
+   * @returns {Promise.<*>}
+   */
   updateEmail (email) {
     return db.modules.post('updateEmail', {email: email})
   }
