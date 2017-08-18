@@ -138,6 +138,9 @@ a.has-text-lightgrey:hover {
   background-color: rgba($primary, 0.8);
   border-color: rgba($primary,0.8);
 }
+.button.is-primary[disabled] {
+  background-color: $primary;
+}
 .button.is-secondary {
   background-color: $secondary;
   color: $white;
@@ -313,6 +316,24 @@ a.navbar-item.router-link-active:after {
 }
 .checkbox:hover input[type=checkbox] + .check {
   border-color: $primary !important;
+}
+
+/* -------- TYPOGRAFIE EDITS -------------*/
+.main-content .title {
+  margin-bottom: 1.25rem;
+}
+.main-content .title.is-6 {
+  margin-bottom: 0.25rem;
+}
+.main-content .subtitle {
+  font-size: 1rem;
+  margin-bottom: 1.25rem;
+}
+.title:not(.is-spaced) + .subtitle {
+  margin-top: 0;
+}
+.font-klein {
+  font-size: 0.75rem;
 }
 
 /* -----------------------------------------
