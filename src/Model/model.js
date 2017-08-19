@@ -65,6 +65,12 @@ class Modul {
     })
   }
 
+  getLoginEmail () {
+    return db.User.load(db.User.me.id).then((user) => {
+      return user.username
+    })
+  }
+
   /**
    * updates the displayName of the user
    * @param displayName

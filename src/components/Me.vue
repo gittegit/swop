@@ -29,6 +29,7 @@
 <script type="text/babel">
 import db from 'baqend'
 import router from '../router'
+import m from '../Model/model.js'
 
 export default {
   data () {
@@ -47,6 +48,9 @@ export default {
   created () {
     this.username = db.User.me.username
     this.$parent.isLoggedIn = true
+    m.deleteSwopCard('/db/SwopCard/970416c0-3caf-4593-885a-5984238c8e58').then((result) => {
+      console.log(result)
+    })
   },
   beforeRouteEnter (to, from, next) {
     if (!db.User.me) {
