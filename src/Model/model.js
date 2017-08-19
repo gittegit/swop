@@ -216,6 +216,24 @@ class Modul {
     return db.modules.get('getMatchStatus', {id: matchId})
   }
 
+  /**
+   * accepts the match from db.User.me by the given match Id
+   * @param matchId
+   * @returns {Promise.<*>}
+   */
+  acceptMatch (matchId) {
+    return db.modules.post('acceptMatch', {id: matchId})
+  }
+
+  /**
+   * declines the match from db.User.me by the given match Id
+   * @param matchId
+   * @returns {Promise.<*>}
+   */
+  declineMatch (matchId) {
+    return db.modules.post('declineMatch', {id: matchId})
+  }
+
     /**
     gibt einen Teststring aus
     */
