@@ -171,9 +171,9 @@ export default {
         this.noSwopCards = false
       }
     })
-    M.getMatchStatus('/db/Match/a0f6f82b-33f5-44ab-bc39-49d36e22c54c').then((result) => {
-      console.log(result)
-    })
+//    M.getMatchStatus('/db/Match/a0f6f82b-33f5-44ab-bc39-49d36e22c54c').then((result) => {
+//      console.log(result)
+//    })
     // Einzelne SwopCard hat folgende Einträge:
     // acl, course, createdAt, createdBy, id, match, myGroup, searchedCourses, searchedGroups, status, updatedAt, version
   },
