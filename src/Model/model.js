@@ -207,6 +207,11 @@ class Modul {
     })
   }
 
+  /**
+   * returned den Match-Status von db.User.me
+   * @param matchId
+   * @returns {Promise.<*>}
+   */
   getMatchStatus (matchId) {
     return db.modules.post('getMatchStatus', {id: matchId})
   }
