@@ -149,7 +149,7 @@ class Modul {
   @return Promise
   */
   createSwopCard (searchedCourses, searchedGroups, courseId, group) {
-    db.modules.post('createSwopCard', {
+    return db.modules.post('createSwopCard', {
       searchedCourses,
       searchedGroups,
       courseId,
