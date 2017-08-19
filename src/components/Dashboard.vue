@@ -4,7 +4,7 @@
   <!-- Inhalt / Formulare -->
   <div class="columns is-centered">
 
-    <div class="column is-8 is-narrow">
+    <div class="column is-8 is-narrow" :class="{'is-form': noSwopCards}">
 
       <!-- Tab Navigation -->
       <div class="card-tabs tabs is-toggle is-fullwidth is-small">
@@ -21,7 +21,7 @@
       <!-- Beginn einer Karte / mit Swop-->
       <div v-if="swopCard.status === filtered || filtered === 'ALL'" v-for="swopCard in mySwopCards" class="swop-card card" :class="{'swop-accepted':swopCard.match}">
         <!-- Kartenheader -->
-        <header class="card-header" v-on:click="toggleOpen(swopCard.id); logMal(swopCard)">
+        <header class="card-header" v-on:click="toggleOpen(swopCard.id); logMal(swopCard.match.id); getSwopCardMatchStatus(swopCard.match.id)">
           <div class="swop-status">
             <div class="swop-status-icon">
               <img v-if="swopCard.status === 'DECLINED'"src="../assets/swop-declined-invert.svg">
@@ -97,6 +97,11 @@
           <a class="card-footer-item" v-on:click="deleteSwopCard(swopCard.id)"><span class="icon"><i class="fa fa-trash" aria-hidden="true"></i></span> Löschen</a>
         </footer>
       </div>
+
+      <div v-if="noSwopCards">
+        <h2 class="title is-size-3">Noch kein swop erstellt</h2>
+        <p>Starte, indem du unter "Neue Anfrage" einen neuen swop erstellst. Deine laufenden swops werden dir dann hier angezeigt. <strong>Viel Spaß!</strong></p>
+      </div>
       <!-- Ende einer Karte -->
     </div>
   </div>
@@ -135,6 +140,7 @@ export default {
       copyData: 'test',
       isLoggedIn: null,
       filtered: 'ALL',
+      noSwopCards: null,
       testing: false,
       open: null,
       swopCardTabs: [
@@ -157,8 +163,13 @@ export default {
   created () {
     // console.log(db.User.me.username)
     M.getMySwopCards().then((swopCards) => {
-      this.mySwopCards = Array.from(swopCards)
       console.log(db.User.me.username)
+      this.mySwopCards = Array.from(swopCards)
+      if (this.mySwopCards.length === 0) {
+        this.noSwopCards = true
+      } else {
+        this.noSwopCards = false
+      }
     })
     // Einzelne SwopCard hat folgende Einträge:
     // acl, course, createdAt, createdBy, id, match, myGroup, searchedCourses, searchedGroups, status, updatedAt, version
@@ -250,7 +261,26 @@ export default {
 //      console.log(swopCard)
       // Löscht eine swopCard anhand ihrere id
       M.deleteSwopCard(swopCard).then((result) => {
+        M.getMySwopCards().then((swopCards) => {
+          this.mySwopCards = Array.from(swopCards)
+
+          if (this.mySwopCards.length === 0) {
+            this.noSwopCards = true
+          } else {
+            this.noSwopCards = false
+          }
+        })
+      })
+    },
+    getSwopCardMatchStatus: function (swopCard) {
+      M.getMatchStatus(swopCard).then((result) => {
         console.log(result)
+      })
+    },
+    beforeRouteEnter (to, from, next) {
+      M.getMySwopCards().then((swopCards) => {
+        this.mySwopCards = Array.from(swopCards)
+        next()
       })
     }
   }
