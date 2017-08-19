@@ -35,8 +35,7 @@ class Modul {
    * @returns {*|Promise.<model.User>}
    */
   register (displayName, username, password) {
-    username = username.toLowerCase()
-    return db.User.register(username, password)
+    return db.modules.post('createUser', {username: username, password: password, displayName: displayName})
       // return db.modules.post('updateRestrictedUserInfo', {id: userObject.id, displayName: displayName})
   }
 
