@@ -35,7 +35,11 @@ class Modul {
    * @returns {*|Promise.<model.User>}
    */
   register (displayName, username, password) {
-    return db.modules.post('createUser', {username: username, password: password, displayName: displayName})
+    var restrictedUserInfo = new db.RestrictedUserInfo({email: username, displayName: displayName})
+    return restrictedUserInfo.save().then(() => {
+      return db.User.register(username, password)
+    })
+    // return db.modules.post('createUser', {username: username, password: password, displayName: displayName})
       // return db.modules.post('updateRestrictedUserInfo', {id: userObject.id, displayName: displayName})
   }
 
