@@ -27,6 +27,13 @@ class Modul {
     return db.User.logout()
   }
 
+  /**
+   * registriert einen neuen User
+   * @param displayName
+   * @param username
+   * @param password
+   * @returns {*|Promise.<model.User>}
+   */
   register (displayName, username, password) {
     username = username.toLowerCase()
     return db.User.register(username, password)
