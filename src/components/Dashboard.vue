@@ -21,7 +21,7 @@
       <!-- Beginn einer Karte / mit Swop-->
       <div v-if="swopCard.status === filtered || filtered === 'ALL'" v-for="swopCard in mySwopCards" class="swop-card card" :class="{'swop-accepted':swopCard.match}">
         <!-- Kartenheader -->
-        <header class="card-header" v-on:click="toggleOpen(swopCard.id); logMal(swopCard.match.id); getSwopCardMatchStatus(swopCard.match.id)">
+        <header class="card-header" v-on:click="toggleOpen(swopCard.id); logMal(swopCard.status); logMal(getSwopCardMatchStatus(swopCard.match.id))">
           <div class="swop-status">
             <div class="swop-status-icon">
               <img v-if="swopCard.status === 'DECLINED'"src="../assets/swop-declined-invert.svg">
@@ -66,23 +66,24 @@
                     </div>
 
                     <div class="control">
-                      <a v-clipboard:copy="swopCard.userMail" v-clipboard:success="onSuccess" v-clipboard:error="onError" class="button is-medium clipboard-button" :class="{'is-primary':!swopCard.match, 'is-white':swopCard.match,}"><i class="fa fa-clipboard" aria-hidden="true"></i></a>
+                      <a v-clipboard:copy="test" v-clipboard:success="onSuccess" v-clipboard:error="onError" class="button is-medium clipboard-button" :class="{'is-primary':!swopCard.match, 'is-white':swopCard.match,}"><i class="fa fa-clipboard" aria-hidden="true"></i></a>
                     </div>
 
                   </div>
-                  <p class="help">Bitte nimm zügig Kontakt auf, {{swopCard.userName}} wartet sicher schon!</p>
+                  <p class="help">Bitte nimm zügig Kontakt auf, test wartet sicher schon!</p>
                 </form>
               </div>
 
               <!-- IF Tauschkarte === 'PENDING' -->
               <div class="swop-match-info" v-if="swopCard.status === 'PENDING'">
                 <!-- Du hast Accepted, der andere muss noch bestätigen -->
+                <div @click="logMal(getSwopCardMatchStatus(swopCard.match.id) === ['WAITING', 'ACCEPTED'])">
                 <p>Du hast Diesen Match bestätigt. Sobald Dein Partner bestätigt, wird Dir hier seine Mailadresse angezeigt.</p>
-
+              </div>
                 <!-- Der andere hat bestätigt, du musst noch accepten -->
                 <div>
-                  <p>Super! Wir haben einen swop-Partner für Dich! Bitte akzeptiere den swop oder, wenn du es dir anders überlegt hast, lösche ihn.</p>
-                  <p class="has-text-centered display-flex"><a class="button is-primary" @click="acceptSwop()"><span class="margin-right"><i class="fa fa-check-circle" aria-hidden="true"></i></span>Bestätigen</a></p>
+                  <p>Super! Wir haben einen swop-Partner für Dich! Bitte akzeptiere den swop oder, wenn du es dir anders überlegt hast, brich ihn ab.</p>
+                  <p class="has-text-centered display-flex"><a class="button is-outlined is-primary margin-right" @click="declineMatch(swopCard.match.id)"><span class="margin-right"><i class="fa fa-times-circle" aria-hidden="true"></i></span>Abbrechen</a><a class="button is-primary" @click="acceptMatch(swopCard.match.id)"><span class="margin-right"><i class="fa fa-check-circle" aria-hidden="true"></i></span>Bestätigen</a></p>
                 </div>
               </div>
 
@@ -171,9 +172,9 @@ export default {
         this.noSwopCards = false
       }
     })
-//    M.getMatchStatus('/db/Match/a0f6f82b-33f5-44ab-bc39-49d36e22c54c').then((result) => {
-//      console.log(result)
-//    })
+    // M.getMatchStatus('/db/Match/a0f6f82b-33f5-44ab-bc39-49d36e22c54c').then((result) => {
+    //   console.log(result)
+    // })
     // Einzelne SwopCard hat folgende Einträge:
     // acl, course, createdAt, createdBy, id, match, myGroup, searchedCourses, searchedGroups, status, updatedAt, version
   },
@@ -274,15 +275,25 @@ export default {
         })
       })
     },
-    getSwopCardMatchStatus: function () {
-      M.getMatchStatus('/db/Match/a0f6f82b-33f5-44ab-bc39-49d36e22c54c').then((result) => {
-        console.log(result)
-      })
-    },
     beforeRouteEnter (to, from, next) {
       M.getMySwopCards().then((swopCards) => {
         this.mySwopCards = Array.from(swopCards)
         next()
+      })
+    },
+    getSwopCardMatchStatus: function (swopCard) {
+      M.getMatchStatus(swopCard).then((result) => {
+        console.log(result)
+      })
+    },
+    acceptMatch: function (swopCard) {
+      M.acceptMatch(swopCard).then((result) => {
+        console.log(result)
+      })
+    },
+    declineMatch: function (swopCard) {
+      M.declineMatch(swopCard).then((result) => {
+        console.log(result)
       })
     }
   }
