@@ -26,47 +26,65 @@
 
         <div v-if="firstStepActive && !newCourse">
           <h4 class="description is-5 has-text-centered">Aus welcher Veranstaltung möchtest Du <strong>heraus</strong> wechseln?</h4>
-
+          </br></br>
           <!-- –––––––––––––––––––– AUTOCOMPLETE VERANSTALTUNG  ––––––––––––––––––––––––– -->
-          <b-field>
-            <b-autocomplete @click.native="createNewCourse" @keyup.native="createNewCourse" v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine aktuelle Veranstaltung" @select="option => coursesObjectAutocomplete.selected = option">
-            </b-autocomplete>
+
+          <b-field class="has-addons" v-if="!hasCourseFromSet">
+            <div class="control is-expanded is-grouped">
+              <b-autocomplete  @click.native="createNewCourse" @keyup.native="createNewCourse" v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine aktuelle Veranstaltung" @select="option => coursesObjectAutocomplete.selected = option"></b-autocomplete>
+            </div>
+              <div :class="{'control': true}">
+                  <a :class="{'button': true, 'is-primary': true}" :disabled="!courseFromSelected" @click="setCourseTitleFrom"><i class="fa fa-check"></i></a>
+              </div>
           </b-field>
 
-          <!--
-          <b-field>
-            <div class="control has-icons-left is-expanded" v-on:keyup="showNameButton">
-              <b-input type="text" v-model="name" placeholder="Dein Name"></b-input>
-                <span class="icon is-small is-left">
-                  <i class="fa fa-user"></i>
-                </span>
+          <div v-if="hasCourseFromSet">
+
+            <div class="field has-addons">
+              <p class="control is-expanded">
+                <input :class="{'input': true, 'titleIsSet': true}" type="text" placeholder="Find a repository" v-model="courseTitleFrom" readonly>
+              </p>
+              <p class="control">
+                <a class="button is-primary" @click="hasCourseFromSet=false">
+                  <i class="fa fa-pencil-square-o"></i>
+                </a>
+              </p>
             </div>
-              <div class="control" id="disabled-change-name-button" visible>
-                  <a class="button is-primary" disabled><i class="fa fa-check"></i></a>
-              </div>
-              <div class="control" id="change-name-button" hidden>
-                  <a class="button is-primary" v-on:click="changeName"><i class="fa fa-check"></i></a>
-              </div>
-          </b-field>
-        -->
+
+          </div>
+
+        </br>
 
           <!-- ––––––––––––––––––––––––– UNTERGRUPPE HINZ  –––––––––––––––––––––––––––––– -->
           <p v-if="!hasCourseGroupFrom" :class="{ 'help': true, 'add-group': true}" @click="addGroup">
             + Untergruppe hinzufügen
           </p>
 
-          <div v-if="hasCourseGroupFrom">
-            <b-field grouped>
-              <b-input v-model="courseGroupFrom" placeholder="Deine aktuelle Untergruppe" expanded></b-input>
+          <div v-if="hasCourseGroupFrom && !hasGroupFromSet">
+            <div class="field has-addons">
+              <p class="control is-expanded">
+                <input :class="{'input': true, 'group': true}" type="text" placeholder="Deine aktuelle Untergruppe" v-model="courseGroupFrom">
+              </p>
               <p class="control">
-                <a class="button" @click="removeGroup">
-                <span class="icon is-small">
-                  <i class="fa fa-trash-o"></i>
-                </span>
+                <a class="button is-secondary" @click="hasGroupFromSet=true">
+                  <i class="fa fa-plus"></i>
                 </a>
               </p>
-            </b-field>
+            </div>
           </div>
+
+            <div v-if="hasGroupFromSet">
+              <div class="field has-addons">
+                <p class="control is-expanded">
+                  <input :class="{'input': true, 'groupIsSet': true}" type="text"  v-model="courseGroupFrom" readonly>
+                </p>
+                <p class="control">
+                  <a class="button is-secondary" @click="hasGroupFromSet=false">
+                    <i class="fa fa-pencil-square-o"></i>
+                  </a>
+                </p>
+              </div>
+            </div>
         </div>
 
         <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -97,6 +115,7 @@
         <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
         <div v-if="secondStepActive">
           <h4 class="description is-5 has-text-centered">In welche Veranstaltung möchtest Du <strong>hinein</strong> wechseln?</h4>
+        </br></br>
 
           <!-- –––––––––––– FALL A: KEINE GRUPPE –> MEHRERE VERANSTALTUNGEN ––––––––––––– -->
           <div v-if="!canHaveCourseGroupTo">
@@ -129,13 +148,14 @@
           <!-- –––––––– FALL B: GRUPPE –> KEINE VERANSTALTUNG & MEHRERE GRUPPEN ––––––––– -->
           <div v-if="canHaveCourseGroupTo">
 
-            <b-field>
-              <b-input v-model="coursesObjectAutocomplete.name" :disabled="true">
-              </b-input>
-            </b-field>
+              <p class="control is-expanded">
+                <input :class="{'input': true, 'titleIsSet': true}" type="text" placeholder="Find a repository" v-model="courseTitleFrom" readonly>
+              </p>
+
+            </br>
 
             <div v-for="(courseGroupToItem, index) in courseGroupToArray" ref="crs" :key="courseGroupToItem.groupIndex">
-              <a v-if="index > 0" class="button is-danger is-outlined" @click="removeGroup(index)">
+              <a  class="button is-secondary" @click="removeGroup(index)">
                   <span>{{groupItemLabel(index)}}</span>
                   <span class="icon is-small">
                     <i class="fa fa-times"></i>
@@ -143,16 +163,16 @@
                 </a>
             </div>
 
-            <b-field grouped>
-              <b-input v-model="groupAdding" placeholder="Deine Wunsch-Untergruppe" expanded></b-input>
-              <p class="control">
-                <a class="button" @click="addGroup">
-                <span class="icon is-small">
-                  <i class="fa fa-plus"></i>
-                </span>
-            </a>
+            <div class="field has-addons">
+              <p class="control is-expanded">
+                <input :class="{'input': true, 'group': true}" type="text" placeholder="Deine Wunsch-Untergruppe" v-model="groupAdding">
               </p>
-            </b-field>
+              <p class="control">
+                <a class="button is-secondary" @click="addGroup">
+                  <i class="fa fa-plus"></i>
+                </a>
+              </p>
+            </div>
 
           </div>
         </div>
@@ -186,6 +206,7 @@
           </p>
         </div>
 
+      </br></br>
         <!-- ––––––––––––––––––––––– BUTTON GROUP (NAVIGATION) –––––––––––––––––––––––––– -->
         <button-group>
           <div slot="backItem">
@@ -258,6 +279,9 @@ export default {
         name: '',
         selected: null
       },
+      courseFromSelected: false,
+      hasCourseFromSet: false,
+      hasGroupFromSet: false,
       search: '',
       selected: null,
       msg: 'Welcome to Your Vue.js and Baqend App',
@@ -285,10 +309,10 @@ export default {
         if (!this.canHaveCourseGroupTo) {
           this.coursesObjectAutocomplete.name = this.courseTitleTo
         }
-        this.courseGroupToArray.push({
-          groupName: this.courseGroupTo,
-          groupIndex: this.groupCounter++
-        })
+        // this.courseGroupToArray.push({
+        //  groupName: this.courseGroupTo,
+        //  groupIndex: this.groupCounter++
+        // })
       } else if (this.firstStepDone && this.secondStepDone && !this.thirdStepDone) {
         // Nav-Dots setzen
         this.secondStepActive = false
@@ -348,9 +372,12 @@ export default {
       return this.courseGroupToArray[index].groupItemLabel
     },
     createNewCourse () {
-      if (this.coursesObjectAutocomplete.name === 'Deine Veranstaltung ist nicht dabei?') {
-        this.coursesObjectAutocomplete.selected = this.coursesObjectAutocomplete.name
-        this.addCourse()
+      if (this.coursesObjectAutocomplete.selected !== null) {
+        this.courseFromSelected = true
+        if (this.coursesObjectAutocomplete.name === 'Deine Veranstaltung ist nicht dabei?') {
+          this.coursesObjectAutocomplete.selected = this.coursesObjectAutocomplete.name
+          this.addCourse()
+        }
       }
     },
     getCourseId (courseid) { // Hilfsfunktion: reine ID aus ID-Directory aus DB
@@ -375,6 +402,10 @@ export default {
         })
       }
       this.createCoursesObjectAutocomplete()
+    },
+    setCourseTitleFrom () {
+      this.courseTitleFrom = this.coursesObjectAutocomplete.name
+      this.hasCourseFromSet = true
     },
     // –––––––––––––––––––––––––––– KURSTERSTELLUNGS-MODAL ––––––––––––––––––––––––––––––
     addCourse () {
@@ -536,5 +567,21 @@ export default {
   background: #F7154C !important;
   color: #F7154C !important;
   font-weight: bolder !important;
+}
+
+.titleIsSet {
+    background: #F39016;
+    border: #F39016;
+    color: #ffffff;
+}
+
+.groupIsSet {
+    background: #0F75BC;
+    border: #0F75BC;
+    color: #ffffff;
+}
+
+.group:focus {
+border-color: #0F75BC !important;
 }
 </style>
