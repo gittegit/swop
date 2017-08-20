@@ -113,7 +113,7 @@
 
             <b-field class="has-addons">
               <div class="control is-expanded is-grouped">
-                <b-autocomplete v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine Wunschveranstaltung" @select="option => coursesObjectAutocomplete.selected = option"></b-autocomplete>
+                <b-autocomplete @keyup.native.enter="addCourseTo" v-model="coursesObjectAutocomplete.name" :data="filteredDataArray" placeholder="Deine Wunschveranstaltung" @select="option => coursesObjectAutocomplete.selected = option"></b-autocomplete>
               </div>
               <div :class="{'control': true}">
                 <a :class="{'button': true, 'is-primary': true}" @click="addCourseTo()"><i class="fa fa-plus"></i></a>
@@ -173,11 +173,11 @@
               <strong>{{courseTitleTo.courseName}}</strong>
               <span v-if="courseTitleTo.courseIndex !== (-1 + courseTitleToArray.length)"> oder</span></br>
             </span>
-            <span v-for="courseGroupTo in courseGroupToArray" v-if="courseGroupTo.groupIndex !== 0">
+            <span v-for="courseGroupTo in courseGroupToArray" >
               <strong>
                 Gruppe {{courseGroupTo.groupName}}
               </strong>
-                <span v-if="courseGroupTo.groupIndex !== (courseGroupToArray.length)"> oder
+                <span v-if="courseGroupTo.groupIndex !== (-1 + courseGroupToArray.length)"> oder
               </span>
             </span>
             </br>
@@ -295,6 +295,8 @@ export default {
   name: 'swop-dialog',
   data () {
     return {
+      // –––––––––––––––––––––––––––––––––– NAVIGATION ––––––––––––––––––––––––––––––––––––
+      activeStep: 'first',
       // –––––––––––––––––––––––––––––– NAVIGATION NAVDOTS ––––––––––––––––––––––––––––––––
       firstStepDone: true,
       secondStepDone: false,
@@ -360,6 +362,9 @@ export default {
     log () {
       console.log('LOG')
     },
+    jump () {
+      document.getElementById('courseId').focus()
+    },
     forward () {
       if (this.firstStepDone && !this.secondStepDone && !this.newCourse) {
         // Nav-Dots setzen
@@ -377,17 +382,17 @@ export default {
         }
         if (!this.canHaveCourseGroupTo) {
           this.coursesObjectAutocomplete.name = this.courseTitleTo
+          this.coursesObjectAutocomplete.name = ''
         }
-        console.log(this.canHaveCourseGroupTo)
       } else if (this.firstStepDone && this.secondStepDone && !this.thirdStepDone) {
         // Nav-Dots setzen
         this.secondStepActive = false
-        this.secondStepDone
         this.thirdStepActive = true
         // Formular setzen
         this.thirdStepDone = true
         this.courseTitleTo = this.coursesObjectAutocomplete.name
         this.coursesObjectAutocomplete.name = this.courseTitleTo
+        this.forwardItem = 'Swop-Partner finden!'
       } else if (this.firstStepDone && this.secondStepDone && this.thirdStepDone) {
         if (this.hasCourseGroupFrom) {
           this.createSearchedGroups()
@@ -407,6 +412,7 @@ export default {
         this.forwardItem = 'Weiter' // Anpassen der Buttongroup
         this.newCourse = false // schließen des Formulars/Dialogs
         this.setCourseTitleFrom()
+        this.onSuccess()
       }
     },
     back () {
@@ -491,6 +497,13 @@ export default {
     setNewCourseId () {
       this.hasNewCourseIdSet = true
     },
+    onSuccess () {
+      this.$toast.open({
+        message: 'Die Veranstaltung wurde erfolgreich erstellt!',
+        type: 'is-success',
+        position: 'is-top'
+      })
+    },
     // –––––––––––––––––––––––––– UNTERGRUPPE(N) HINZUFÜGEN ––––––––––––––––––––––––––––––
     addGroup () {
       if (this.firstStepActive) {
@@ -532,8 +545,6 @@ export default {
     removeCourse (index) {
       this.courseTitleToArray.splice(index, 1)
       this.courseCounter = (-1) + this.courseCounter
-      console.log(index)
-      console.log(this.courseCounter)
     },
     // –––––––––––––– ERSTELLUNG ÜBERGABEPARAMETER FÜR SWOPCARD-ERSTELLUNG ––––––––––––––––
     createSearchedGroups () {
