@@ -13,8 +13,8 @@
         <!-- ––––––––––––––––––––– ANZEIGER STEPWISE-NAVIGATION ––––––––––––––––––––––––– -->
         <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
         <ul class="nav-dots-container">
-          <li class="nav-dot" :class="{ 'active': activeStep == 'st', 'done': stepsDone.length > 0}"></li>
-          <li class="nav-dot" :class="{ 'active': activeStep == 'nd', 'done': stepsDone.length > 1}"></li>
+          <li class="nav-dot" :class="{ 'active': activeStep == 'st', 'done': stepsDone.length > 0}" @click="activeStep = 'st'"></li>
+          <li class="nav-dot" :class="{ 'active': activeStep == 'nd', 'done': stepsDone.length > 1}" @click="activeStep = 'nd'"></li>
           <li class="nav-dot" :class="{ 'active': activeStep == 'rd', 'done': stepsDone.length > 2}"></li>
         </ul>
 
@@ -109,10 +109,10 @@
 
             <b-field class="has-addons">
               <div class="control is-expanded is-grouped">
-                <b-autocomplete @keyup.native.enter="addCourseTo" v-model="coursesAC.name" :data="filteredDataArray" placeholder="Deine Wunschveranstaltung" @select="option => coursesAC.selected = option"></b-autocomplete>
+                <b-autocomplete @keyup.native.enter="addCourseTo" v-model="coursesAC.name" :data="filteredDataArray" placeholder="Deine Wunschveranstaltung" @select="option => coursesAC.selected = option" @click.native="selectOrCreate" @keyup.native="selectOrCreate"></b-autocomplete>
               </div>
               <div :class="{'control': true}">
-                <a :class="{'button': true, 'is-primary': true}" @click="addCourseTo()"><i class="fa fa-plus"></i></a>
+                <a :class="{'button': true, 'is-primary': true}" @click="addCourseTo()" :disabled="!courseToSelected"><i class="fa fa-plus"></i></a>
               </div>
             </b-field>
 
@@ -143,7 +143,7 @@
                 <input :class="{'input': true, 'group': true}" type="text" placeholder="Deine Wunsch-Untergruppe" @keyup.enter="addGroup" v-model="groupAdding">
               </p>
               <p class="control">
-                <a class="button is-secondary" @click="addGroup">
+                <a class="button is-secondary" @click="addGroup" :disabled="groupAdding === ''">
                   <i class="fa fa-plus"></i>
                 </a>
               </p>
@@ -356,6 +356,7 @@ export default {
       courseid: '', // Zwischenspeicher Kurs-Id (nach Umwandlung aus Directory zu String)
       coursesArray: [], // Array aller Kurse, beschränkt auf courseItem (für Autocomplete) und courseid (zum Matchen)
       courseFromSelected: false,
+      courseToSelected: false,
       hasGroupFromSet: false,
       search: '',
       selected: null,
@@ -413,7 +414,7 @@ export default {
       // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
       // –––––––––––––––––––––––––––– NAVIGATIONSANZEIGE ––––––––––––––––––––––––––––––––––
       // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-      if (this.activeStep === 'st') { // step 1 zu step 2
+      if (this.activeStep === 'st' && !this.newCourse) { // step 1 zu step 2
         this.activeStep = 'nd' // navdot setzen
         this.backItem = 'Zurück' // buttongroup backitem setzen
         this.stepsDone.push('st') // step 1 zu absolvierten steps hinzufügen
@@ -433,6 +434,15 @@ export default {
 
       } else if (this.activeStep === 'nd') {
 
+      } else if (this.activeStep === 'rd') {
+        if (this.hasGroupFrom) {
+          this.createSearchedGroups()
+          this.createSearchedCoursesSingle()
+          M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
+        } else if (!this.hasGroupFrom) {
+          this.createSearchedCourses()
+          M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
+        }
       }
       if (this.firstStepDone && !this.secondStepDone && !this.newCourse) {
         // Nav-Dots setzen
@@ -549,8 +559,10 @@ export default {
       this.createcoursesAC()
     },
     setCourseFrom () {
-      this.courseTitleFrom = this.coursesAC.name
-      this.courseFromSet = true
+      if (this.coursesAC.name === this.coursesAC.selected) {
+        this.courseTitleFrom = this.coursesAC.name
+        this.courseFromSet = true
+      }
     },
     // –––––––––––––––––––––––––––– KURSTERSTELLUNGS-MODAL ––––––––––––––––––––––––––––––
     setNewCourseTitle () {
@@ -569,12 +581,14 @@ export default {
     // –––––––––––––––––––––––––– UNTERGRUPPE(N) HINZUFÜGEN ––––––––––––––––––––––––––––––
     // –––––––––––––––––––––––– WUNSCHVERANSTALTUNG HINZUFÜGEN –––––––––––––––––––––––––––
     addCourseTo () {
-      var lastCourseName = this.coursesAC.name
-      this.coursesAC.name = ''
-      this.courseTitleToArray.push({
-        courseName: lastCourseName,
-        courseIndex: this.courseCounter++
-      })
+      if (this.coursesAC.name === this.coursesAC.selected) {
+        var lastCourseName = this.coursesAC.name
+        this.coursesAC.name = ''
+        this.courseTitleToArray.push({
+          courseName: lastCourseName,
+          courseIndex: this.courseCounter++
+        })
+      }
     },
     courseToIsAdded (courseCounter) {
       return true
