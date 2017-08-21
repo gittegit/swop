@@ -159,6 +159,7 @@ class Modul {
       group
     })
     .then((val) => {
+      console.log('Swopcard erstellt', val) // TODO: WTF WTF WTF
       promiseValue = val
       return this.loadUserData()
     })
@@ -304,6 +305,20 @@ class Modul {
     } else if (matchObj.user2.user.id === db.User.me.id) {
       return [matchObj.status2, matchObj.status1]
     }
+  }
+
+  getMatchUserDetail (matchId) {
+    let matchObj
+    // Es ist egal ob der Pfad oder nur die Id übergeben wird
+    if (!matchId.startsWith('/db/Match/')) matchId = 'db/Match/' + matchId
+    // find the right MatchObj
+    matchObj = this.matches.get(matchId)
+
+    if(db.User.me.id === '/db/User/366') for(let i = 0; i<100; i++) console.log('Zwei')
+    if (matchObj.user1.user.id === db.User.me.id) {
+      return matchObj.user2.restrictedUserInfo
+    } else if (matchObj.user2.user.id === db.User.me.id) {
+      return matchObj.user1.restrictedUserInfo
   }
 
   /**
