@@ -164,37 +164,38 @@ export default {
   created () {
     // console.log(db.User.me.username)
 
-    M.getMySwopCards().then((swopCards) => {
-      console.log(db.User.me.username)
-      this.mySwopCards = Array.from(swopCards)
-      if (this.mySwopCards.length === 0) {
-        this.noSwopCards = true
-      } else {
-        this.noSwopCards = false
-      }
-    })
+    // M.getMySwopCards().then((swopCards) => {
+    //   console.log(db.User.me.username)
+    //   this.mySwopCards = Array.from(swopCards)
+    //   if (this.mySwopCards.length === 0) {
+    //     this.noSwopCards = true
+    //   } else {
+    //     this.noSwopCards = false
+    //   }
+    // })
     // M.getMatchStatus('/db/Match/a0f6f82b-33f5-44ab-bc39-49d36e22c54c').then((result) => {
     //   console.log(result)
     // })
 
-    // M.loadUserData()
-    //   .then(() => {
-    //     console.log('loaded Userdata', M.user, M.swopCards, M.matches)
-    //     M.getMySwopCards()
-    //       .then((swopCards) => {
-    //         this.mySwopCards = swopCards
-    //         if (this.mySwopCards.length === 0) {
-    //           this.noSwopCards = true
-    //         } else {
-    //           this.noSwopCards = false
-    //         }
-    //       })
-    //       .catch((err) => console.log('ERR: ', err))
-    //   })
+    M.loadUserData()
+      .then(() => {
+        console.log(db.User.me.username)
+        console.log('loaded Userdata', M.user, M.swopCards, M.matches)
+        M.getMySwopCards()
+          .then((swopCards) => {
+            this.mySwopCards = swopCards
+            if (this.mySwopCards.length === 0) {
+              this.noSwopCards = true
+            } else {
+              this.noSwopCards = false
+            }
+          })
+          .catch((err) => console.log('ERR: ', err))
+      })
 
-//    M.getMatchStatus('/db/Match/a0f6f82b-33f5-44ab-bc39-49d36e22c54c').then((result) => {
-//      console.log(result)
-//    })
+  //  M.getMatchStatus('/db/Match/a0f6f82b-33f5-44ab-bc39-49d36e22c54c').then((result) => {
+  //    console.log(result)
+  //  })
 
     // Einzelne SwopCard hat folgende Einträge:
     // acl, course, createdAt, createdBy, id, match, myGroup, searchedCourses, searchedGroups, status, updatedAt, version
