@@ -21,12 +21,13 @@
       <!-- Beginn einer Karte / mit Swop-->
       <div v-if="swopCard.status === filtered || filtered === 'ALL'" v-for="swopCard in mySwopCards" class="swop-card card" :class="{'swop-accepted':swopCard.match}">
         <!-- Kartenheader -->
-        <header class="card-header" v-on:click="toggleOpen(swopCard.id); logMal(swopCard.createdAt.getDay())">
+        <header class="card-header" v-on:click="toggleOpen(swopCard.id)">
           <div class="swop-status">
             <div class="swop-status-icon">
               <img v-if="swopCard.status === 'DECLINED'"src="../assets/swop-declined-invert.svg">
               <img v-if="swopCard.status === 'ACCEPTED'"src="../assets/swop-accepted.svg">
-              <img v-if="swopCard.status === 'PENDING'"src="../assets/swop-pending.svg">
+              <img v-if="swopCard.status === 'PENDING' && getSwopCardMatchStatus(swopCard.match.id)[0] === 'WAITING'" src="../assets/swop-notification.svg">
+              <img v-if="swopCard.status === 'PENDING' && getSwopCardMatchStatus(swopCard.match.id)[0] === 'ACCEPTED'" src="../assets/swop-pending.svg">
               <img v-if="swopCard.status === 'WAITING'"src="../assets/swop-waiting-invert.svg">
             </div>
             <div class="swop-status-courses">
@@ -37,7 +38,8 @@
               </div>
 
               <div class="swop-status-course-to">
-                <p class="help"><span class="swop-change">Gegen</span> <span class="swop-course-id"><span class="searched-group-entry" v-for="courseId in Array.from(swopCard.searchedCourses)">{{ courseId.id.substring(11) }}</span></span> <span class="swop-course-group"><span class="searched-group-entry groups" v-for="group in Array.from(swopCard.searchedGroups)">{{ group }}</span></span> </p>
+                <p class="help"><span class="swop-change">Gegen</span> <span class="swop-course-id"><span class="searched-group-entry" v-for="courseId in Array.from(swopCard.searchedCourses)">{{ courseId.id.substring(11) }}</span></span>
+                  <span class="swop-course-group"><span class="searched-group-entry groups" v-for="group in Array.from(swopCard.searchedGroups)">Gruppe {{ group }}</span></span></p>
                 <p class="is-title is-size-5 course-title"><span class="searched-group-entry" v-for="course in Array.from(swopCard.searchedCourses)">{{ course.name }}</span></p>
               </div>
             </div>
@@ -77,11 +79,11 @@
               <!-- IF Tauschkarte === 'PENDING' -->
               <div class="swop-match-info" v-if="swopCard.status === 'PENDING'">
                 <!-- Du hast Accepted, der andere muss noch bestätigen -->
-                <div @click="logMal(getSwopCardMatchStatus(swopCard.match.id) === ['WAITING', 'ACCEPTED'])">
+                <div v-if="getSwopCardMatchStatus(swopCard.match.id)[0] === 'ACCEPTED'" @click="logMal(getSwopCardMatchStatus(swopCard.match.id))">
                 <p>Du hast Diesen Match bestätigt. Sobald Dein Partner bestätigt, wird Dir hier seine Mailadresse angezeigt.</p>
-              </div>
+                </div>
                 <!-- Der andere hat bestätigt, du musst noch accepten -->
-                <div>
+                <div v-else>
                   <p>Super! Wir haben einen swop-Partner für Dich! Bitte akzeptiere den swop oder, wenn du es dir anders überlegt hast, brich ihn ab.</p>
                   <p class="has-text-centered display-flex"><a class="button is-outlined is-primary margin-right" @click="declineMatch(swopCard.match.id)"><span class="margin-right"><i class="fa fa-times-circle" aria-hidden="true"></i></span>Abbrechen</a><a class="button is-primary" @click="acceptMatch(swopCard.match.id)"><span class="margin-right"><i class="fa fa-check-circle" aria-hidden="true"></i></span>Bestätigen</a></p>
                 </div>
@@ -230,12 +232,9 @@ export default {
     getStringTime: function (date) {
       var plusZero = function (element) {
         element = element.toString()
-        console.log(element)
         if (element.length === 1) {
-          console.log('einstellig: ' + element.length)
           return '0' + element
         } else {
-          console.log('zweistellig: ' + element.length)
           return element
         }
       }
@@ -251,9 +250,6 @@ export default {
         this.open = null
       }
     },
-    acceptSwop: function () {
-      console.log('Swop akzeptiert')
-    },
     logMal: function (event) {
       // Testfunktion, die man an alle Events dranhängen kann, um sie zu loggen
       console.log(event)
@@ -264,7 +260,7 @@ export default {
     },
     deleteSwopCard: function (swopCard) {
       // Löscht eine swopCard anhand ihrere id
-      M.deleteSwopCard(swopCard).then((result) => {
+      M.deleteSwopCard(swopCard).then(() => {
         this.initiateDashboard()
       })
     },
@@ -273,21 +269,22 @@ export default {
       next()
     },
     getSwopCardMatchStatus: function (swopCard) {
-      M.getMatchStatus(swopCard).then((result) => {
-        console.log(result)
-      })
+      return M.getMatchStatus(swopCard)
     },
     acceptMatch: function (swopCard) {
       M.acceptMatch(swopCard).then((result) => {
         console.log(result)
+        this.initiateDashboard()
       })
     },
     declineMatch: function (swopCard) {
       M.declineMatch(swopCard).then((result) => {
         console.log(result)
+        this.initiateDashboard()
       })
     },
     initiateDashboard: function () {
+      console.log('initiiert jo')
       M.loadUserData()
         .then(() => {
           console.log(db.User.me.username)
