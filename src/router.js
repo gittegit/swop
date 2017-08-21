@@ -22,7 +22,7 @@ const routes = [
   { path: '/settings', name: 'settings', component: view('Settings'), beforeEnter: dbReady },
   { path: '/swop-dialog', name: 'swop-dialog', component: view('SwopDialog'), beforeEnter: dbReady },
   { path: '/spielregeln', name: 'spielregeln', component: view('Spielregeln'), beforeEnter: dbReady },
-  { path: '/navigation', name: 'navigation', component: view('Navigation'), beforeEnter: dbReady },
+  { path: '/hello', name: 'hello', component: view('Hello'), beforeEnter: dbReady },
   { path: '/modal-sample', name: 'modal-sample', component: view('ModalSample'), beforeEnter: dbReady },
   // { path: '/login', name: 'login', component: view('Login'), beforeEnter: dbReady },
   // { path: '/chats', name: 'chats', component: view('Chats'), beforeEnter: dbReady },
