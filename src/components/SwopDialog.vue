@@ -14,7 +14,7 @@
         <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
         <ul class="nav-dots-container">
           <li class="nav-dot" :class="{ 'active': activeStep == 'st', 'done': stepsDone.length > 0}" @click="activeStep = 'st'"></li>
-          <li class="nav-dot" :class="{ 'active': activeStep == 'nd', 'done': stepsDone.length > 1}" @click="activeStep = 'nd'"></li>
+          <li class="nav-dot" :class="{ 'active': activeStep == 'nd', 'done': stepsDone.length > 1}" ></li>
           <li class="nav-dot" :class="{ 'active': activeStep == 'rd', 'done': stepsDone.length > 2}" ></li>
         </ul>
 
@@ -73,7 +73,7 @@
           </div>
 
           <div v-if="hasGroupFromSet">
-            <a class="button is-secondary" @click="hasGroupFrom=false, hasGroupFromSet=false, canHaveCourseGroupTo=false">
+            <a class="button is-secondary" @click="hasGroupFrom=false, hasGroupFromSet=false, canHaveCourseGroupTo=false, courseGroupFrom='', courseGroupToArray = new Array()">
                 <span>{{courseGroupFrom}}</span>
                 <span class="icon is-small">
                   <i class="fa fa-times"></i>
@@ -168,6 +168,9 @@
             <span v-for="courseTitleTo in courseTitleToArray">
               <strong>{{courseTitleTo.courseName}}</strong>
               <span v-if="courseTitleTo.courseIndex !== (-1 + courseTitleToArray.length)"> oder</span></br>
+            </span>
+            <span v-if="hasGroupFrom">
+              <strong>{{courseTitleTo}},</strong>
             </span>
             <span v-for="courseGroupTo in courseGroupToArray">
               <strong>
@@ -391,6 +394,7 @@ export default {
     addGroup () { // untergruppe(n) hinzufügen
       if (this.activeStep === 'st') { // in step 1
         this.hasGroupFrom = true
+        this.courseTitleToArray = []
       } else if (this.activeStep === 'nd') { // in step 2
         this.courseGroupToArray.push({
           groupName: this.groupAdding,
@@ -402,10 +406,10 @@ export default {
       }
     },
     removeGroup (index) { // untergruppe entfernen
-      if (this.firstStepActive) {
+      if (this.activeStep === 'st') {
         this.hasGroupFrom = false
         this.canHaveCourseGroupTo = false
-      } else if (this.secondStepActive) {
+      } else if (this.activeStep === 'nd') {
         this.courseGroupToArray.splice(index, 1)
       }
     },
@@ -430,6 +434,33 @@ export default {
         type: 'is-success',
         position: 'is-top'
       })
+    },
+    onFailure (cp) {
+      if (cp === 'courseFromNotSet') {
+        this.$toast.open({
+          message: 'Bitte wähle Deine Veranstaltung aus.',
+          type: 'is-danger',
+          position: 'is-top'
+        })
+      } else if (cp === 'courseTitleToArrayEmpty') {
+        this.$toast.open({
+          message: 'Bitte gib mindestens eine Wunschveranstaltung an.',
+          type: 'is-danger',
+          position: 'is-top'
+        })
+      } else if (cp === 'courseGroupToArrayEmpty') {
+        this.$toast.open({
+          message: 'Bitte gib mindestens eine Wunschgruppe an.',
+          type: 'is-danger',
+          position: 'is-top'
+        })
+      } else {
+        this.$toast.open({
+          message: 'Oops, irgendentwas scheint schief gelaufen zu sein. Swoppy ist jetzt traurig.',
+          type: 'is-danger',
+          position: 'is-top'
+        })
+      }
     },
     // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     // –––––––––––––––––––––––––––––– AUTOCOMPLETE ––––––––––––––––––––––––––––––––––––––
@@ -485,14 +516,19 @@ export default {
       // if (!this.courseFromSelected) {
       //  this.setCourseFrom()
       // }
-      if (this.coursesAC.selected === null) {
-        this.courseFromSelected = false
-      } else if (this.coursesAC.selected !== null) {
-        this.courseFromSelected = true
-        if (this.coursesAC.name === 'Deine Veranstaltung ist nicht dabei?') {
-          this.coursesAC.name = ''
-          this.createCourse() // öffnen des kurserstellungs-modals
+      if (this.activeStep === 'st') {
+        if (this.coursesAC.selected === null) {
+          this.courseFromSelected = false
+        } else if (this.coursesAC.selected !== null) {
+          this.coursesAC.name = this.coursesAC.selected
+          this.coursesAC.selected === null
+          this.courseFromSelected = true
+          if (this.coursesAC.name === 'Deine Veranstaltung ist nicht dabei?') {
+            this.coursesAC.name = ''
+            this.createCourse() // öffnen des kurserstellungs-modals
+          }
         }
+      } else if (this.activeStep === 'nd') {
       }
     },
     setCourseFrom () { // setzen des coursetitlefrom
@@ -510,24 +546,36 @@ export default {
     forward () {
       if (this.activeStep === 'st' && !this.newCourse) { // step 1 zu step 2
         // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
-        this.activeStep = 'nd' // navdot setzen
-        this.backItem = 'Zurück' // buttongroup backitem setzen
-        this.stepsDone.push('st') // step 1 zu absolvierten steps hinzufügen
-        // –––––––––––––––––––––––––––––––– ACTIONS –––––––––––––––––––––––––––––––––––––
-        this.courseTitleFrom = this.coursesAC.name
-        if (this.hasGroupFrom) {
-          this.coursesAC.name = this.courseTitleFrom
-          this.courseTitleTo = this.courseTitleFrom
-        } else if (!this.hasGroupFrom) {
-          this.coursesAC.name = ''
+        if (this.courseFromSet) {
+          this.activeStep = 'nd' // navdot setzen
+          this.backItem = 'Zurück' // buttongroup backitem setzen
+          this.stepsDone.push('st') // step 1 zu absolvierten steps hinzufügen
+          // –––––––––––––––––––––––––––––––– ACTIONS –––––––––––––––––––––––––––––––––––––
+          this.courseTitleFrom = this.coursesAC.name
+          if (this.hasGroupFrom) {
+            this.coursesAC.name = this.courseTitleFrom
+            this.courseTitleTo = this.courseTitleFrom
+          } else if (!this.hasGroupFrom) {
+            this.coursesAC.name = ''
+          }
+        } else {
+          this.onFailure('courseFromNotSet')
         }
       } else if (this.activeStep === 'nd' && !this.newCourse) { // step 2 zu step 3
-        // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
-        this.activeStep = 'rd' // navdot setzen
-        this.forwardItem = 'Partner finden!' // buttongroup forwarditem setzen
-        this.stepsDone.push('nd') // step 2 zu absolvierten steps hinzufügen
-        // –––––––––––––––––––––––––––––––– ACTIONS ––––––––––––––––––––––––––––––––––––––
-        this.courseTitleTo = this.coursesAC.name
+        if (this.courseTitleToArray.length !== 0 || this.courseGroupToArray.length !== 0) {
+          // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
+          this.activeStep = 'rd' // navdot setzen
+          this.forwardItem = 'Partner finden!' // buttongroup forwarditem setzen
+          this.stepsDone.push('nd') // step 2 zu absolvierten steps hinzufügen
+          // –––––––––––––––––––––––––––––––– ACTIONS ––––––––––––––––––––––––––––––––––––––
+          this.courseTitleTo = this.coursesAC.name
+        } else {
+          if (this.hasGroupFrom) {
+            this.onFailure('courseGroupToArrayEmpty')
+          } else {
+            this.onFailure('courseTitleToArrayEmpty')
+          }
+        }
       } else if (this.activeStep === 'rd') {
         // –––––––––––––––––––––––––––––––– ACTIONS ––––––––––––––––––––––––––––––––––––––
         if (this.hasGroupFrom) { // swopcard mit gruppen abschicken
@@ -545,8 +593,11 @@ export default {
       } else if (this.newCourse) { // 'Neuen Kurs erstellen' nach Kurserstellungs-Dialog
       // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
       // –––––––––––––––––––––––––––––––– ACTIONS ––––––––––––––––––––––––––––––––––––––
-        M.createCourse(this.courseTitleFrom, this.courseIdFrom) // Erstellung des neuen Kurses
-        this.coursesAC.data.push(this.courseIdFrom.concat(' – ').concat(this.courseTitleFrom))
+        this.courses = []
+        M.createCourse(this.courseTitleFrom, this.courseIdFrom)
+          .then(() => {
+            this.initiateAC()
+          }) // Erstellung des neuen Kurses
         this.coursesAC.name = this.courseIdFrom.concat(' – ').concat(this.courseTitleFrom)
         this.coursesAC.selected = this.coursesAC.name
         this.backItem = 'Abbrechen' // Anpassen der Buttongroup
