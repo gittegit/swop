@@ -472,12 +472,12 @@ export default {
         if (this.hasGroupFrom) {
           this.createSearchedGroups()
           this.createSearchedCoursesSingle()
-          console.log('Gruppen-SwopCard wird erstellt…')
-          M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
+          // console.log('Gruppen-SwopCard wird erstellt…')
+          // M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
         } else if (!this.hasGroupFrom) {
-          console.log('Veranstaltungs-SwopCard wird erstellt…')
+          // console.log('Veranstaltungs-SwopCard wird erstellt…')
           this.createSearchedCourses()
-          M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
+          // M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
         }
       } else if (this.newCourse) { // 'Neuen Kurs erstellen' nach Kurserstellungs-Dialog
         M.createCourse(this.courseTitleFrom, this.courseIdFrom) // Erstellung des neuen Kurses
