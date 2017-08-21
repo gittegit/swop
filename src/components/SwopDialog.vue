@@ -516,6 +516,7 @@ export default {
         // –––––––––––––––––––––––––––––––– ACTIONS –––––––––––––––––––––––––––––––––––––
         if (!this.newCourse) {
           this.courseTitleFrom = this.coursesAC.name
+          this.coursesAC.name = ''
         }
         if (this.hasGroupFrom) {
           this.coursesAC.name = this.courseTitleFrom
@@ -535,9 +536,17 @@ export default {
         if (this.hasGroupFrom) { // swopcard mit gruppen abschicken
           this.createSearchedGroups()
           this.createSearchedCoursesSingle()
+          console.log(this.searchedCourses)
+          console.log(this.searchedGroups)
+          console.log(this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')))
+          console.log(this.courseGroupFrom)
           M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
         } else if (!this.hasGroupFrom) { // swopcard ohne gruppen abschicken
           this.createSearchedCourses()
+          console.log(this.searchedCourses)
+          console.log(this.searchedGroups)
+          console.log(this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')))
+          console.log(this.courseGroupFrom)
           M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
         }
         this.stepsDone = []
