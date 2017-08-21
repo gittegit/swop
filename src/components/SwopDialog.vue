@@ -621,7 +621,7 @@ export default {
     padding: 5%;
 }
 
-/* ––––––––––––––––––––––––––––––––––– NAVDOTS ––––––––––––––––––––––––––––––––––––––– */
+/* Stepwise navigation */
 .nav-dots-container {
     text-align: center;
     padding-bottom: 5%;
@@ -689,6 +689,5 @@ border-color: #0F75BC !important;
 .modal-background {
   background-color: rgba(0, 0, 0, 0.4);
 }
-
 
 </style>
