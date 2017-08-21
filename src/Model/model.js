@@ -314,11 +314,12 @@ class Modul {
     // find the right MatchObj
     matchObj = this.matches.get(matchId)
 
-    if(db.User.me.id === '/db/User/366') for(let i = 0; i<100; i++) console.log('Zwei')
+    if (db.User.me.id === '/db/User/366') for (let i = 0; i < 100; i++) console.log('Zwei')
     if (matchObj.user1.user.id === db.User.me.id) {
       return matchObj.user2.restrictedUserInfo
     } else if (matchObj.user2.user.id === db.User.me.id) {
       return matchObj.user1.restrictedUserInfo
+    }
   }
 
   /**
