@@ -15,7 +15,7 @@
         <ul class="nav-dots-container">
           <li class="nav-dot" :class="{ 'active': activeStep == 'st', 'done': stepsDone.length > 0}" @click="activeStep = 'st'"></li>
           <li class="nav-dot" :class="{ 'active': activeStep == 'nd', 'done': stepsDone.length > 1}" @click="activeStep = 'nd'"></li>
-          <li class="nav-dot" :class="{ 'active': activeStep == 'rd', 'done': stepsDone.length > 2}"></li>
+          <li class="nav-dot" :class="{ 'active': activeStep == 'rd', 'done': stepsDone.length > 2}" ></li>
         </ul>
 
         <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -41,7 +41,7 @@
           <div v-if="courseFromSet">
             <div class="field has-addons">
               <p class="control is-expanded">
-                <input :class="{'input': true, 'titleIsSet': true}" type="text" v-model="courseTitleFrom" readonly>
+                <input :class="{'input': true, 'courseIsSet': true}" type="text" v-model="courseTitleFrom" readonly>
               </p>
               <p class="control">
                 <a class="button is-primary" @click="courseFromSet=false">
@@ -122,7 +122,7 @@
           <div v-if="hasGroupFrom">
 
             <p class="control is-expanded">
-              <input :class="{'input': true, 'titleIsSet': true}" type="text" v-model="courseTitleFrom" readonly>
+              <input :class="{'input': true, 'courseIsSet': true}" type="text" v-model="courseTitleFrom" readonly>
             </p>
 
             </br>
@@ -187,12 +187,12 @@
         <!-- ––––––––––––––––––––––– BUTTON GROUP (NAVIGATION) –––––––––––––––––––––––––– -->
         <button-group>
           <div slot="backItem">
-            <router-link v-if="firstStepActive" @click="back" :to="backLink">{{backItem}}</router-link>
-            <div v-if="!firstStepActive" @click="back">{{backItem}}</div>
+            <router-link v-if="activeStep == 'st'" @click="back" :to="backLink">{{backItem}}</router-link>
+            <div v-if="activeStep == 'nd' || activeStep == 'rd'" @click="back">{{backItem}}</div>
           </div>
           <div slot="forwardItem">
-            <div v-if="activeStep == 'st' || activeStep == 'nd'" @click="forward">{{forwardItem}}</div>
-            <router-link v-if="activeStep == 'rd'" @click="forward" :to="forwardLink">{{forwardItem}}</router-link>
+            <div @click="forward">{{forwardItem}}</div>
+            <!-- <router-link v-if="activeStep == 'rd'"  :to="forwardLink"></router-link> -->
           </div>
         </button-group>
 
@@ -209,7 +209,7 @@
 
               <div class="container">
 
-                <div class="box important-modal">
+                <div class="box white-modal">
 
                   <h4 class="description is-5 has-text-centered">Erstelle hier eine neue Veranstaltung</h4>
                   </br>
@@ -226,7 +226,7 @@
 
                   <div class="field has-addons" v-if="hasNewCourseTitleSet">
                     <p class="control is-expanded">
-                      <input :class="{'input': true, 'titleIsSet': true}" type="text" v-model="courseTitleFrom" readonly>
+                      <input :class="{'input': true, 'courseIsSet': true}" type="text" v-model="courseTitleFrom" readonly>
                     </p>
                     <p class="control">
                       <a class="button is-primary" @click="hasNewCourseTitleSet=false">
@@ -239,7 +239,7 @@
                   <!-- Input ID -->
                   <b-field class="has-addons" v-if="!hasNewCourseIdSet">
                     <div class="control is-expanded is-grouped">
-                      <b-input id="courseId" placeholder="ID der Veranstaltung" v-model="courseIdFrom" @keyup.native="hasNewCourseId=true" @keyup.native.enter="setNewCourseId()"></b-input>
+                      <b-input id="next" placeholder="ID der Veranstaltung" v-model="courseIdFrom" @keyup.native="hasNewCourseId=true" @keyup.native.enter="setNewCourseId()"></b-input>
                     </div>
                     <div :class="{'control': true}">
                       <a :class="{'is-primary': true, 'button': true}" :disabled="!hasNewCourseId" @click="setNewCourseId"><i class="fa fa-check"></i></a>
@@ -248,7 +248,7 @@
 
                   <div class="field has-addons" v-if="hasNewCourseIdSet">
                     <p class="control is-expanded">
-                      <input :class="{'input': true, 'titleIsSet': true}" type="text" v-model="courseIdFrom" readonly>
+                      <input :class="{'input': true, 'courseIsSet': true}" type="text" v-model="courseIdFrom" readonly>
                     </p>
                     <p class="control">
                       <a class="button is-primary" @click="hasNewCourseIdSet=false">
@@ -362,19 +362,31 @@ export default {
       selected: null,
       msg: 'Welcome to Your Vue.js and Baqend App',
       isLoggedIn: null,
-      confirmationmodal: false
+      confirmationmodal: false,
+      created: false
     }
   },
 
   methods: {
     // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    // –––––––––––––––––––––––––––––––––– ACTIONS –––––––––––––––––––––––––––––––––––––––
+    // –––––––––––––––––––––––––––– INHALTE SWOPCARD  –––––––––––––––––––––––––––––––––––
     // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    createCourse () { // neue veranstaltung erstellen
-      this.courseTitleFrom = null
-      this.newCourse = true // öffnen des modals
-      this.forwardItem = 'Veranstaltung erstellen' // buttongroup forwarditem setzen
-      this.backItem = 'Abbrechen' // buttongroup backitem setzen
+    addCourseTo () { // wunschveranstaltung(en) hinzufügen
+      if (this.coursesAC.name === this.coursesAC.selected) {
+        var lastCourseName = this.coursesAC.name
+        this.coursesAC.name = ''
+        this.courseTitleToArray.push({
+          courseName: lastCourseName,
+          courseIndex: this.courseCounter++
+        })
+      }
+    },
+    courseToIsAdded (courseCounter) {
+      return true
+    },
+    removeCourse (index) {
+      this.courseTitleToArray.splice(index, 1)
+      this.courseCounter = (-1) + this.courseCounter
     },
     addGroup () { // untergruppe(n) hinzufügen
       if (this.activeStep === 'st') { // in step 1
@@ -389,182 +401,23 @@ export default {
         this.hasCourseGroupTo = true
       }
     },
-    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    // –––––––––––––––––––––––––––––– HILFSFUNKTIONEN –––––––––––––––––––––––––––––––––––
-    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    selectOrCreate () { // unterscheidet ob ac item ausgewählt werdens oder ob neue veranstaltung erstellt werden soll
-      if (this.coursesAC.selected === null) {
-        this.courseFromSelected = false
-      } else if (this.coursesAC.selected !== null) {
-        this.courseFromSelected = true
-        if (this.coursesAC.name === 'Deine Veranstaltung ist nicht dabei?') {
-          this.coursesAC.name = ''
-          this.createCourse() // öffnen des kurserstellungs-modals
-        }
-      }
-    },
-    // –––––––––––––––––––––––––– NAVIGATION ÜBER BUTTONGROUP –––––––––––––––––––––––––––––
-    log () {
-      console.log('LOG')
-    },
-    jump () {
-      document.getElementById('courseId').focus()
-    },
-    forward () {
-      // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-      // –––––––––––––––––––––––––––– NAVIGATIONSANZEIGE ––––––––––––––––––––––––––––––––––
-      // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-      if (this.activeStep === 'st' && !this.newCourse) { // step 1 zu step 2
-        this.activeStep = 'nd' // navdot setzen
-        this.backItem = 'Zurück' // buttongroup backitem setzen
-        this.stepsDone.push('st') // step 1 zu absolvierten steps hinzufügen
-      } else if (this.activeStep === 'nd') { // step 2 zu step 3
-        this.activeStep = 'rd' // navdot setzen
-        this.forwardItem = 'Partner finden!' // buttongroup forwarditem setzen
-        this.forwardLink.name = 'dashboard'
-        this.stepsDone.push('nd') // step 2 zu absolvierten steps hinzufügen
-      } else if (this.activeStep === 'rd') {
-        this.stepsDone = []
-        this.activeStep = ''
-      }
-      // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-      // ––––––––––––––––––––––––––––––––– ACTIONS ––––––––––––––––––––––––––––––––––––––––
-      // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-      if (this.activeStep === 'st') {
-
-      } else if (this.activeStep === 'nd') {
-
-      } else if (this.activeStep === 'rd') {
-        if (this.hasGroupFrom) {
-          this.createSearchedGroups()
-          this.createSearchedCoursesSingle()
-          M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
-        } else if (!this.hasGroupFrom) {
-          this.createSearchedCourses()
-          M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
-        }
-      }
-      if (this.firstStepDone && !this.secondStepDone && !this.newCourse) {
-        // Nav-Dots setzen
-        this.firstStepActive = false
-        this.secondStepActive = true
-        // Formular setzen
-        this.secondStepDone = true
-        // Eingaben speichern
-        this.courseTitleFrom = this.coursesAC.name
-        this.createcoursesAC = ''
-        if (!this.newCourse) {
-          this.courseTitleFrom = this.coursesAC.name
-        }
-        if (!this.canHaveCourseGroupTo) {
-          this.coursesAC.name = this.courseTitleTo
-          this.coursesAC.name = ''
-        }
-      } else if (this.firstStepDone && this.secondStepDone && !this.thirdStepDone) {
-        // Nav-Dots setzen
-        this.secondStepActive = false
-        this.thirdStepActive = true
-        // Formular setzen
-        this.thirdStepDone = true
-        this.courseTitleTo = this.coursesAC.name
-        this.coursesAC.name = this.courseTitleTo
-      } else if (this.firstStepDone && this.secondStepDone && this.thirdStepDone) {
-        if (this.hasGroupFrom) {
-          this.createSearchedGroups()
-          this.createSearchedCoursesSingle()
-          // console.log('Gruppen-SwopCard wird erstellt…')
-          // M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
-        } else if (!this.hasGroupFrom) {
-          // console.log('Veranstaltungs-SwopCard wird erstellt…')
-          this.createSearchedCourses()
-          // M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
-        }
-      } else if (this.newCourse) { // 'Neuen Kurs erstellen' nach Kurserstellungs-Dialog
-        M.createCourse(this.courseTitleFrom, this.courseIdFrom) // Erstellung des neuen Kurses
-        M.getAllCourses() // Neuladen aller Kurse inklusive des neuen
-        this.coursesAC.name = this.courseIdFrom.concat(' – ').concat(this.courseTitleFrom)
-        this.backItem = 'Abbrechen' // Anpassen der Buttongroup
-        this.forwardItem = 'Weiter' // Anpassen der Buttongroup
-        this.newCourse = false // schließen des Formulars/Dialogs
-        this.setCourseFrom()
-        this.onSuccess()
-      }
-    },
-    back () {
-      // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-      // –––––––––––––––––––––––––––– NAVIGATIONSANZEIGE ––––––––––––––––––––––––––––––––––
-      // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-      if (this.activeStep === 'nd') { // step 2 zu step 1
-        this.activeStep = 'st' // navdot setzen
-        this.backItem = 'Abbrechen' // buttongroup backitem setzen
-        this.stepsDone.splice(1, 1) // step 2 aus absolvierten steps entfernen
-      } else if (this.activeStep === 'rd') { // step 3 zu step 2
-        this.activeStep = 'nd' // navdot setzen
-        this.forwardItem = 'Weiter' // buttongroup forwarditem setzen
-        this.stepsDone.splice(2, 1) // step 3 aus absolvierten steps entfernen
-      }
-      // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-      // ––––––––––––––––––––––––––––––––– ACTIONS ––––––––––––––––––––––––––––––––––––––––
-      // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-      // CLEAN CLEAN CLEAN CLEAN CLEAN CLEAN CLEAN CLEAN CLEAN CLEAN CLEAN CLEAN CLEAN CLEAN
+    removeGroup (index) { // untergruppe entfernen
       if (this.firstStepActive) {
-        this.backLink.name = 'dashboard'
+        this.hasGroupFrom = false
+        this.canHaveCourseGroupTo = false
       } else if (this.secondStepActive) {
-        // Input setzen
-        this.courseTitleTo = this.coursesAC.name
-        this.coursesAC.name = this.courseTitleFrom
-        // Nav-Dots setzen
-        this.firstStepActive = true
-        this.secondStepActive = false
-        // Formular setzen
-        this.secondStepDone = false
-        // Zurück-Button setzen
-        this.backItem = 'Abbrechen'
-      } else if (this.thirdStepActive) {
-        // Nav-Dots setzen
-        this.secondStepActive = true
-        this.thirdStepActive = false
-        // Formular setzen
-        this.thirdStepDone = false
+        this.courseGroupToArray.splice(index, 1)
       }
     },
-    // ––––––––––––––––––––––––––– AUTOCOMPLETE-DATEN UMWANDELN ––––––––––––––––––––––––––––––
-    courseItemName (index) {
-      return this.courseTitleToArray[index].courseName
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // –––––––––––––––––––––––––– MODAL KURSERSTELLUNG ––––––––––––––––––––––––––––––––––
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    createCourse () { // navigation zu modal
+      this.courseTitleFrom = null
+      this.newCourse = true // öffnen des modals
+      this.forwardItem = 'Veranstaltung erstellen' // buttongroup forwarditem setzen
+      this.backItem = 'Abbrechen' // buttongroup backitem setzen
     },
-    groupItemLabel (index) {
-      return this.courseGroupToArray[index].groupItemLabel
-    },
-    getCourseId (courseid) { // Hilfsfunktion: reine ID aus ID-Directory aus DB
-      courseid = courseid.substring(11)
-      return courseid
-    },
-    // Befüllen des Daten-Objektes mit courseItem für Autocomplete
-    createcoursesAC () {
-      for (var course in this.coursesArray) {
-        this.coursesAC.data.push(this.coursesArray[course].courseItem)
-      }
-      this.coursesAC.data.push('Deine Veranstaltung ist nicht dabei?')
-    },
-    // Befüllen des Arrays mit courseItem und courseid
-    createCoursesArray () {
-      for (var course in this.courses) {
-        this.courseid = this.getCourseId(this.courses[course].id)
-        this.courseItem = this.courseid.concat(' – ').concat(this.courses[course].name)
-        this.coursesArray.push({
-          courseItem: this.courseItem,
-          courseid: this.courseid
-        })
-      }
-      this.createcoursesAC()
-    },
-    setCourseFrom () {
-      if (this.coursesAC.name === this.coursesAC.selected) {
-        this.courseTitleFrom = this.coursesAC.name
-        this.courseFromSet = true
-      }
-    },
-    // –––––––––––––––––––––––––––– KURSTERSTELLUNGS-MODAL ––––––––––––––––––––––––––––––
     setNewCourseTitle () {
       this.hasNewCourseTitleSet = true
     },
@@ -578,36 +431,40 @@ export default {
         position: 'is-top'
       })
     },
-    // –––––––––––––––––––––––––– UNTERGRUPPE(N) HINZUFÜGEN ––––––––––––––––––––––––––––––
-    // –––––––––––––––––––––––– WUNSCHVERANSTALTUNG HINZUFÜGEN –––––––––––––––––––––––––––
-    addCourseTo () {
-      if (this.coursesAC.name === this.coursesAC.selected) {
-        var lastCourseName = this.coursesAC.name
-        this.coursesAC.name = ''
-        this.courseTitleToArray.push({
-          courseName: lastCourseName,
-          courseIndex: this.courseCounter++
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // –––––––––––––––––––––––––––––– AUTOCOMPLETE ––––––––––––––––––––––––––––––––––––––
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    courseItemName (index) {
+      return this.courseTitleToArray[index].courseName
+    },
+    groupItemLabel (index) {
+      return this.courseGroupToArray[index].groupItemLabel
+    },
+    getCourseId (courseid) { // reine id aus id-directory aus db
+      courseid = courseid.substring(11)
+      return courseid
+    },
+    // Befüllen des Daten-Objektes mit courseItem für Autocomplete
+    createcoursesAC () {
+      for (var course in this.coursesArray) {
+        this.coursesAC.data.push(this.coursesArray[course].courseItem)
+      }
+      if (!this.created) {
+        this.coursesAC.data.push('Deine Veranstaltung ist nicht dabei?')
+      }
+    },
+    // Befüllen des Arrays mit courseItem und courseid
+    createCoursesArray () {
+      for (var course in this.courses) {
+        this.courseid = this.getCourseId(this.courses[course].id)
+        this.courseItem = this.courseid.concat(' – ').concat(this.courses[course].name)
+        this.coursesArray.push({
+          courseItem: this.courseItem,
+          courseid: this.courseid
         })
       }
+      this.createcoursesAC()
     },
-    courseToIsAdded (courseCounter) {
-      return true
-    },
-    // ––––––––––––––––––––––––––– UNTERGRUPPE(N) ENTFERNEN –––––––––––––––––––––––––––––––
-    removeGroup (index) {
-      if (this.firstStepActive) {
-        this.hasGroupFrom = false
-        this.canHaveCourseGroupTo = false
-      } else if (this.secondStepActive) {
-        this.courseGroupToArray.splice(index, 1)
-      }
-    },
-    // –––––––––––––––––––––––– WUNSCHVERANSTALTUNG ENTFERNEN –––––––––––––––––––––––––––––
-    removeCourse (index) {
-      this.courseTitleToArray.splice(index, 1)
-      this.courseCounter = (-1) + this.courseCounter
-    },
-    // –––––––––––––– ERSTELLUNG ÜBERGABEPARAMETER FÜR SWOPCARD-ERSTELLUNG ––––––––––––––––
     createSearchedGroups () {
       for (var i = 0; i < this.courseGroupToArray.length; i++) {
         this.searchedGroups.push(this.courseGroupToArray[i].groupName)
@@ -620,11 +477,116 @@ export default {
     },
     createSearchedCoursesSingle () {
       this.searchedCourses = new Array(this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')))
+    },
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // –––––––––––––––––––––––––––––– HILFSFUNKTIONEN –––––––––––––––––––––––––––––––––––
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    selectOrCreate () { // unterscheidet ob ac item ausgewählt werden oder ob neue veranstaltung erstellt werden soll
+      if (!this.courseFromSelected) {
+        this.setCourseFrom()
+      }
+      if (this.coursesAC.selected === null) {
+        this.courseFromSelected = false
+      } else if (this.coursesAC.selected !== null) {
+        this.courseFromSelected = true
+        if (this.coursesAC.name === 'Deine Veranstaltung ist nicht dabei?') {
+          this.coursesAC.name = ''
+          this.createCourse() // öffnen des kurserstellungs-modals
+        }
+      }
+    },
+    setCourseFrom () { // setzen des coursetitlefrom
+      if (this.coursesAC.name === this.coursesAC.selected) {
+        this.courseTitleFrom = this.coursesAC.name
+        this.courseFromSet = true
+      }
+    },
+    jump () { // fokus auf nächstes feld in kurserstellungs-modal
+      document.getElementById('next').focus()
+    },
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // ––––––––––––––––––––––––––––––– NAVIGATION  ––––––––––––––––––––––––––––––––––––––
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    forward () {
+      if (this.activeStep === 'st' && !this.newCourse) { // step 1 zu step 2
+        // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
+        this.activeStep = 'nd' // navdot setzen
+        this.backItem = 'Zurück' // buttongroup backitem setzen
+        this.stepsDone.push('st') // step 1 zu absolvierten steps hinzufügen
+        // –––––––––––––––––––––––––––––––– ACTIONS –––––––––––––––––––––––––––––––––––––
+        if (!this.newCourse) {
+          this.courseTitleFrom = this.coursesAC.name
+        }
+        if (this.hasGroupFrom) {
+          this.courseAC.name = this.courseTitleFrom
+          this.courseTitleTo = this.courseTitleFrom
+        } else if (!this.hasGroupFrom) {
+          this.coursesAC.name = ''
+        }
+      } else if (this.activeStep === 'nd' && !this.newCourse) { // step 2 zu step 3
+        // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
+        this.activeStep = 'rd' // navdot setzen
+        this.forwardItem = 'Partner finden!' // buttongroup forwarditem setzen
+        this.stepsDone.push('nd') // step 2 zu absolvierten steps hinzufügen
+        // –––––––––––––––––––––––––––––––– ACTIONS ––––––––––––––––––––––––––––––––––––––
+        this.courseTitleTo = this.coursesAC.name
+      } else if (this.activeStep === 'rd') {
+        // –––––––––––––––––––––––––––––––– ACTIONS ––––––––––––––––––––––––––––––––––––––
+        if (this.hasGroupFrom) { // swopcard mit gruppen abschicken
+          this.createSearchedGroups()
+          this.createSearchedCoursesSingle()
+          M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
+        } else if (!this.hasGroupFrom) { // swopcard ohne gruppen abschicken
+          this.createSearchedCourses()
+          M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
+        }
+        this.stepsDone = []
+        this.activeStep = ''
+        // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
+        this.$router.push('dashboard') // umleitung auf dashboard
+      } else if (this.newCourse) { // 'Neuen Kurs erstellen' nach Kurserstellungs-Dialog
+      // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
+      // –––––––––––––––––––––––––––––––– ACTIONS ––––––––––––––––––––––––––––––––––––––
+        M.createCourse(this.courseTitleFrom, this.courseIdFrom) // Erstellung des neuen Kurses
+        this.coursesAC.data.push(this.courseIdFrom.concat(' – ').concat(this.courseTitleFrom))
+        this.coursesAC.name = this.courseIdFrom.concat(' – ').concat(this.courseTitleFrom)
+        this.coursesAC.selected = this.coursesAC.name
+        this.backItem = 'Abbrechen' // Anpassen der Buttongroup
+        this.forwardItem = 'Weiter' // Anpassen der Buttongroup
+        this.newCourse = false // schließen des Formulars/Dialogs
+        this.initiateAC() // Neuladen aller Kurse inklusive des neuen
+        this.setCourseFrom()
+        this.onSuccess()
+      }
+    },
+    back () {
+      if (this.activeStep === 'nd') { // step 2 zu step 1
+        // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
+        this.activeStep = 'st' // navdot setzen
+        this.backItem = 'Abbrechen' // buttongroup backitem setzen
+        this.stepsDone.splice(1, 1) // step 2 aus absolvierten steps entfernen
+        // –––––––––––––––––––––––––––––––– ACTIONS ––––––––––––––––––––––––––––––––––––––
+        this.courseTitleTo = this.coursesAC.name
+        this.coursesAC.name = this.courseTitleFrom
+      } else if (this.activeStep === 'rd') { // step 3 zu step 2
+        // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
+        this.activeStep = 'nd' // navdot setzen
+        this.forwardItem = 'Weiter' // buttongroup forwarditem setzen
+        this.stepsDone.splice(2, 1) // step 3 aus absolvierten steps entfernen
+      }
+    },
+    initiateAC () {
+      M.getAllCourses() // Initiales Laden aller Kurse aus der DB zur Suche
+        .then((courses) => {
+          console.log('initiating…')
+          this.courses = courses
+          this.createCoursesArray()
+          this.created = true
+        })
     }
   },
-
   computed: {
-    // --- forgiving formatting der Daten für das Autocomplete  ---
+    // forgiving formatting daten autocomplete –––––––––––––––––––––––––––––––––––––––––s
     filteredDataArray () {
       return this.coursesAC.data.filter((option) => {
         if (option === 'Deine Veranstaltung ist nicht dabei?') { // Option für denn Fall, dass die gewüsnchte Veranstaltung noch nicht in der Liste ist
@@ -642,15 +604,7 @@ export default {
   },
   created () {
     db.Course.find()
-    M.getAllCourses() // Initiales Laden aller Kurse aus der DB zur Suche
-      .then((courses) => {
-        this.courses = courses
-        this.createCoursesArray()
-      })
-      //  .catch((err) => {
-      // Fehlerbehandlung
-      // })
-    console.log(db.User.me.username)
+    this.initiateAC()
   }
 }
 </script>
@@ -663,26 +617,11 @@ export default {
     }
 }
 
-/* Button-Group */
-.font-klein {
-  font-size: 0.75rem !important;
-}
-
-.flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.margin-right {
-  margin-right: 0.75rem;
-}
-
 .is-form {
     padding: 5%;
 }
 
-/* Stepwise navigation */
+/* ––––––––––––––––––––––––––––––––––– NAVDOTS ––––––––––––––––––––––––––––––––––––––– */
 .nav-dots-container {
     text-align: center;
     padding-bottom: 5%;
@@ -713,21 +652,9 @@ export default {
   cursor: pointer;
 }
 
-.dropdown-content {
-  background: #F7154C !important;
-  color: #F7154C !important;
-  font-weight: bolder !important;
-}
-
-.titleIsSet {
+.courseIsSet {
     background: #F39016;
     border: #F39016;
-    color: #ffffff;
-}
-
-.groupIsSet {
-    background: #0F75BC;
-    border: #0F75BC;
     color: #ffffff;
 }
 
@@ -745,15 +672,13 @@ border-color: #0F75BC !important;
   margin-bottom: 1rem;
 }
 
-
-/*--- Modale Dialoge ---*/
-.important-modal, .important-modal .title {
+/* ––––––––––––––––––––––––––––––––––– MODAL DIALOG ––––––––––––––––––––––––––––––––– */
+.white-modal, .white-modal .title {
   background-color: #ffffff;
   color: #000000 !important;
 }
 
-
-.important-modal .is-white {
+.white-modal .is-white {
   color: #F39016;
 }
 
@@ -763,10 +688,6 @@ border-color: #0F75BC !important;
 
 .modal-background {
   background-color: rgba(0, 0, 0, 0.4);
-}
-
-a.button.is-secondary a{
-  color: #ffffff !important;
 }
 
 
