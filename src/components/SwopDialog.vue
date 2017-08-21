@@ -609,7 +609,7 @@ export default {
     },
     // –––––––––––––– ERSTELLUNG ÜBERGABEPARAMETER FÜR SWOPCARD-ERSTELLUNG ––––––––––––––––
     createSearchedGroups () {
-      for (var i = 1; i < this.courseGroupToArray.length; i++) {
+      for (var i = 0; i < this.courseGroupToArray.length; i++) {
         this.searchedGroups.push(this.courseGroupToArray[i].groupName)
       }
     },
