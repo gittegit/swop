@@ -19,10 +19,10 @@
                     <i class="fa fa-user"></i>
                   </span>
               </div>
-                <div class="control" id="disabled-change-name-button" visible>
+                <div class="control" v-if="showDisabledNameButton">
                     <a class="button is-primary" disabled><i class="fa fa-check"></i></a>
                 </div>
-                <div class="control" id="change-name-button" hidden>
+                <div class="control" v-if="showNameCheckButton">
                     <a class="button is-primary" v-on:click="changeName"><i class="fa fa-check"></i></a>
                 </div>
             </b-field>
@@ -31,7 +31,7 @@
           <!-- Hier kann man eine neue Mail-Adresse angeben und ändern -->
             <form class="add-email">
                 <h4 class="title is-6">Deine Mail-Adressen</h4>
-                <p class="subtitle">Deine <strong>Uni-Email Adresse</strong> lautet: {{ loginEmail }}</p>
+                <p class="subtitle">Deine <strong>Uni-Mail Adresse</strong> lautet: {{ loginEmail }}</p>
                 <p class="subtitle">Du kannst eine weitere Mail-Adresse hinzufügen. Benachrichtigungen aus dieser App werden dann an diese Mail geschickt. Du kannst Dich weiterhin <strong>nur</strong> mit deiner Uni-Mail einloggen.</p>
                 <b-field>
                   <div class="control has-icons-left is-expanded" v-on:keyup.enter="mailValidator" v-on:keyup="showMailButton">
@@ -40,13 +40,13 @@
                         <i class="fa fa-envelope"></i>
                       </span>
                   </div>
-                    <div class="control" id="disabledMailCheckButton" visible>
+                    <div class="control" v-if="showDisabledMailCheckButton">
                         <a class="button is-primary" disabled><i class="fa fa-check"></i></a>
                     </div>
-                    <div class="control" id="mailCheckButton" hidden>
+                    <div class="control" v-if="showMailCheckButton">
                         <a class="button is-primary" v-on:click="mailValidator"><i class="fa fa-check"></i></a>
                     </div>
-                    <div class="control" id="mailClearButton" hidden>
+                    <div class="control" v-if="showMailClearButton">
                         <a class="button is-primary" v-on:click="mailClear"><i class="fa fa-trash"></i></a>
                     </div>
                 </b-field>
@@ -116,9 +116,14 @@ export default {
   name: 'settings',
   data () {
     return {
-      name: null,  // hier sollte der Name von der Datenbank geholen werden (ToDo)
-      email: null, // hier sollte die Mail von der Datenbank geholen werden (ToDo)
+      name: null,
+      showDisabledNameButton: true,
+      showNameCheckButton: false,
+      email: null,
       loginEmail: null,
+      showDisabledMailCheckButton: true,
+      showMailCheckButton: false,
+      showMailClearButton: false,
       mailSuccess: false,
       mailError: false,
       aPassword: null,
@@ -130,16 +135,22 @@ export default {
       passwordEmpty: false,
       passwordButton: false,
       isDanger: false,
-      msg: 'Welcome to Your Vue.js and Baqend App',
       isLoggedIn: null
     }
   },
 
   created () {
     m.loadUserData().then(() => {
+      // Display-Namen holen
       this.name = m.getDisplayName()
-      this.email = m.getEmail()
+      // Mail-Adresse holen
+      var mail = m.getEmail()
       this.loginEmail = m.getLoginEmail()
+      if (this.loginEmail !== mail) {
+        this.email = m.getEmail()
+        this.showMailClearButton = true
+        this.showDisabledMailCheckButton = false
+      }
     })
   },
 
@@ -150,24 +161,19 @@ export default {
     * Namen in der Datenbank ändern (changeName)
     */
     showNameButton () {
-      var buttonElem = document.getElementById('change-name-button')
-      var disabledElem = document.getElementById('disabled-change-name-button')
       if (this.name === '') {
-        buttonElem.style.display = 'none'
-        disabledElem.style.display = 'block'
+        this.showNameCheckButton = false
+        this.showDisabledNameButton = true
       } else {
-        buttonElem.style.display = 'block'
-        disabledElem.style.display = 'none'
+        this.showNameCheckButton = true
+        this.showDisabledNameButton = false
       }
     },
     changeName () {
-      var buttonElem = document.getElementById('change-name-button')
-      var disabledElem = document.getElementById('disabled-change-name-button')
       m.updateUsername(this.name)
       .then((result) => {
-        console.log(result)
-        buttonElem.style.display = 'none'
-        disabledElem.style.display = 'block'
+        this.showNameCheckButton = false
+        this.showDisabledNameButton = true
       }).catch((error) => {
         console.log(error)
         this.$toast.open({
@@ -186,29 +192,22 @@ export default {
     * Mailanzeige leeren (mailClear)
     */
     showMailButton () {
-      var disabledButton = document.getElementById('disabledMailCheckButton')
-      var checkButton = document.getElementById('mailCheckButton')
-      var clearButton = document.getElementById('mailClearButton')
       this.mailSuccess = false
       this.mailError = false
-      disabledButton.style.display = 'none'
-      checkButton.style.display = 'block'
-      clearButton.style.display = 'none'
+      this.showDisabledMailCheckButton = false
+      this.showMailCheckButton = true
+      this.showMailClearButton = false
     },
     validateEmail (mail) {
       var re = /\S+@\S+\.\S+/
       return re.test(mail)
     },
     mailValidator () {
-      var disabledButton = document.getElementById('disabledMailCheckButton')
-      var checkButton = document.getElementById('mailCheckButton')
-      var clearButton = document.getElementById('mailClearButton')
       if (this.validateEmail(this.email)) {
-        checkButton.style.display = 'none'
-        clearButton.style.display = 'block'
+        this.showMailCheckButton = false
+        this.showMailClearButton = true
         m.updateEmail(this.email)
         .then((result) => {
-          console.log(result)
           this.mailSuccess = true
           this.mailError = false
         }).catch((error) => {
@@ -221,18 +220,16 @@ export default {
       } else {
         this.mailSuccess = false
         this.mailError = true
-        disabledButton.style.display = 'block'
-        checkButton.style.display = 'none'
-        clearButton.style.display = 'none'
+        this.showDisabledMailCheckButton = true
+        this.showMailCheckButton = false
+        this.showMailClearButton = false
       }
     },
     mailClear () {
-      var disabledButton = document.getElementById('disabledMailCheckButton')
-      var clearButton = document.getElementById('mailClearButton')
-      if (this.email !== '') {
+      if (this.email !== null) {
         this.mailSuccess = false
-        clearButton.style.display = 'none'
-        disabledButton.style.display = 'block'
+        this.showMailClearButton = false
+        this.showDisabledMailCheckButton = true
         // hier die Mail in der Datenbank löschen (ToDo)
         this.email = ''
       }
@@ -240,12 +237,12 @@ export default {
 
     /*
     * Hier wird alles vom Passwort alles was man beim Passwort so falsch machen kann abgefangen.
-    * Testen ob altes Passwort und neues Passwort unterschiedlich sind (newPasswordValidator)
+    * Testen ob altes Passwort und neues Passwort unterschiedlich sind (differentPasswordValidator)
     * Testen, dass neues Passwort geschrieben wurde (emptyPasswordValidator)
     * neues Passwort bestätigen (confirmPasswordValidator)
     * altes Passwort mit der Datenbank abgleichen und neues Passwort setzen (PasswordValidator)
     */
-    newPasswordValidator () {
+    differentPasswordValidator () {
       if (this.aPassword === this.nPassword) {
         this.passwordErrorDifferent = true
       } else {
@@ -273,11 +270,10 @@ export default {
       }
     },
     PasswordValidator () {
-    //  if (this.newPasswordValidator() && this.emptyPasswordValidator() && this.confirmPasswordValidator()) {
-      if (this.newPasswordValidator() && this.confirmPasswordValidator()) {
+    //  if (this.differentPasswordValidator() && this.emptyPasswordValidator() && this.confirmPasswordValidator()) {
+      if (this.differentPasswordValidator() && this.confirmPasswordValidator()) {
         m.changePassword(this.aPassword, this.nPassword)
         .then((result) => {
-          console.log(result)
           this.passwordSuccess = true
           this.aPassword = null
           this.nPassword = null
@@ -295,27 +291,17 @@ export default {
     /*
     * Hier wird der Account gelöscht.
     */
-    deleteAccoutPasswordValidator (password) {
-      if (password !== this.Pass) {
-        return false
-      } else {
-        return true
-      }
-    },
     deleteAccount () {
       this.$dialog.confirm({
         title: 'Account löschen',
         message: 'Bist Du Dir sicher, dass Du Deinen Account <strong>löschen</strong> willst? Diese Aktion kann nicht rückgängig gemacht werden.',
         confirmText: 'Löschen',
-        cancelText: 'Doch nicht löschen',
+        cancelText: 'Abbrechen',
         type: 'is-danger',
         onConfirm: (value) => {
           m.delete().then((result) => {
-            console.log('Gelöscht!')
-            console.log(result)
             this.swopLogout()
           }).catch((error) => {
-            console.log('Ein Fehler')
             console.log(error)
             this.$toast.open({
               duration: 5000,
