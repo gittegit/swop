@@ -325,6 +325,6 @@ class Modul {
 }
 
 const M = new Modul()
-M.loadUserData()
+if (db.User.me) M.loadUserData()
 
 module.exports = M
