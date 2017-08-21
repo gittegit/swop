@@ -14,7 +14,7 @@
         <!-- Logo + Text -->
         <div class="column is-8 is-narrow is-form">
 
-          <div class=" task-description-title">
+          <div class="task-description-title">
             <h4 class="title has-text-centered">Registrieren</h4>
           </div>
 
@@ -28,7 +28,7 @@
           <form class="signUp">
             <b-field>
               <p class="control has-icons-left ">
-                <input v-model.trim="name" class="input" type="text" placeholder="Deine Name" name="name" required>
+                <input v-model.trim="name" class="input" :class="{'is-danger': nameError}" type="text" placeholder="Deine Name" name="name" required>
                 <span class="icon is-small is-left">
                   <i class="fa fa-user"></i>
                 </span>
@@ -65,12 +65,14 @@
               </p>
             </div>
             </b-field>
+          <p v-if="nameError" class="help is-danger">Bitte gebe Deinen Namen an.</p>
           <p v-if="mailError" class="help is-danger">Es gibt ein Problem mit Deiner Mail-Adresse. <br> Kontrolliere, ob es sich um eine Uni-Mail handeln oder Du bereits einen Account hast.</p>
           <p v-if="passwordError" class="help is-danger">Deine Passwörter müssen übereinstimmen damit Du Dich registrieren kann.</p>
           <p v-if="mailSent" class="help is-success">Bestätige Deine E-Mail um swop zu benutzen.</p>
           <div class="spacer"></div>
           <div class="field">
             <b-checkbox v-model="checkBoxChecked">Ich habe die <a @click="toggleModal()">Allgemeinen Gurkenbedingungen</a> gelesen und akzeptiere diese</b-checkbox>
+            <p v-if="checkError" class="help is-danger">Akzeptiere die Allgemeinen Gurkenbedingungen.</p>
           </div>
           </form>
           <!-- Registierungsbutton -->
@@ -116,6 +118,7 @@ export default {
   data () {
     return {
       name: null,
+      nameError: false,
       username: null,
       password: null,
       bPassword: null,
@@ -124,25 +127,37 @@ export default {
       passwordError: false,
       mailSent: false,
       modalOpen: false,
-      checkBoxChecked: false
+      checkBoxChecked: false,
+      checkError: false
     }
   },
 
   methods: {
     register () {
+      this.checkError = false
       M.register(this.name, this.username, this.password).then((result) => {
         console.log(result)
-        this.mailSent = true
         this.mailError = false
+        this.mailSent = true
 //        router.push('me')
       }).catch((err) => {
         console.log(err)
-        this.mailError = true
+        if (this.password === null) {
+          this.passwordError = true
+        } else {
+          this.mailError = true
+        }
       })
     },
     registerPossible () {
-      if (this.isDanger) {
+      if (this.name === null) {
+        this.nameError = true
+      } else if (this.isDanger) {
+        this.nameError = false
         this.passwordError = true
+      } else if (!this.checkBoxChecked) {
+        this.passwordError = false
+        this.checkError = true
       } else {
         this.register()
       }
