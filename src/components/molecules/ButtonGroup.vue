@@ -2,7 +2,7 @@
   <!-- Button-Group Navigation -->
   <p class="has-text-right flex-center"><a class="has-text-secondary is-white font-klein margin-right">
     <slot name="backItem"></slot>
-  </a><a class="button is-secondary">
+  </a><a class="button is-secondary" :disabled="false">
     <slot name="forwardItem"></slot>
   </a></p>
 
@@ -13,28 +13,29 @@
 </style>
 
 <script type="text/babel">
-import db from 'baqend'
+// import db from 'baqend'
 
 export default {
   name: 'button-group',
   data () {
     return {
-      message: {}
+      message: {},
+      forwardDisabled: true
     }
   },
-  beforeRouteEnter (to, from, next) {
+  /* beforeRouteEnter (to, from, next) {
     db.Message.load(to.params.id).then((message) => {
       next(vm => {
         vm.message = message
       })
     })
-  },
+  }, */
   computed: {
-    imageUrl () {
+    /* imageUrl () {
       if (this.message.face) {
         return new db.File(this.message.face).url
       }
-    }
+    } */
   }
 }
 </script>

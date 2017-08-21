@@ -518,7 +518,7 @@ export default {
           this.courseTitleFrom = this.coursesAC.name
         }
         if (this.hasGroupFrom) {
-          this.courseAC.name = this.courseTitleFrom
+          this.coursesAC.name = this.courseTitleFrom
           this.courseTitleTo = this.courseTitleFrom
         } else if (!this.hasGroupFrom) {
           this.coursesAC.name = ''
@@ -578,7 +578,6 @@ export default {
     initiateAC () {
       M.getAllCourses() // Initiales Laden aller Kurse aus der DB zur Suche
         .then((courses) => {
-          console.log('initiating…')
           this.courses = courses
           this.createCoursesArray()
           this.created = true
@@ -603,8 +602,9 @@ export default {
     ButtonGroup
   },
   created () {
-    db.Course.find()
+    // db.Course.find()
     this.initiateAC()
+    console.log(db.User.me.username)
   }
 }
 </script>
