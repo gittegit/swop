@@ -67,6 +67,7 @@
             </b-field>
           <p v-if="mailError" class="help is-danger">Es gibt ein Problem mit Deiner Mail-Adresse. <br> Kontrolliere, ob es sich um eine Uni-Mail handeln oder Du bereits einen Account hast.</p>
           <p v-if="passwordError" class="help is-danger">Deine Passwörter müssen übereinstimmen damit Du Dich registrieren kann.</p>
+          <p v-if="mailSent" class="help is-success">Bestätige Deine E-Mail um swop zu benutzen.</p>
           <div class="spacer"></div>
           <div class="field">
             <b-checkbox v-model="checkBoxChecked">Ich habe die <a @click="toggleModal()">Allgemeinen Gurkenbedingungen</a> gelesen und akzeptiere diese</b-checkbox>
@@ -121,6 +122,7 @@ export default {
       isDanger: false,
       mailError: false,
       passwordError: false,
+      mailSent: false,
       modalOpen: false,
       checkBoxChecked: false
     }
@@ -130,6 +132,7 @@ export default {
     register () {
       M.register(this.name, this.username, this.password).then((result) => {
         console.log(result)
+        this.mailSent = true
 //        router.push('me')
       }).catch((err) => {
         console.log(err)
