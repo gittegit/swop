@@ -91,12 +91,13 @@
                                               @click="acceptMatch(swopCard.match.id)"><span class="margin-right"><i class="fa fa-check-circle" aria-hidden="true"></i></span>Bestätigen</a></p>
                                   </div>
                               </div>
+                              <!-- IF Tauschkarte === Declined -->
                               <div class="swop-match-info" v-if="swopCard.status === 'DECLINED'">
                                 Du hast diesen Match <strong>abgebrochen</strong>. Wenn Du erneut für diese Veranstaltung suchen möchtest, musst Du diesen swop löschen und einen neuen erstellen.
                               </div>
 
                               <!-- IF Tauschkarte === 'WAITING' -->
-                              <div class="swop-no-match-info" v-else>
+                              <div class="swop-no-match-info" v-if="swopCard.status === 'WAITING'">
                                   <p>Leider haben wir noch keinen Partner für Dich gefunden. Bleib' aber ständig auf Empfang, denn das kann sich jederzeit ändern!</p>
                               </div>
                           </div>
