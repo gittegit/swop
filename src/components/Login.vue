@@ -48,8 +48,8 @@
                 Vergessen?
               </router-link>
             </p>
-            <p v-if="error" class="help is-danger">E-Mail oder Passwort ist falsch</p>
           </div>
+          <p v-if="error" class="help is-danger">E-Mail oder Passwort ist falsch</p>
         </form>
         <!-- Registierungsbutton -->
         <p class="has-text-right flex-center"><router-link :to="{name: 'signup'}" class="is-white font-klein margin-right">Noch kein swop-Mitglied? </router-link><a class="button is-primary" @click="logIn">Einloggen</a></p>
