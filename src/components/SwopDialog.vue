@@ -482,9 +482,9 @@ export default {
     // –––––––––––––––––––––––––––––– HILFSFUNKTIONEN –––––––––––––––––––––––––––––––––––
     // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     selectOrCreate () { // unterscheidet ob ac item ausgewählt werden oder ob neue veranstaltung erstellt werden soll
-      if (!this.courseFromSelected) {
-        this.setCourseFrom()
-      }
+      // if (!this.courseFromSelected) {
+      //  this.setCourseFrom()
+      // }
       if (this.coursesAC.selected === null) {
         this.courseFromSelected = false
       } else if (this.coursesAC.selected !== null) {
@@ -514,10 +514,7 @@ export default {
         this.backItem = 'Zurück' // buttongroup backitem setzen
         this.stepsDone.push('st') // step 1 zu absolvierten steps hinzufügen
         // –––––––––––––––––––––––––––––––– ACTIONS –––––––––––––––––––––––––––––––––––––
-        if (!this.newCourse) {
-          this.courseTitleFrom = this.coursesAC.name
-          this.coursesAC.name = ''
-        }
+        this.courseTitleFrom = this.coursesAC.name
         if (this.hasGroupFrom) {
           this.coursesAC.name = this.courseTitleFrom
           this.courseTitleTo = this.courseTitleFrom
@@ -536,17 +533,9 @@ export default {
         if (this.hasGroupFrom) { // swopcard mit gruppen abschicken
           this.createSearchedGroups()
           this.createSearchedCoursesSingle()
-          console.log(this.searchedCourses)
-          console.log(this.searchedGroups)
-          console.log(this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')))
-          console.log(this.courseGroupFrom)
           M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
         } else if (!this.hasGroupFrom) { // swopcard ohne gruppen abschicken
           this.createSearchedCourses()
-          console.log(this.searchedCourses)
-          console.log(this.searchedGroups)
-          console.log(this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')))
-          console.log(this.courseGroupFrom)
           M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
         }
         this.stepsDone = []
