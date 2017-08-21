@@ -201,9 +201,6 @@ export default {
   height: 100vh;
   background-color: #F39016;
 }
-.main-content .container {
-  margin-top: -10vh;
-}
 .login-logo {
   width: 70%;
 }

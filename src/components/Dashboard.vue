@@ -86,10 +86,13 @@
                                   </div>
                                   <!-- Der andere hat bestätigt, du musst noch accepten -->
                                   <div v-else>
-                                      <p>Super! Wir haben einen swop-Partner für Dich! Bitte akzeptiere den swop oder, wenn du es dir anders überlegt hast, brich ihn ab.</p>
+                                      <p>Super! Wir haben einen swop-Partner für Dich! Bitte akzeptiere den swop oder, wenn du es Dir anders überlegt hast, brich ihn ab.</p>
                                       <p class="has-text-centered display-flex"><a class="button is-outlined is-primary margin-right" @click="declineMatch(swopCard.match.id)"><span class="margin-right"><i class="fa fa-times-circle" aria-hidden="true"></i></span>Abbrechen</a><a class="button is-primary"
                                               @click="acceptMatch(swopCard.match.id)"><span class="margin-right"><i class="fa fa-check-circle" aria-hidden="true"></i></span>Bestätigen</a></p>
                                   </div>
+                              </div>
+                              <div class="swop-match-info" v-if="swopCard.status === 'DECLINED'">
+                                Du hast diesen Match <strong>abgebrochen</strong>. Wenn Du erneut für diese Veranstaltung suchen möchtest, musst Du diesen swop löschen und einen neuen erstellen.
                               </div>
 
                               <!-- IF Tauschkarte === 'WAITING' -->
@@ -180,13 +183,12 @@ export default {
       ],
       mySwopCards: [],
       begruessungen: ['Tagchen', 'Guten Tag', 'Servus', 'Moin', 'Hallo', 'Hi', 'Hey', 'Na'],
-      displayName: '',
+      displayName: 'swop-Mitglied',
       Begruessung: 'Hey swop-Mitglied'
     }
   },
   created () {
-    // console.log(db.User.me.username)
-
+    console.log(db.User.me.username)
     // this.displayName = db.User.me.displayName
     this.initiateDashboard()
     // Einzelne SwopCard hat folgende Einträge:
@@ -282,7 +284,8 @@ export default {
     },
     deleteSwopCard: function (swopCard) {
       // Löscht eine swopCard anhand ihrere id
-      M.deleteSwopCard(swopCard).then(() => {
+      M.deleteSwopCard(swopCard).then((result) => {
+        console.log(result)
         this.initiateDashboard()
       })
     },
@@ -308,12 +311,6 @@ export default {
     initiateDashboard: function () {
       M.loadUserData()
         .then(() => {
-          // Würfel eine Begruessung zurecht
-          var random = this.getRandom(0, this.begruessungen.length)
-          // get DisplayName
-          this.displayName = db.User.me.restrictedUserInfo.displayName
-          // Baue Begrüßung zusammen
-          this.Begruessung = this.begruessungen[random] + ' ' + this.displayName
           console.log('loaded Userdata', M.user, M.swopCards, M.matches)
           M.getMySwopCards()
             .then((swopCards) => {
@@ -323,6 +320,12 @@ export default {
               } else {
                 this.noSwopCards = false
               }
+
+              // Würfel eine Begruessung zurecht
+              var random = this.getRandom(0, this.begruessungen.length)
+              // get DisplayName
+              // Baue Begrüßung zusammen
+              this.Begruessung = this.begruessungen[random] + ' ' + M.getDisplayName()
             })
             .catch((err) => console.log('ERR: ', err))
         })
