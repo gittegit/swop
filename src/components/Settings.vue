@@ -30,9 +30,9 @@
 
           <!-- Hier kann man eine neue Mail-Adresse angeben und ändern -->
             <form class="add-email">
-                <h4 class="title is-6">Mail-Adresse für Benachrichtigungen</h4>
-                <p class="subtitle">Benachrichtigungen aus dieser App werden an diese Mail geschickt. Du kannst Dich weiterhin <strong>nur</strong> mit deiner Uni-Mail einloggen.</p>
+                <h4 class="title is-6">Deine Mail-Adressen</h4>
                 <p class="subtitle">Deine <strong>Uni-Email Adresse</strong> lautet: {{ loginEmail }}</p>
+                <p class="subtitle">Du kannst eine weitere Mail-Adresse hinzufügen. Benachrichtigungen aus dieser App werden dann an diese Mail geschickt. Du kannst Dich weiterhin <strong>nur</strong> mit deiner Uni-Mail einloggen.</p>
                 <b-field>
                   <div class="control has-icons-left is-expanded" v-on:keyup.enter="mailValidator" v-on:keyup="showMailButton">
                       <b-input v-model="email" placeholder="Deine Mail-Adresse"></b-input>
