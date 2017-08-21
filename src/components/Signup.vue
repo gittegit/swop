@@ -133,6 +133,7 @@ export default {
       M.register(this.name, this.username, this.password).then((result) => {
         console.log(result)
         this.mailSent = true
+        this.mailError = false
 //        router.push('me')
       }).catch((err) => {
         console.log(err)
