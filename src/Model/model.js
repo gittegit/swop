@@ -316,14 +316,15 @@ class Modul {
     return db.modules.post('declineMatch', {id: matchId})
   }
 
-    /**
+  /**
     gibt einen Teststring aus
-    */
+  */
   getTestString () {
     return 'Test String'
   }
 }
 
 const M = new Modul()
+M.loadUserData()
 
 module.exports = M
