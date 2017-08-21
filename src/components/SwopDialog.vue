@@ -195,7 +195,6 @@
           </div>
           <div slot="forwardItem">
             <div @click="forward">{{forwardItem}}</div>
-            <!-- <router-link v-if="activeStep == 'rd'"  :to="forwardLink"></router-link> -->
           </div>
         </button-group>
 
@@ -220,7 +219,7 @@
                   <!-- Input Name-->
                   <b-field class="has-addons" v-if="!hasNewCourseTitleSet">
                     <div class="control is-expanded is-grouped">
-                      <b-input placeholder="Vollständiger Name der Veranstaltung" v-model="courseTitleFrom" @keyup.native="hasNewCourseTitle=true" @keyup.native.enter="setNewCourseTitle(), jump()"></b-input>
+                      <b-input placeholder="Vollständiger Name der Veranstaltung" v-model="newCourseTitle" @keyup.native="hasNewCourseTitle=true" @keyup.native.enter="setNewCourseTitle(), jump()"></b-input>
                     </div>
                     <div :class="{'control': true}">
                       <a :class="{'is-primary': true, 'button': true}" :disabled="!hasNewCourseTitle" @click="setNewCourseTitle"><i class="fa fa-check"></i></a>
@@ -229,7 +228,7 @@
 
                   <div class="field has-addons" v-if="hasNewCourseTitleSet">
                     <p class="control is-expanded">
-                      <input :class="{'input': true, 'courseIsSet': true}" type="text" v-model="courseTitleFrom" readonly>
+                      <input :class="{'input': true, 'courseIsSet': true}" type="text" v-model="newCourseTitle" readonly>
                     </p>
                     <p class="control">
                       <a class="button is-primary" @click="hasNewCourseTitleSet=false">
@@ -242,7 +241,7 @@
                   <!-- Input ID -->
                   <b-field class="has-addons" v-if="!hasNewCourseIdSet">
                     <div class="control is-expanded is-grouped">
-                      <b-input id="next" placeholder="ID der Veranstaltung" v-model="courseIdFrom" @keyup.native="hasNewCourseId=true" @keyup.native.enter="setNewCourseId()"></b-input>
+                      <b-input id="next" placeholder="ID der Veranstaltung" v-model="newCourseId" @keyup.native="hasNewCourseId=true" @keyup.native.enter="setNewCourseId()"></b-input>
                     </div>
                     <div :class="{'control': true}">
                       <a :class="{'is-primary': true, 'button': true}" :disabled="!hasNewCourseId" @click="setNewCourseId"><i class="fa fa-check"></i></a>
@@ -251,7 +250,7 @@
 
                   <div class="field has-addons" v-if="hasNewCourseIdSet">
                     <p class="control is-expanded">
-                      <input :class="{'input': true, 'courseIsSet': true}" type="text" v-model="courseIdFrom" readonly>
+                      <input :class="{'input': true, 'courseIsSet': true}" type="text" v-model="newCourseId" readonly>
                     </p>
                     <p class="control">
                       <a class="button is-primary" @click="hasNewCourseIdSet=false">
@@ -335,6 +334,8 @@ export default {
       hasNewCourseTitleSet: false,
       hasNewCourseId: false,
       hasNewCourseIdSet: false,
+      newCourseTitle: '',
+      newCourseId: '',
       // ––––––––––––––––––––––––––––– SWOPCARD-ATTRIBUTE –––––––––––––––––––––––––––––––––
       courseTitleFrom: '', // Titel der aktuellen Veranstaltung
       courseIdFrom: '', // ID der aktuellen Veranstaltung
@@ -515,9 +516,6 @@ export default {
     // –––––––––––––––––––––––––––––– HILFSFUNKTIONEN –––––––––––––––––––––––––––––––––––
     // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     selectOrCreate () { // unterscheidet ob ac item ausgewählt werden oder ob neue veranstaltung erstellt werden soll
-      // if (!this.courseFromSelected) {
-      //  this.setCourseFrom()
-      // }
       if (this.activeStep === 'st') {
         if (this.coursesAC.selected === null) {
           this.courseFromSelected = false
@@ -532,12 +530,12 @@ export default {
         }
       } else if (this.activeStep === 'nd') {
         if (this.coursesAC.selected === null) {
-          this.courseFromSelected = false
-        } else if (this.coursesAC.selected !== null) {
+          this.courseToSelected = false
+        } else if (this.coursesAC.selected !== null || '') {
           this.coursesAC.name = this.coursesAC.selected
           this.coursesAC.selected === null
-          this.courseFromSelected = true
-          if (this.coursesAC.name === 'Deine Veranstaltung ist nicht dabei?') {
+          this.courseToSelected = true
+          if (this.coursesAC.selected === 'Deine Veranstaltung ist nicht dabei?') {
             this.coursesAC.name = ''
             this.createCourse() // öffnen des kurserstellungs-modals
           }
@@ -608,23 +606,35 @@ export default {
       // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
       // –––––––––––––––––––––––––––––––– ACTIONS ––––––––––––––––––––––––––––––––––––––
         this.courses = []
-        M.createCourse(this.courseTitleFrom, this.courseIdFrom)
-          .then(() => {
-            this.initiateAC()
-          }) // Erstellung des neuen Kurses
-        this.coursesAC.name = this.courseIdFrom.concat(' – ').concat(this.courseTitleFrom)
-        this.coursesAC.selected = this.coursesAC.name
         if (this.activeStep === 'st') {
+          M.createCourse(this.newCourseTitle, this.newCourseId)
+            .then(() => {
+              this.initiateAC()
+            }) // Erstellung des neuen Kurses
+          this.coursesAC.name = this.newCourseId.concat(' – ').concat(this.newCourseTitle)
+          this.coursesAC.selected = this.coursesAC.name
           this.backItem = 'Abbrechen' // Anpassen der Buttongroup
           this.setCourseFrom()
-        } else if (this.activeStep === 'nd') {
+        }
+        if (this.activeStep === 'nd') {
+          M.createCourse(this.newCourseTitle, this.newCourseId)
+            .then(() => {
+              this.initiateAC()
+            }) // Erstellung des neuen Kurses
+          this.coursesAC.name = this.newCourseId.concat(' – ').concat(this.newCourseTitle)
+          this.coursesAC.selected = this.coursesAC.name
           this.backItem = 'Zurück'
           this.addCourseTo()
           this.courseTitleTo = ''
         }
+        this.hasNewCourseTitle = false
+        this.hasNewCourseTitleSet = false
+        this.hasNewCourseId = false
+        this.hasNewCourseIdSet = false
+        this.newCourseTitle = ''
+        this.newCourseId = ''
         this.forwardItem = 'Weiter' // Anpassen der Buttongroup
         this.newCourse = false // schließen des Formulars/Dialogs
-        this.initiateAC() // Neuladen aller Kurse inklusive des neuen
         this.onSuccess()
       }
     },
