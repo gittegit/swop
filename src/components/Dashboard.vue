@@ -128,7 +128,7 @@
 </template>
 
 <script type="text/babel">
-// import db from 'baqend'
+import db from 'baqend'
 import Vue from 'vue'
 import VueClipboard from 'vue-clipboard2'
 import M from '../Model/model.js'
