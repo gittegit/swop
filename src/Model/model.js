@@ -5,7 +5,28 @@ Das Modell dient als Schnittstelle zur Datenbank
 */
 class Modul {
   constructor () {
-    this.swopCards = []
+    this.swopCards
+    this.user
+    this.matches
+  }
+
+  /**
+  * Lädt alle nötigen Userdaten, damit man lokal mit ihnen arbeiten kann
+  * @return {Promise}
+  */
+  loadUserData () {
+    return db.User.load(db.User.me.id, {depth: 3})
+      .then((currentUser) => {
+        this.user = currentUser
+        const swopTemp = new Map()
+        const matchesTemp = new Map()
+        currentUser.swopCards.forEach((swopCard) => {
+          swopTemp.set(swopCard.id, swopCard)
+          if (swopCard.match) matchesTemp.set(swopCard.match.id, swopCard.match)
+        })
+        this.swopCards = swopTemp
+        this.matches = matchesTemp
+      })
   }
 
   /**
@@ -43,43 +64,39 @@ class Modul {
       // return db.modules.post('updateRestrictedUserInfo', {id: userObject.id, displayName: displayName})
   }
 
-  // /**
-  //  * Registriert einen neuen User
-  //  * @param displayName
-  //  * @param username
-  //  * @param password
-  //  * @returns {*|Promise.<model.User>}
-  //  */
-  // register (displayName, username, password) {
-  //   return db.User.register(username, password).then(() => {
-  //     return db.modules.post('createRestrictedUserInfo', {
-  //       displayName: displayName,
-  //       email: username
-  //     })
-  //   })
-  // }
-
-  /**
-   * getDisplayName from the current user
-   * @returns {Promise.<TResult>}
-   */
   getDisplayName () {
-    return db.User.load(db.User.me.id, {depth: 1}).then((user) => {
-      return user.restrictedUserInfo.displayName
-    })
+    return this.user.restrictedUserInfo.displayName
   }
 
   getEmail () {
-    return db.User.load(db.User.me.id, {depth: 1}).then((user) => {
-      return user.restrictedUserInfo.email
-    })
+    return this.user.restrictedUserInfo.email
   }
 
   getLoginEmail () {
-    return db.User.load(db.User.me.id).then((user) => {
-      return user.username
-    })
+    return this.user.username
   }
+
+  // /**
+  //  * getDisplayName from the current user
+  //  * @returns {Promise.<TResult>}
+  //  */
+  // getDisplayName () {
+  //   return db.User.load(db.User.me.id, {depth: 1}).then((user) => {
+  //     return user.restrictedUserInfo.displayName
+  //   })
+  // }
+  //
+  // getEmail () {
+  //   return db.User.load(db.User.me.id, {depth: 1}).then((user) => {
+  //     return user.restrictedUserInfo.email
+  //   })
+  // }
+  //
+  // getLoginEmail () {
+  //   return db.User.load(db.User.me.id).then((user) => {
+  //     return user.username
+  //   })
+  // }
 
   /**
    * updates the displayName of the user
@@ -134,9 +151,10 @@ class Modul {
   getAllCourses () {
     return db.Course.find()
       .ascending('name')
-      .resultList().then((result) => {
-        return result
-      })
+      .resultList()
+        .then((result) => {
+          return result
+        })
   }
 
   /**
@@ -157,24 +175,41 @@ class Modul {
     })
   }
 
-  /**
-   * load a swopcard object by its id
-   * @param swopCardId
-   */
-  loadSwopCardById (swopCardId) {
-    return db.SwopCard.load(swopCardId)
+  getSwopCard (swopCardId) {
+    return this.swopCards.get(swopCardId)
   }
 
-  /**
-   * get all swopCards from the current User
-   * @returns Set
-   */
+  loadSwopCardById (swopCardId) {
+    return this.getSwopCard(swopCardId)
+  }
+
   getMySwopCards () {
-    // var currentUser = db.User.me
-    return db.User.load(db.User.me.id, {depth: 2}).then((currentUser) => {
-      return Array.from(currentUser.swopCards)
+    const swoppies = Array.from(this.swopCards.values())
+    return new Promise(function (resolve, reject) {
+      console.log('Promise betreten')
+      console.log('SwopCards', swoppies)
+      resolve(swoppies)
     })
   }
+
+  // /**
+  //  * load a swopcard object by its id
+  //  * @param swopCardId
+  //  */
+  // loadSwopCardById (swopCardId) {
+  //   return db.SwopCard.load(swopCardId)
+  // }
+  //
+  // /**
+  //  * get all swopCards from the current User
+  //  * @returns Set
+  //  */
+  // getMySwopCards () {
+  //   // var currentUser = db.User.me
+  //   return db.User.load(db.User.me.id, {depth: 1}).then((currentUser) => {
+  //     return Array.from(currentUser.swopCards)
+  //   })
+  // }
 
   /**
    * Deletes a swopcard by its given id
@@ -211,13 +246,57 @@ class Modul {
   }
 
   /**
-   * returned den Match-Status von db.User.me
-   * @param matchId
-   * @returns {Promise.<*>}
-   */
-  getMatchStatus (matchId) {
-    return db.modules.get('getMatchStatus', {id: matchId})
+    * Überprüft LOKAL ob der User zu einem gegebenen Match den Status verändern
+    * kann, also ob der User den Match schon accepted oder declined hat
+    * @return {boolean} true, if the user has not accepted/declined yet, false
+    * if the user has already accepted/declined a match
+    * @throws {Error}
+  */
+  isMatchStatusChangeable (matchId) {
+    let matchObj
+    // Es ist egal ob der Pfad oder nur die Id übergeben wird
+    if (!matchId.startsWith('/db/Match/')) matchId = 'db/Match/' + matchId
+    // find the right MatchObj
+    matchObj = this.matches.get(matchId)
+    // if (!matchObj) throw 'No match was found with that id that belongs to you'
+    // find out if db.User.me is user1 oder user2 and check that status
+    console.log(matchObj, db.User.me.id)
+    if (matchObj.user1.user.id === db.User.me.id) {
+      return matchObj.status1 === 'WAITING'
+    } else if (matchObj.user2.user.id === db.User.me.id) {
+      return matchObj.status2 === 'WAITING'
+    }
   }
+
+  /**
+    * Gibt lokal den Status eines Matches aus
+    *@return {String[]} wobei der erste Eintrag der Match Status des eigenen
+    * Users ist und der zweite der Match Status des anderen Users ist
+    * @throws {Error}
+  */
+  getMatchStatus (matchId) {
+    let matchObj
+    // Es ist egal ob der Pfad oder nur die Id übergeben wird
+    if (!matchId.startsWith('/db/Match/')) matchId = 'db/Match/' + matchId
+    // find the right MatchObj
+    matchObj = this.matches.get(matchId)
+    // if (!matchObj) throw 'No match was found with that id that belongs to you'
+    // find out if db.User.me is user1 oder user2
+    if (matchObj.user1.user.id === db.User.me.id) {
+      return [matchObj.status1, matchObj.status2]
+    } else if (matchObj.user2.user.id === db.User.me.id) {
+      return [matchObj.status2, matchObj.status1]
+    }
+  }
+
+  // /**
+  //  * returned den Match-Status von db.User.me
+  //  * @param matchId
+  //  * @returns {Promise.<*>}
+  //  */
+  // getMatchStatus (matchId) {
+  //   return db.modules.get('getMatchStatus', {id: matchId})
+  // }
 
   /**
    * accepts the match from db.User.me by the given match Id
