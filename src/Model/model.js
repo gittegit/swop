@@ -15,6 +15,7 @@ class Modul {
   * @return {Promise}
   */
   loadUserData () {
+    if (!db.User.me) return
     return db.User.load(db.User.me.id, {depth: 3})
       .then((currentUser) => {
         this.user = currentUser
@@ -76,28 +77,9 @@ class Modul {
     return this.user.username
   }
 
-  // /**
-  //  * getDisplayName from the current user
-  //  * @returns {Promise.<TResult>}
-  //  */
-  // getDisplayName () {
-  //   return db.User.load(db.User.me.id, {depth: 1}).then((user) => {
-  //     return user.restrictedUserInfo.displayName
-  //   })
-  // }
-  //
-  // getEmail () {
-  //   return db.User.load(db.User.me.id, {depth: 1}).then((user) => {
-  //     return user.restrictedUserInfo.email
-  //   })
-  // }
-  //
-  // getLoginEmail () {
-  //   return db.User.load(db.User.me.id).then((user) => {
-  //     return user.username
-  //   })
-  // }
-
+  getRestrictedUserInfoFromPartner (matchId) {
+    // TODO: implementiert
+  }
   /**
    * updates the displayName of the user
    * @param displayName
@@ -105,6 +87,7 @@ class Modul {
    */
   updateUsername (displayName) {
     return db.modules.post('updateDisplayName', {displayName: displayName})
+    // return db.modules.post('UserService', {route: 'DELETE_USER'})
   }
 
   /**
@@ -114,6 +97,7 @@ class Modul {
    */
   updateEmail (email) {
     return db.modules.post('updateEmail', {email: email})
+    // return db.modules.post('UserService', {route: 'DELETE_USER'})
   }
 
   /**
@@ -121,7 +105,7 @@ class Modul {
    * @returns {*|{value}}
    */
   delete () {
-    return db.modules.post('deleteUser')
+    return db.modules.post('UserService', {route: 'DELETE_USER'})
   }
 
   /**
@@ -167,27 +151,49 @@ class Modul {
   @return Promise
   */
   createSwopCard (searchedCourses, searchedGroups, courseId, group) {
+    let promiseValue
     return db.modules.post('createSwopCard', {
       searchedCourses,
       searchedGroups,
       courseId,
       group
     })
+    .then((val) => {
+      promiseValue = val
+      return this.loadUserData()
+    })
+    .then(() => {
+      console.log('Swopcard erstellt', this.swopCards)
+      return new Promise(function (resolve, reject) {
+        resolve(promiseValue)
+      })
+    })
   }
 
+  /**
+  *Returns a Swopcard
+  *@param swopCardId id der Swopcard
+  *@returns Swopcard
+  */
   getSwopCard (swopCardId) {
     return this.swopCards.get(swopCardId)
   }
 
+  /**
+  *Legacy Function, returns a swopcard
+  *
+  */
   loadSwopCardById (swopCardId) {
     return this.getSwopCard(swopCardId)
   }
 
+  /**
+   * get all swopCards from the current User
+   * @returns {Promise} containing the Swopcards as an Array
+   */
   getMySwopCards () {
     const swoppies = Array.from(this.swopCards.values())
     return new Promise(function (resolve, reject) {
-      console.log('Promise betreten')
-      console.log('SwopCards', swoppies)
       resolve(swoppies)
     })
   }
@@ -217,7 +223,18 @@ class Modul {
    * @returns {Promise.<*>}
    */
   deleteSwopCard (id) {
+    let promiseValue
     return db.modules.post('deleteSwopCard', {id: id})
+      .then((s) => {
+        promiseValue = s
+        return this.loadUserData()
+      })
+      .then(() => {
+        console.log('Swopcard geloescht', this.swopCards)
+        return new Promise(function (resolve, reject) {
+          resolve(promiseValue)
+        })
+      })
   }
 
   /**
@@ -288,15 +305,6 @@ class Modul {
       return [matchObj.status2, matchObj.status1]
     }
   }
-
-  // /**
-  //  * returned den Match-Status von db.User.me
-  //  * @param matchId
-  //  * @returns {Promise.<*>}
-  //  */
-  // getMatchStatus (matchId) {
-  //   return db.modules.get('getMatchStatus', {id: matchId})
-  // }
 
   /**
    * accepts the match from db.User.me by the given match Id
