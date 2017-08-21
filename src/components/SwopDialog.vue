@@ -377,11 +377,13 @@ export default {
     addCourseTo () { // wunschveranstaltung(en) hinzufügen
       if (this.coursesAC.name === this.coursesAC.selected) {
         var lastCourseName = this.coursesAC.name
-        this.coursesAC.name = ''
         this.courseTitleToArray.push({
           courseName: lastCourseName,
           courseIndex: this.courseCounter++
         })
+        this.coursesAC.name = ''
+        this.courseTitleTo = ''
+        this.coursesAC.selected = ''
       }
     },
     courseToIsAdded (courseCounter) {
@@ -529,6 +531,17 @@ export default {
           }
         }
       } else if (this.activeStep === 'nd') {
+        if (this.coursesAC.selected === null) {
+          this.courseFromSelected = false
+        } else if (this.coursesAC.selected !== null) {
+          this.coursesAC.name = this.coursesAC.selected
+          this.coursesAC.selected === null
+          this.courseFromSelected = true
+          if (this.coursesAC.name === 'Deine Veranstaltung ist nicht dabei?') {
+            this.coursesAC.name = ''
+            this.createCourse() // öffnen des kurserstellungs-modals
+          }
+        }
       }
     },
     setCourseFrom () { // setzen des coursetitlefrom
@@ -557,6 +570,7 @@ export default {
             this.courseTitleTo = this.courseTitleFrom
           } else if (!this.hasGroupFrom) {
             this.coursesAC.name = ''
+            this.coursesAC.selected = ''
           }
         } else {
           this.onFailure('courseFromNotSet')
@@ -600,11 +614,17 @@ export default {
           }) // Erstellung des neuen Kurses
         this.coursesAC.name = this.courseIdFrom.concat(' – ').concat(this.courseTitleFrom)
         this.coursesAC.selected = this.coursesAC.name
-        this.backItem = 'Abbrechen' // Anpassen der Buttongroup
+        if (this.activeStep === 'st') {
+          this.backItem = 'Abbrechen' // Anpassen der Buttongroup
+          this.setCourseFrom()
+        } else if (this.activeStep === 'nd') {
+          this.backItem = 'Zurück'
+          this.addCourseTo()
+          this.courseTitleTo = ''
+        }
         this.forwardItem = 'Weiter' // Anpassen der Buttongroup
         this.newCourse = false // schließen des Formulars/Dialogs
         this.initiateAC() // Neuladen aller Kurse inklusive des neuen
-        this.setCourseFrom()
         this.onSuccess()
       }
     },
