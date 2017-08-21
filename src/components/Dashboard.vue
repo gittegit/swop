@@ -59,22 +59,22 @@
                       <div class="card-content" v-if="open === swopCard.id">
                           <div class="content">
                               <div class="swop-match-info" v-if="swopCard.status === 'ACCEPTED'">
-                                  <p>Du swopst deinen Platz mit <strong><span>Tauschpartner</span></strong></p>
+                                  <p>Du swopst deinen Platz mit <strong>{{ getMatchPartner(swopCard.match.id).displayName }}</strong></p>
                                   <form class="swop-partner-mail">
                                       <div class="field has-addons">
                                           <div class="control has-icons-left is-expanded">
-                                              <input class="input is-medium" type="mail" v-model="swopCard.createdBy">
+                                              <input class="input is-medium" type="mail" v-model="getMatchPartner(swopCard.match.id).email">
                                               <span class="icon is-small is-left">
                           <i class="fa fa-envelope"></i>
                           </span>
                                           </div>
 
                                           <div class="control">
-                                              <a v-clipboard:copy="test" v-clipboard:success="onSuccess" v-clipboard:error="onError" class="button is-medium clipboard-button" :class="{'is-primary':!swopCard.match, 'is-white':swopCard.match,}"><i class="fa fa-clipboard" aria-hidden="true"></i></a>
+                                              <a v-clipboard:copy="getMatchPartner(swopCard.match.id).email" v-clipboard:success="onSuccess" v-clipboard:error="onError" class="button is-medium clipboard-button is-white"><i class="fa fa-clipboard" aria-hidden="true"></i></a>
                                           </div>
 
                                       </div>
-                                      <p class="help">Bitte nimm zügig Kontakt auf, test wartet sicher schon!</p>
+                                      <p class="help">Bitte nimm zügig Kontakt auf, <strong>{{ getMatchPartner(swopCard.match.id).displayName}} wartet sicher schon!</strong></p>
                                   </form>
                               </div>
 
@@ -162,9 +162,10 @@ export default {
   name: 'dashboard',
   data () {
     return {
-      copyData: 'test',
+      // copyData: 'test',
       isLoggedIn: null,
       filtered: 'ALL',
+      copyData: '',
       noSwopCards: null,
       testing: false,
       open: null,
@@ -295,6 +296,7 @@ export default {
       next()
     },
     getSwopCardMatchStatus: function (swopCard) {
+      console.log(M.getMatchStatus(swopCard))
       return M.getMatchStatus(swopCard)
     },
     acceptMatch: function (swopCard) {
@@ -308,6 +310,9 @@ export default {
         console.log(result)
         this.initiateDashboard()
       })
+    },
+    getMatchPartner: function (swopCard) {
+      return M.getMatchUserDetail(swopCard)
     },
     initiateDashboard: function () {
       M.loadUserData()
