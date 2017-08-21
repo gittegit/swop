@@ -21,7 +21,7 @@
       <!-- Beginn einer Karte / mit Swop-->
       <div v-if="swopCard.status === filtered || filtered === 'ALL'" v-for="swopCard in mySwopCards" class="swop-card card" :class="{'swop-accepted':swopCard.match}">
         <!-- Kartenheader -->
-        <header class="card-header" v-on:click="toggleOpen(swopCard.id); logMal(swopCard.status); logMal(getSwopCardMatchStatus(swopCard.match.id))">
+        <header class="card-header" v-on:click="toggleOpen(swopCard.id); logMal(swopCard.createdAt.getDay())">
           <div class="swop-status">
             <div class="swop-status-icon">
               <img v-if="swopCard.status === 'DECLINED'"src="../assets/swop-declined-invert.svg">
@@ -164,39 +164,7 @@ export default {
   created () {
     // console.log(db.User.me.username)
 
-    // M.getMySwopCards().then((swopCards) => {
-    //   console.log(db.User.me.username)
-    //   this.mySwopCards = Array.from(swopCards)
-    //   if (this.mySwopCards.length === 0) {
-    //     this.noSwopCards = true
-    //   } else {
-    //     this.noSwopCards = false
-    //   }
-    // })
-    // M.getMatchStatus('/db/Match/a0f6f82b-33f5-44ab-bc39-49d36e22c54c').then((result) => {
-    //   console.log(result)
-    // })
-
-    M.loadUserData()
-      .then(() => {
-        console.log(db.User.me.username)
-        console.log('loaded Userdata', M.user, M.swopCards, M.matches)
-        M.getMySwopCards()
-          .then((swopCards) => {
-            this.mySwopCards = swopCards
-            if (this.mySwopCards.length === 0) {
-              this.noSwopCards = true
-            } else {
-              this.noSwopCards = false
-            }
-          })
-          .catch((err) => console.log('ERR: ', err))
-      })
-
-  //  M.getMatchStatus('/db/Match/a0f6f82b-33f5-44ab-bc39-49d36e22c54c').then((result) => {
-  //    console.log(result)
-  //  })
-
+    this.initiateDashboard()
     // Einzelne SwopCard hat folgende Einträge:
     // acl, course, createdAt, createdBy, id, match, myGroup, searchedCourses, searchedGroups, status, updatedAt, version
   },
@@ -238,11 +206,11 @@ export default {
       return Array.from(set)
     },
     getStringDay: function (date) {
-      return date.getDay()
+      return date.getDate()
     },
     getStringMonth: function (date) {
       // Monat in Klartext
-      date = date.getMonth()
+      date = date.getMonth() + 1
       switch (date) {
         case (1): return 'Januar'
         case (2): return 'Februar'
@@ -260,7 +228,18 @@ export default {
       }
     },
     getStringTime: function (date) {
-      return date.getHours() + ':' + date.getMinutes()
+      var plusZero = function (element) {
+        element = element.toString()
+        console.log(element)
+        if (element.length === 1) {
+          console.log('einstellig: ' + element.length)
+          return '0' + element
+        } else {
+          console.log('zweistellig: ' + element.length)
+          return element
+        }
+      }
+      return plusZero(date.getHours()) + ':' + plusZero(date.getMinutes())
     },
     toggleOpen: function (swopCard) {
       // Öffne eine angeklickte Swopcard. Schließe alle geöffneten dabei
@@ -286,22 +265,12 @@ export default {
     deleteSwopCard: function (swopCard) {
       // Löscht eine swopCard anhand ihrere id
       M.deleteSwopCard(swopCard).then((result) => {
-        M.getMySwopCards().then((swopCards) => {
-          this.mySwopCards = Array.from(swopCards)
-
-          if (this.mySwopCards.length === 0) {
-            this.noSwopCards = true
-          } else {
-            this.noSwopCards = false
-          }
-        })
+        this.initiateDashboard()
       })
     },
     beforeRouteEnter (to, from, next) {
-      M.getMySwopCards().then((swopCards) => {
-        this.mySwopCards = Array.from(swopCards)
-        next()
-      })
+      this.initiateDashboard()
+      next()
     },
     getSwopCardMatchStatus: function (swopCard) {
       M.getMatchStatus(swopCard).then((result) => {
@@ -317,6 +286,23 @@ export default {
       M.declineMatch(swopCard).then((result) => {
         console.log(result)
       })
+    },
+    initiateDashboard: function () {
+      M.loadUserData()
+        .then(() => {
+          console.log(db.User.me.username)
+          console.log('loaded Userdata', M.user, M.swopCards, M.matches)
+          M.getMySwopCards()
+            .then((swopCards) => {
+              this.mySwopCards = swopCards
+              if (this.mySwopCards.length === 0) {
+                this.noSwopCards = true
+              } else {
+                this.noSwopCards = false
+              }
+            })
+            .catch((err) => console.log('ERR: ', err))
+        })
     }
   }
 }
