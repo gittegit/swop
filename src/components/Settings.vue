@@ -30,7 +30,7 @@
 
           <!-- Hier kann man eine neue Mail-Adresse angeben und ändern -->
             <form class="add-email">
-                <h4 class="title is-6">Zusätzliche Mail-Adresse</h4>
+                <h4 class="title is-6">Mail-Adresse für Benachrichtigungen</h4>
                 <p class="subtitle">Benachrichtigungen aus dieser App werden an diese Mail geschickt. Du kannst Dich weiterhin <strong>nur</strong> mit deiner Uni-Mail einloggen.</p>
                 <p class="subtitle">Deine <strong>Uni-Email Adresse</strong> lautet: {{ loginEmail }}</p>
                 <b-field>
@@ -116,9 +116,9 @@ export default {
   name: 'settings',
   data () {
     return {
-      name: 'Juli',  // hier sollte der Name von der Datenbank geholen werden (ToDo)
-      email: 'dummy@test.de', // hier sollte die Mail von der Datenbank geholen werden (ToDo)
-      loginEmail: '',
+      name: null,  // hier sollte der Name von der Datenbank geholen werden (ToDo)
+      email: null, // hier sollte die Mail von der Datenbank geholen werden (ToDo)
+      loginEmail: null,
       mailSuccess: false,
       mailError: false,
       aPassword: null,
