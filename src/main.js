@@ -6,14 +6,15 @@ import db from 'baqend'
 import App from './App'
 import router from './router'
 import Buefy from 'buefy'
+// import M from './Model/model.js'
 
 Vue.use(Buefy, {
   defaultIconPack: 'fa'
 })
 
-db.connect('restless-bolt-1').then(() => {
-  Vue.use(VueRouter)
+Vue.use(VueRouter)
 
+db.connect('restless-bolt-1').then(() => {
   /* eslint-disable no-new */
   new Vue({
     el: '#app',

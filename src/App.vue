@@ -13,6 +13,7 @@
 <script>
 import Navigation from 'components/Navigation.vue'
 import db from 'baqend'
+// import M from './Model/model.js'
 // import LoginSample from 'components/LoginSample.vue'
 
 export default {
@@ -26,8 +27,9 @@ export default {
     }
   },
   created () {
-//    console.log(db.User.me.username)
-    // this.isLoggedIn = db.User.me !== null
+  //   M.initUserData().then((result) => {
+  //     console.log(result)
+  //   })
   }
 }
 </script>

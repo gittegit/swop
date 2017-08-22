@@ -37,7 +37,7 @@ class Modul {
   initUserData () {
     if (!this.user || !this.matches || !this.swopCards) {
       return new Promise(function (resolve, reject) {
-        resolve("Töfte")
+        resolve('Töfte')
       })
     }
     return db.User.load(db.User.me.id, {depth: 3})

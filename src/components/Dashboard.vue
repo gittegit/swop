@@ -214,7 +214,9 @@ export default {
   created () {
     console.log(db.User.me.username)
     // this.displayName = db.User.me.displayName
-    this.initiateDashboard()
+    M.initUserData().then(() => {
+      this.initiateDashboard()
+    })
     // Einzelne SwopCard hat folgende Einträge:
     // acl, course, createdAt, createdBy, id, match, myGroup, searchedCourses, searchedGroups, status, updatedAt, version
   },
@@ -272,8 +274,8 @@ export default {
     },
     deleteSwopCard: function (swopCard) {
       // Löscht eine swopCard anhand ihrere id
-      M.deleteSwopCard(swopCard).then((result) => {
-        console.log(result)
+      M.deleteSwopCard(swopCard).then(() => {
+        console.log(M)
         this.initiateDashboard()
       })
     },
@@ -296,21 +298,16 @@ export default {
       return M.getMatchUserDetail(swopCard)
     },
     initiateDashboard: function () {
-      M.loadUserData()
-        .then(() => {
-          console.log('loaded Userdata', M.user, M.swopCards, M.matches)
-          M.getMySwopCards()
-            .then((swopCards) => {
-              this.mySwopCards = swopCards // Zuweisen der geladenen SwopCards auf lokales Array
-              if (this.mySwopCards.length === 0) { // Check auf Inhalt
-                this.noSwopCards = true
-              } else {
-                this.noSwopCards = false
-              }
-              var random = this.getRandom(0, this.begruessungen.length) // Würfel eine Begruessung zurecht
-              this.Begruessung = this.begruessungen[random] + ' ' + M.getDisplayName() // Setze Begrüßung zusammen
-            })
-            .catch((err) => console.log('ERR: ', err))
+      M.getMySwopCards()
+        .then((swopCards) => {
+          this.mySwopCards = swopCards // Zuweisen der geladenen SwopCards auf lokales Array
+          if (this.mySwopCards.length === 0) { // Check auf Inhalt
+            this.noSwopCards = true
+          } else {
+            this.noSwopCards = false
+          }
+          var random = this.getRandom(0, this.begruessungen.length) // Würfel eine Begruessung zurecht
+          this.Begruessung = this.begruessungen[random] + ' ' + M.getDisplayName() // Setze Begrüßung zusammen
         })
     },
     checkWaitingEmpty: function (swopCards) {
