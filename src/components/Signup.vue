@@ -38,7 +38,7 @@
 
             <b-field>
               <p class="control has-icons-left ">
-                <input v-model.trim="username" class="input" :class="{'is-danger': mailError}" type="mail" placeholder="Deine Uni-Mail" name="username" required>
+                <input v-model.trim="username" class="input" :class="{'is-danger': swopError}" type="mail" placeholder="Deine Uni-Mail" name="username" required>
                 <span class="icon is-small is-left">
                   <i class="fa fa-envelope"></i>
                 </span>
@@ -65,10 +65,9 @@
               </p>
             </div>
             </b-field>
-          <p v-if="nameError" class="help is-danger">Bitte gebe Deinen Namen an.</p>
-          <p v-if="mailError" class="help is-danger">Es gibt ein Problem mit Deiner Mail-Adresse. <br> Kontrolliere, ob es sich um eine Uni-Mail handeln oder Du bereits einen Account hast.</p>
           <p v-if="passwordError" class="help is-danger">Deine Passwörter müssen übereinstimmen damit Du Dich registrieren kann.</p>
           <p v-if="mailSent" class="help is-success">Bestätige Deine E-Mail um swop zu benutzen.</p>
+          <p class="help is-danger">{{swopError}}</p>
           <div class="spacer"></div>
           <div class="field">
             <b-checkbox v-model="checkBoxChecked">Ich habe die <a @click="toggleModal()">Allgemeinen Gurkenbedingungen</a> gelesen und akzeptiere diese</b-checkbox>
@@ -118,47 +117,41 @@ export default {
   data () {
     return {
       name: null,
-      nameError: false,
       username: null,
       password: null,
       bPassword: null,
-      isDanger: false,
-      mailError: false,
-      passwordError: false,
       mailSent: false,
       modalOpen: false,
       checkBoxChecked: false,
-      checkError: false
+
+      isDanger: false,
+      nameError: false,
+      checkError: false,
+      passwordError: false,
+      swopError: ''
     }
   },
 
   methods: {
     register () {
-      this.checkError = false
       M.register(this.name, this.username, this.password).then((result) => {
         console.log(result)
-        this.mailError = false
         this.mailSent = true
 //        router.push('me')
-      }).catch((err) => {
-        console.log(err)
-        if (this.password === null) {
-          this.passwordError = true
-        } else {
-          this.mailError = true
-        }
+      }).catch((error) => {
+        console.log(error)
+        this.swopError = error.cause.message
+        console.log(this.swopError)
       })
     },
     registerPossible () {
-      if (this.name === null) {
-        this.nameError = true
-      } else if (this.isDanger) {
-        this.nameError = false
+      if (this.isDanger) {
         this.passwordError = true
       } else if (!this.checkBoxChecked) {
         this.passwordError = false
         this.checkError = true
       } else {
+        this.checkError = false
         this.register()
       }
     },
@@ -172,10 +165,12 @@ export default {
         return true
       }
     },
+
     toggleModal () {
       this.modalOpen = !this.modalOpen
       this.checkBoxChecked = false
     }
+
   },
 
   computed: {

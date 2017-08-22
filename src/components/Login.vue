@@ -29,7 +29,7 @@
         <form class="signUp">
           <div class="field">
             <p class="control has-icons-left ">
-              <input v-model.trim="username" class="input" :class="{'is-danger': error}" type="mail" placeholder="Deine Uni-Mail" name="username" required>
+              <input v-model.trim="username" class="input" :class="{'is-danger': LoginError}" type="mail" placeholder="Deine Uni-Mail" name="username" required>
               <span class="icon is-small is-left">
                       <i class="fa fa-envelope"></i>
                     </span>
@@ -38,7 +38,7 @@
 
           <div class="field has-addons is-expanded">
             <p class="control has-icons-left is-expanded">
-              <input v-model="password" class="input" :class="{'is-danger': error}" type="password" placeholder="Dein swop-Passwort" name="password" required>
+              <input v-model="password" class="input" :class="{'is-danger': LoginError}" type="password" placeholder="Dein swop-Passwort" name="password" required>
               <span class="icon is-small is-left">
                         <i class="fa fa-lock"></i>
               </span>
@@ -49,7 +49,7 @@
               </router-link>
             </p>
           </div>
-          <p v-if="error" class="help is-danger">E-Mail oder Passwort ist falsch</p>
+          <p class="help is-danger">{{LoginError}}</p>
         </form>
         <!-- Registierungsbutton -->
         <p class="has-text-right flex-center"><router-link :to="{name: 'signup'}" class="is-white font-klein margin-right">Noch kein swop-Mitglied? </router-link><a class="button is-primary" @click="logIn">Einloggen</a></p>
@@ -71,7 +71,7 @@ export default {
     return {
       username: null,
       password: null,
-      error: null
+      LoginError: null
     }
   },
   created () {
@@ -89,10 +89,10 @@ export default {
       db.User.login(this.username, this.password).then(_ => {
         this.$parent.isLoggedIn = true
         router.push('dashboard')
-        this.error = false
-      }).catch(e => {
-        this.error = true
-        console.log('geht nicht')
+      }).catch((error) => {
+        console.log(error)
+        this.LoginError = error.cause.message
+        console.log(error.cause.message)
       })
     }
   },

@@ -66,7 +66,6 @@
                         </span>
                     </p>
                 </b-field>
-                <p v-if="passwordError" class="help is-danger">Dein Passwort ist nicht korrekt.</p>
                 <div class="spacer"></div>
 
                 <b-field>
@@ -91,7 +90,8 @@
                 <!-- Fehlermeldungen / Success-Meldung / Button -->
                 <p v-if="passwordSuccess" class="help is-success">Deine Passwort wurde erfolgreich geändert!</p>
                 <p v-if="passwordErrorDifferent" class="help is-danger">Dein Passwort konnte nicht geändert werden. Überprüfe ob sich Dein neues und Dein alter Passwort unterscheiden.</p>
-                <p v-if="passwordEmpty" class="help is-danger">Du musst ein neues Passwort eingeben.</p>
+                <!-- <p v-if="passwordEmpty" class="help is-danger">Du musst ein neues Passwort eingeben.</p> -->
+                <p class="help is-danger">{{passwordError}}</p>
                 <p v-if="passwordButton" class="has-text-right"><a class="button is-primary" v-on:click="PasswordValidator">Passwort bestätigen</a></p>
             </form>
 
@@ -119,6 +119,7 @@ export default {
       name: null,
       showDisabledNameButton: true,
       showNameCheckButton: false,
+
       email: null,
       loginEmail: null,
       showDisabledMailCheckButton: true,
@@ -126,13 +127,14 @@ export default {
       showMailClearButton: false,
       mailSuccess: false,
       mailError: false,
+
       aPassword: null,
       nPassword: null,
       bPassword: null,
-      passwordError: false,
+      passwordError: '',
       passwordSuccess: false,
       passwordErrorDifferent: false,
-      passwordEmpty: false,
+      // passwordEmpty: false,
       passwordButton: false,
       isDanger: false,
       isLoggedIn: null
@@ -176,9 +178,10 @@ export default {
         this.showDisabledNameButton = true
       }).catch((error) => {
         console.log(error)
+        var errorMessage = error.cause.message
         this.$toast.open({
           duration: 5000,
-          message: `Dein Name könnte nicht geändert werden. Bitte kontaktiere den Support!`,
+          message: errorMessage,
           type: 'is-danger'})
       })
     },
@@ -212,9 +215,10 @@ export default {
           this.mailError = false
         }).catch((error) => {
           console.log(error)
+          var errorMessage = error.cause.message
           this.$toast.open({
             duration: 5000,
-            message: `Deine Mail könnte nicht bearbeitet werden. Bitte kontaktiere den Support!`,
+            message: errorMessage,
             type: 'is-danger'})
         })
       } else {
@@ -235,9 +239,10 @@ export default {
           this.mailSuccess = false
         }).catch((error) => {
           console.log(error)
+          var errorMessage = error.cause.message
           this.$toast.open({
             duration: 5000,
-            message: `Deine Mail könnte nicht bearbeitet werden. Bitte kontaktiere den Support!`,
+            message: errorMessage,
             type: 'is-danger'})
         })
       }
@@ -282,6 +287,7 @@ export default {
       if (this.differentPasswordValidator() && this.confirmPasswordValidator()) {
         m.changePassword(this.aPassword, this.nPassword)
         .then((result) => {
+          console.log(result)
           this.passwordSuccess = true
           this.aPassword = null
           this.nPassword = null
@@ -289,7 +295,7 @@ export default {
           this.passwordButton = false
         }).catch((error) => {
           console.log(error)
-          this.passwordError = true
+          this.passwordError = error.cause.message
         })
       } else {
         this.passwordSuccess = false
@@ -311,9 +317,10 @@ export default {
             this.swopLogout()
           }).catch((error) => {
             console.log(error)
+            var errorMessage = error.cause
             this.$toast.open({
               duration: 5000,
-              message: `Dein Account konnte nicht gelöscht werden. Bitte kontaktiere den Support!`,
+              message: errorMessage,
               type: 'is-danger'})
           })
         }
