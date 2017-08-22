@@ -16,24 +16,29 @@
                           </li>
                       </ul>
                   </div>
+                  <!-- / Tab Navigation -->
 
-                  <a v-show="testing" @click="createSampleSwopCard()">Mach mir mal ne SwopKarte</a>
-                  <!-- Beginn einer Karte / mit Swop-->
+                  <!-- Beginn einer einzelnen Karte -->
+                  <!-- im v-if wird die Filtrierung der Karten vorgenommen und dann darüber iteriert -->
+                  <!-- Ist eine Karte ein match, so wird eine Klasse hinzugefügt, die die Karte abhebt -->
                   <div v-if="hasMatch(swopCard) === activeTab || activeTab === 'ALL'" v-for="swopCard in mySwopCards" class="swop-card card" :class="{'swop-accepted':swopCard.match}">
+
                       <!-- Kartenheader -->
-                      <header class="card-header" v-on:click="toggleOpen(swopCard.id); logMal(swopCard)">
+                      <header class="card-header" v-on:click="toggleOpen(swopCard.id)">
                           <div class="swop-status">
                               <div class="swop-status-icon">
+                                <!-- Je nach Status wird passendes Icon geliefert -->
                                   <img v-if="swopCard.status === 'DECLINED'" src="../assets/swop-declined-invert.svg">
                                   <img v-if="swopCard.status === 'ACCEPTED'" src="../assets/swop-accepted.svg">
                                   <img v-if="swopCard.status === 'PENDING' && getSwopCardMatchStatus(swopCard.match.id)[0] === 'WAITING'" src="../assets/swop-notification.svg">
                                   <img v-if="swopCard.status === 'PENDING' && getSwopCardMatchStatus(swopCard.match.id)[0] === 'ACCEPTED'" src="../assets/swop-pending.svg">
                                   <img v-if="swopCard.status === 'WAITING'" src="../assets/swop-waiting-invert.svg">
                               </div>
+
+                              <!-- Liste der Kurse -->
                               <div class="swop-status-courses">
-                                  <!-- Swop Kurse -->
                                   <div class="swop-status-course-from">
-                                      <p class="help"><span class="swop-change">Swop</span> <span class="swop-course-id">{{ swopCard.course.id.substring(11) }}</span> <span v-if="swopCard.myGroup != ''"><span v-if="swopCard.myGroup != null" class="swop-course-group my-group">{{swopCard.myGroup}}</span></span>
+                                      <p class="help"><span class="swop-change">Swop</span> <span class="swop-course-id">{{ swopCard.course.id.substring(11) }}</span> <span v-if="swopCard.myGroup != ''"><span v-if="swopCard.myGroup != null" class="swop-course-group my-group">Gruppe {{swopCard.myGroup}}</span></span>
                                       </p>
                                       <p class="is-title is-size-5 course-title">{{swopCard.course.name}}</p>
                                   </div>
@@ -45,19 +50,23 @@
                                       <p class="is-title is-size-5 course-title"><span class="searched-group-entry" v-for="course in Array.from(swopCard.searchedCourses)">{{ course.name }}</span></p>
                                   </div>
                               </div>
+                              <!-- / Liste der Kurse -->
                           </div>
-                          <!-- Icon -->
-                          <a class="card-header-icon">
-                              <span class="icon">
-                    <i v-if="!(open === swopCard.id)" class="fa fa-angle-down"></i>
-                    <i v-else class="fa fa-angle-up"></i>
-                  </span>
-                          </a>
-                      </header>
 
-                      <!-- Karteninhalt - muss aufgetogglet werrden -->
+                          <!-- Icon -->
+                          <a class="card-header-icon"><span class="icon">
+                            <i v-if="!(open === swopCard.id)" class="fa fa-angle-down"></i>
+                            <i v-else class="fa fa-angle-up"></i>
+                          </span></a>
+
+                      </header>
+                      <!-- / Kartenheader -->
+
+                      <!-- Karteninhalt - wird durch Klick auf Header getoggled -->
                       <div class="card-content" v-if="open === swopCard.id">
                           <div class="content">
+
+                              <!-- FALL 1: Die Karte ist ACCEPTED - beide Partner haben bestätigt -->
                               <div class="swop-match-info" v-if="swopCard.status === 'ACCEPTED'">
                                   <p>Du swopst deinen Platz mit <strong>{{ getMatchPartner(swopCard.match.id).displayName }}</strong></p>
                                   <form class="swop-partner-mail">
@@ -65,8 +74,8 @@
                                           <div class="control has-icons-left is-expanded">
                                               <input class="input is-medium" type="mail" v-model="getMatchPartner(swopCard.match.id).email">
                                               <span class="icon is-small is-left">
-                          <i class="fa fa-envelope"></i>
-                          </span>
+                                                <i class="fa fa-envelope"></i>
+                                              </span>
                                           </div>
 
                                           <div class="control">
@@ -78,41 +87,52 @@
                                   </form>
                               </div>
 
-                              <!-- IF Tauschkarte === 'PENDING' -->
+                              <!-- Fall 2: Die Karte ist PENDING - mind. einer der beiden Partner hat den Match noch nicht bestätigt -->
                               <div class="swop-match-info" v-if="swopCard.status === 'PENDING'">
-                                  <!-- Du hast Accepted, der andere muss noch bestätigen -->
+
+                                  <!-- Du selbst hast Accepted, der andere muss noch bestätigen -->
                                   <div v-if="getSwopCardMatchStatus(swopCard.match.id)[0] === 'ACCEPTED'">
                                       <p>Du hast Diesen Match bestätigt. Sobald Dein Partner ebenfalls bestätigt, wird Dir hier seine Mailadresse angezeigt.</p>
                                   </div>
-                                  <!-- Der andere hat bestätigt, du musst noch accepten -->
+                                  <!-- Der andere hat bestätigt, du selbst musst noch accepten -->
                                   <div v-else>
                                       <p>Super! Wir haben einen swop-Partner für Dich! Bitte akzeptiere den swop oder, wenn du es Dir anders überlegt hast, brich ihn ab.</p>
                                       <p class="has-text-centered display-flex"><a class="button is-outlined is-primary margin-right" @click="declineMatch(swopCard.match.id)"><span class="margin-right"><i class="fa fa-times-circle" aria-hidden="true"></i></span>Abbrechen</a><a class="button is-primary"
                                               @click="acceptMatch(swopCard.match.id)"><span class="margin-right"><i class="fa fa-check-circle" aria-hidden="true"></i></span>Bestätigen</a></p>
                                   </div>
                               </div>
-                              <!-- IF Tauschkarte === Declined -->
+
+                              <!-- Fall 3: Der Match wurde vom User selbst abgebrochen -->
                               <div class="swop-match-info" v-if="swopCard.status === 'DECLINED'">
                                 Du hast diesen Match <strong>abgebrochen</strong>. Wenn Du erneut für diese Veranstaltung suchen möchtest, musst Du diesen swop löschen und einen neuen erstellen.
                               </div>
 
-                              <!-- IF Tauschkarte === 'WAITING' -->
+                              <!-- Fall 4: Deine Karte hat noch keinen Partner -->
                               <div class="swop-no-match-info" v-if="swopCard.status === 'WAITING'">
                                   <p>Leider haben wir noch keinen Partner für Dich gefunden. Bleib' aber ständig auf Empfang, denn das kann sich jederzeit ändern!</p>
                               </div>
+
                           </div>
                       </div>
+                      <!-- / Karteninhalt -->
+
+                      <!-- Kartenfooter mit Löschfunktion und Datum -->
                       <footer class="card-footer">
                           <p class="card-footer-item help">{{getStringDay(swopCard.createdAt) }}. {{getStringMonth(swopCard.createdAt)}} — {{getStringTime(swopCard.createdAt)}} Uhr</p>
                           <a class="card-footer-item" v-on:click="deleteSwopCard(swopCard.id)"><span class="icon"><i class="fa fa-trash" aria-hidden="true"></i></span> Löschen</a>
                       </footer>
+                      <!-- / Kartenfooter -->
                   </div>
+
+                  <!-- Sonderfälle -->
                   <div>
+                      <!-- Keine Swopcards -->
                       <div v-if="noSwopCards">
                           <h2 class="title is-size-3">{{Begruessung}}!</h2>
                           <p>Du hast noch keinen laufenden swops. Starte, indem du unter "Neue Anfrage" einen neuen swop erstellst. Deine laufenden swops werden dir dann hier angezeigt. <strong>Viel Spaß!</strong></p>
                       </div>
 
+                      <!-- Swopcards vorhanden, aber in gewählter Kategorie nicht -->
                       <div v-else>
                           <!-- Keine Ausstehenden Karten / activeTab checkt ob es Matches gibt -->
                           <div class="is-form" v-if="checkWaitingEmpty(mySwopCards) && this.activeTab === false">
@@ -130,7 +150,9 @@
                   <!-- Ende einer Karte -->
               </div>
           </div>
-          <!-- / Inhalt / Formulare -->
+          <!-- / Inhalt -->
+
+          <!-- Floating Footer mit Button -->
           <footer class="floating-footer">
               <div class="container">
                   <div class="columns is-centered">
@@ -238,6 +260,87 @@ export default {
         type: 'is-danger'
       })
     },
+    toggleOpen: function (swopCard) {
+      // Öffne eine angeklickte Swopcard. Schließe alle geöffneten dabei
+      if (this.open === null) {
+        this.open = swopCard
+      } else if (this.open !== swopCard) {
+        this.open = swopCard
+      } else {
+        this.open = null
+      }
+    },
+    deleteSwopCard: function (swopCard) {
+      // Löscht eine swopCard anhand ihrere id
+      M.deleteSwopCard(swopCard).then((result) => {
+        console.log(result)
+        this.initiateDashboard()
+      })
+    },
+    getSwopCardMatchStatus: function (swopCard) {
+      return M.getMatchStatus(swopCard)
+    },
+    acceptMatch: function (swopCard) {
+      M.acceptMatch(swopCard).then((result) => {
+        console.log(result)
+        this.initiateDashboard()
+      })
+    },
+    declineMatch: function (swopCard) {
+      M.declineMatch(swopCard).then((result) => {
+        console.log(result)
+        this.initiateDashboard()
+      })
+    },
+    getMatchPartner: function (swopCard) {
+      return M.getMatchUserDetail(swopCard)
+    },
+    initiateDashboard: function () {
+      M.loadUserData()
+        .then(() => {
+          console.log('loaded Userdata', M.user, M.swopCards, M.matches)
+          M.getMySwopCards()
+            .then((swopCards) => {
+              this.mySwopCards = swopCards // Zuweisen der geladenen SwopCards auf lokales Array
+              if (this.mySwopCards.length === 0) { // Check auf Inhalt
+                this.noSwopCards = true
+              } else {
+                this.noSwopCards = false
+              }
+              var random = this.getRandom(0, this.begruessungen.length) // Würfel eine Begruessung zurecht
+              this.Begruessung = this.begruessungen[random] + ' ' + M.getDisplayName() // Setze Begrüßung zusammen
+            })
+            .catch((err) => console.log('ERR: ', err))
+        })
+    },
+    checkWaitingEmpty: function (swopCards) {
+      for (var swopCard in swopCards) {
+        var result
+        swopCard = swopCards[swopCard]
+        if (swopCard.match === null) {
+          result = false
+        } else {
+          result = true
+        }
+        return result
+      }
+    },
+    checkMatchEmpty: function (swopCards) {
+      for (var swopCard in swopCards) {
+        var result
+        swopCard = swopCards[swopCard]
+        if (swopCard.match !== null) {
+          result = false
+        } else {
+          result = true
+        }
+        return result
+      }
+    },
+    beforeRouteEnter (to, from, next) {
+      this.initiateDashboard()
+      next()
+    },
     setToArray: function (set) {
       console.log(Array.from(set))
       return Array.from(set)
@@ -275,103 +378,14 @@ export default {
       }
       return plusZero(date.getHours()) + ':' + plusZero(date.getMinutes())
     },
-    toggleOpen: function (swopCard) {
-      // Öffne eine angeklickte Swopcard. Schließe alle geöffneten dabei
-      if (this.open === null) {
-        this.open = swopCard
-      } else if (this.open !== swopCard) {
-        this.open = swopCard
-      } else {
-        this.open = null
-      }
-    },
-    logMal: function (event) {
-      // Testfunktion, die man an alle Events dranhängen kann, um sie zu loggen
-      console.log(event)
-    },
-    createSampleSwopCard: function () {
-      // Testfunktion zur Erstellung einer SwopKarte
-      M.createSwopCard(['123-22', '83-124'], [], '902-38', '')
-    },
-    deleteSwopCard: function (swopCard) {
-      // Löscht eine swopCard anhand ihrere id
-      M.deleteSwopCard(swopCard).then((result) => {
-        console.log(result)
-        this.initiateDashboard()
-      })
-    },
-    beforeRouteEnter (to, from, next) {
-      this.initiateDashboard()
-      next()
-    },
-    getSwopCardMatchStatus: function (swopCard) {
-      return M.getMatchStatus(swopCard)
-    },
-    acceptMatch: function (swopCard) {
-      M.acceptMatch(swopCard).then((result) => {
-        console.log(result)
-        this.initiateDashboard()
-      })
-    },
-    declineMatch: function (swopCard) {
-      M.declineMatch(swopCard).then((result) => {
-        console.log(result)
-        this.initiateDashboard()
-      })
-    },
-    getMatchPartner: function (swopCard) {
-      return M.getMatchUserDetail(swopCard)
-    },
-    initiateDashboard: function () {
-      M.loadUserData()
-        .then(() => {
-          console.log('loaded Userdata', M.user, M.swopCards, M.matches)
-          M.getMySwopCards()
-            .then((swopCards) => {
-              this.mySwopCards = swopCards
-              if (this.mySwopCards.length === 0) {
-                this.noSwopCards = true
-              } else {
-                this.noSwopCards = false
-              }
-
-              // Würfel eine Begruessung zurecht
-              var random = this.getRandom(0, this.begruessungen.length)
-              // get DisplayName
-              // Baue Begrüßung zusammen
-              this.Begruessung = this.begruessungen[random] + ' ' + M.getDisplayName()
-            })
-            .catch((err) => console.log('ERR: ', err))
-        })
-    },
-    checkWaitingEmpty: function (swopCards) {
-      for (var swopCard in swopCards) {
-        var result
-        swopCard = swopCards[swopCard]
-        if (swopCard.match === null) {
-          result = false
-        } else {
-          result = true
-        }
-        return result
-      }
-    },
-    checkMatchEmpty: function (swopCards) {
-      for (var swopCard in swopCards) {
-        var result
-        swopCard = swopCards[swopCard]
-        if (swopCard.match !== null) {
-          result = false
-        } else {
-          result = true
-        }
-        return result
-      }
-    },
     getRandom: function (min, max) {
       min = Math.ceil(min)
       max = Math.floor(max)
       return Math.floor(Math.random() * (max - min)) + min
+    },
+    logMal: function (event) {
+      // Testfunktion, die man an alle Events dranhängen kann, um sie zu loggen
+      console.log(event)
     }
   }
 }
