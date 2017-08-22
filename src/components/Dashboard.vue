@@ -9,7 +9,7 @@
                   <!-- Tab Navigation -->
                   <div class="card-tabs tabs is-toggle is-fullwidth is-small">
                       <ul>
-                          <li v-for="swopCardTab in swopCardTabs" :class="{'is-active':swopCardTab.active}" v-on:click="manageCards(swopCardTab)">
+                          <li v-for="swopCardTab in swopCardTabs" :class="{'is-active':swopCardTab.active}" v-on:click="manageCards(swopCardTab); logMal(swopCardTab.statusMessage)">
                               <a>
                                   <span>{{ swopCardTab.statusMessage }}</span>
                               </a>
@@ -19,9 +19,9 @@
 
                   <a v-show="testing" @click="createSampleSwopCard()">Mach mir mal ne SwopKarte</a>
                   <!-- Beginn einer Karte / mit Swop-->
-                  <div v-if="swopCard.status === filtered || filtered === 'ALL'" v-for="swopCard in mySwopCards" class="swop-card card" :class="{'swop-accepted':swopCard.match}">
+                  <div v-if="hasMatch(swopCard) === activeTab || activeTab === 'ALL'" v-for="swopCard in mySwopCards" class="swop-card card" :class="{'swop-accepted':swopCard.match}">
                       <!-- Kartenheader -->
-                      <header class="card-header" v-on:click="toggleOpen(swopCard.id)">
+                      <header class="card-header" v-on:click="toggleOpen(swopCard.id); logMal(swopCard)">
                           <div class="swop-status">
                               <div class="swop-status-icon">
                                   <img v-if="swopCard.status === 'DECLINED'" src="../assets/swop-declined-invert.svg">
@@ -114,14 +114,14 @@
                       </div>
 
                       <div v-else>
-                          <!-- Keine Ausstehenden Karten -->
-                          <div class="is-form" v-if="checkFilteredEmpty('WAITING', mySwopCards) && filtered === 'WAITING'">
+                          <!-- Keine Ausstehenden Karten / activeTab checkt ob es Matches gibt -->
+                          <div class="is-form" v-if="checkWaitingEmpty(mySwopCards) && this.activeTab === false">
                               <h3 class="title is-size-4">Keine ausstehenden swops!</h3>
                               <p>Wow, Du hast nur Matches! Diese findest du unter "Matches" oder "Alle".</p>
                           </div>
 
-                          <!-- Keine Matches -->
-                          <div class="is-form" v-if="(checkFilteredEmpty('PENDING', mySwopCards) && filtered === 'PENDING') || (checkFilteredEmpty('ACCEPTED', mySwopCards) && filtered === 'ACCEPTED')">
+                          <!-- Keine Matches / activeTab gibt an, ob es Matches gibt-->
+                          <div class="is-form" v-if="checkMatchEmpty(mySwopCards) && this.activeTab === true">
                               <h3 class="title is-size-4">Leider noch keine Matches.</h3>
                               <p>Wir haben noch keinen swop matchen können. Gedulde Dich und bleib' auf Empfang!</p>
                           </div>
@@ -164,7 +164,7 @@ export default {
     return {
       // copyData: 'test',
       isLoggedIn: null,
-      filtered: 'ALL',
+      activeTab: 'ALL',
       copyData: '',
       noSwopCards: null,
       testing: false,
@@ -205,14 +205,23 @@ export default {
       // Stelle das gewählte Tab auf is-active
       event.active = true
       // Manage die Kartensicht
-      this.filtered = event.statusMessage
-      if (this.filtered === 'Ausstehend') {
-        this.filtered = 'WAITING'
-      } else if (this.filtered === 'Match') {
-        this.filtered = 'PENDING' || 'ACCEPTED'
+      this.activeTab = event.statusMessage
+      if (this.activeTab === 'Ausstehend') {
+        this.activeTab = false
+      } else if (this.activeTab === 'Match') {
+        this.activeTab = true
       } else {
-        this.filtered = 'ALL'
+        this.activeTab = 'ALL'
       }
+    },
+    hasMatch: function (swopCard) {
+      var result
+      if (swopCard.match !== null) {
+        result = true
+      } else {
+        result = false
+      }
+      return result
     },
     onSuccess: function () {
       this.$toast.open({
@@ -224,7 +233,7 @@ export default {
     onError: function () {
       this.$toast.open({
         duration: 5000,
-        message: `Something's not good, also I'm on bottom`,
+        message: `Oops, irgendetwas ist schiefgelaufen. Versuch's noch mal.`,
         position: 'is-bottom',
         type: 'is-danger'
       })
@@ -296,7 +305,6 @@ export default {
       next()
     },
     getSwopCardMatchStatus: function (swopCard) {
-      console.log(M.getMatchStatus(swopCard))
       return M.getMatchStatus(swopCard)
     },
     acceptMatch: function (swopCard) {
@@ -336,14 +344,28 @@ export default {
             .catch((err) => console.log('ERR: ', err))
         })
     },
-    checkFilteredEmpty: function (condition, array) {
-      for (var element in array) {
-        element = array[element]
-        if (element.status === condition) {
-          return false
+    checkWaitingEmpty: function (swopCards) {
+      for (var swopCard in swopCards) {
+        var result
+        swopCard = swopCards[swopCard]
+        if (swopCard.match === null) {
+          result = false
         } else {
-          return true
+          result = true
         }
+        return result
+      }
+    },
+    checkMatchEmpty: function (swopCards) {
+      for (var swopCard in swopCards) {
+        var result
+        swopCard = swopCards[swopCard]
+        if (swopCard.match !== null) {
+          result = false
+        } else {
+          result = true
+        }
+        return result
       }
     },
     getRandom: function (min, max) {
