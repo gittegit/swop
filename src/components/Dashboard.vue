@@ -314,32 +314,24 @@ export default {
         })
     },
     checkWaitingEmpty: function (swopCards) {
+      var result = true
       for (var swopCard in swopCards) {
-        var result
         swopCard = swopCards[swopCard]
         if (swopCard.match === null) {
           result = false
-        } else {
-          result = true
         }
-        return result
       }
+      return result
     },
     checkMatchEmpty: function (swopCards) {
+      var result = true
       for (var swopCard in swopCards) {
-        var result
         swopCard = swopCards[swopCard]
         if (swopCard.match !== null) {
           result = false
-        } else {
-          result = true
         }
-        return result
       }
-    },
-    beforeRouteEnter (to, from, next) {
-      this.initiateDashboard()
-      next()
+      return result
     },
     setToArray: function (set) {
       console.log(Array.from(set))

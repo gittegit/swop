@@ -1,10 +1,18 @@
 import db from 'baqend'
 import Login from './components/Login'
 import VueRouter from 'vue-router'
+// import M from './Model/model.js'
 
 function dbReady (to, from, next) {
   db.ready(() => next())
 }
+
+// function logMal (to, from, next) {
+//   console.log(to)
+//   console.log(from)
+//   console.log()
+//   next()
+// }
 
 /**
  * Asynchronously load components (Webpack Lazy loading compatible)
@@ -24,9 +32,6 @@ const routes = [
   { path: '/spielregeln', name: 'spielregeln', component: view('Spielregeln'), beforeEnter: dbReady },
   { path: '/hello', name: 'hello', component: view('Hello'), beforeEnter: dbReady },
   { path: '/modal-sample', name: 'modal-sample', component: view('ModalSample'), beforeEnter: dbReady },
-  // { path: '/login', name: 'login', component: view('Login'), beforeEnter: dbReady },
-  // { path: '/chats', name: 'chats', component: view('Chats'), beforeEnter: dbReady },
-  // { path: '/chat/:id', name: 'chat', component: view('Chat'), beforeEnter: dbReady },
   { path: '/signup', name: 'signup', component: view('Signup'), beforeEnter: dbReady },
   { path: '/me', name: 'me', component: view('Me'), beforeEnter: dbReady },
   { path: '/passwort-vergessen', name: 'passwort-vergessen', component: view('ForgotPassword'), beforeEnter: dbReady },
