@@ -591,8 +591,8 @@ export default {
             this.activeStep = ''
             this.$router.push('dashboard') // umleitung auf dashboard
           }).catch((error) => {
-            var errormes = error.cause.Fehler
-            this.onFailure(errormes.substring(12, errormes.indexOf('","')))
+            var errormes = error.cause.message.message
+            this.onFailure(errormes)
           })
         } else if (!this.hasGroupFrom) { // swopcard ohne gruppen abschicken
           this.createSearchedCourses()
@@ -602,8 +602,8 @@ export default {
             this.activeStep = ''
             this.$router.push('dashboard') // umleitung auf dashboard
           }).catch((error) => {
-            var errormes = error.cause.Fehler
-            this.onFailure(errormes.substring(12, errormes.indexOf('","')))
+            var errormes = error.cause.message.message
+            this.onFailure(errormes)
           })
         }
         // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
