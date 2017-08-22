@@ -108,7 +108,7 @@
 </template>
 
 <script type="text/babel">
-import db from 'baqend'
+// import db from 'baqend'
 import router from '../router'
 import m from '../Model/model.js'
 
@@ -332,7 +332,7 @@ export default {
     * und auf die LogIn-Seite geleitet
     */
     swopLogout () {
-      db.User.logout().then(() => {
+      m.logout().then(() => {
         router.push('/')
         this.$parent.isLoggedIn = false
       })

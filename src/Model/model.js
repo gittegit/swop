@@ -82,6 +82,9 @@ class Modul {
   @return Promise
   */
   logout () {
+    this.user = null
+    this.swopCards = null
+    this.matches = null
     return db.User.logout()
   }
 
@@ -367,6 +370,12 @@ class Modul {
    */
   acceptMatch (matchId) {
     return db.modules.post('acceptMatch', {id: matchId})
+    .then((val) => {
+      this.parseAndSaveUserData(val.success.user)
+      return new Promise(function (resolve, reject) {
+        resolve(val)
+      })
+    })
   }
 
   /**
@@ -376,6 +385,12 @@ class Modul {
    */
   declineMatch (matchId) {
     return db.modules.post('declineMatch', {id: matchId})
+    .then((val) => {
+      this.parseAndSaveUserData(val.success.user)
+      return new Promise(function (resolve, reject) {
+        resolve(val)
+      })
+    })
   }
 
   /**
