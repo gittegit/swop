@@ -142,7 +142,7 @@ export default {
   },
 
   created () {
-    m.loadUserData().then(() => {
+    m.initUserData().then(() => {
       // Display-Namen holen
       this.name = m.getDisplayName()
       // Mail-Adresse holen
