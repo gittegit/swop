@@ -35,6 +35,7 @@ class Modul {
   * @returns {Promise}
   */
   initUserData () {
+    if (!this.user || !this.matches || !this.swopCards) return
     return db.User.load(db.User.me.id, {depth: 3})
       .then((user) => {
         this.parseAndSaveUserData(user)
