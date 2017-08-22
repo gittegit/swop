@@ -153,11 +153,12 @@ class Modul {
   */
   createSwopCard (searchedCourses, searchedGroups, courseId, group) {
     let promiseValue
-    return db.modules.post('createSwopCard', {
-      searchedCourses,
-      searchedGroups,
-      courseId,
-      group
+    return db.modules.post('SwopCardService', {
+      route: 'CREATE_SWOP_CARD',
+      searchedCourses: searchedCourses,
+      searchedGroups: searchedGroups,
+      courseId: courseId,
+      group: group
     })
     .then((val) => {
       console.log('Swopcard erstellt', val) // TODO: WTF WTF WTF
@@ -226,7 +227,10 @@ class Modul {
    */
   deleteSwopCard (id) {
     let promiseValue
-    return db.modules.post('deleteSwopCard', {id: id})
+    return db.modules.post('SwopCardService', {
+      route: 'DELETE_SWOP_CARD',
+      id: id
+    })
       .then((s) => {
         promiseValue = s
         return this.loadUserData()
