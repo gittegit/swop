@@ -52,6 +52,8 @@ class Modul {
     const swopTemp = new Map()
     const matchesTemp = new Map()
     currentUser.swopCards.forEach((swopCard) => {
+      swopCard.updatedAt = new Date(swopCard.updatedAt)
+      swopCard.createdAt = new Date(swopCard.createdAt)
       swopTemp.set(swopCard.id, swopCard)
       if (swopCard.match) matchesTemp.set(swopCard.match.id, swopCard.match)
     })
@@ -202,10 +204,15 @@ class Modul {
       group: group
     })
     .then((val) => {
-      this.parseAndSaveUserData(val.success.user)
-      return new Promise(function (resolve, reject) {
-        console.log('M nach erstellung von Swopcard', M)
-        resolve(val)
+      const parsedValue = JSON.parse(JSON.stringify(val))
+      // console.log('ParsedValue', parsedValue)
+      this.parseAndSaveUserData(parsedValue.success.user)
+      this.getMySwopCards().then((e) => {
+        return new Promise(function (resolve, reject) {
+          // console.log('M nach erstellung von Swopcard', M)
+          // console.log('swopcards nach der Erstellung', e)
+          resolve(val)
+        })
       })
     })
     // .then((val) => {
@@ -243,19 +250,13 @@ class Modul {
    * @returns {Promise} containing the Swopcards as an Array
    */
   getMySwopCards () {
-    if (!this.swopCards) {
-      this.initUserData().then(() => {
-        const swoppies = Array.from(this.swopCards.values())
-        return new Promise(function (resolve, reject) {
-          resolve(swoppies)
-        })
-      })
-    } else {
-      const swoppies = Array.from(this.swopCards.values())
-      return new Promise(function (resolve, reject) {
-        resolve(swoppies)
-      })
-    }
+    // console.log('swopcards in getMySwopCards', this.swopCards)
+    const swoppies = Array.from(this.swopCards.values())
+    // console.log('getMySwopCards 2')
+    return new Promise(function (resolve, reject) {
+      // console.log('getMySwopCards 3')
+      resolve(swoppies)
+    })
   }
 
   /**
@@ -316,7 +317,7 @@ class Modul {
     matchObj = this.matches.get(matchId)
     // if (!matchObj) throw 'No match was found with that id that belongs to you'
     // find out if db.User.me is user1 oder user2 and check that status
-    console.log(matchObj, db.User.me.id)
+    // console.log(matchObj, db.User.me.id)
     if (matchObj.user1.user.id === db.User.me.id) {
       return matchObj.status1 === 'WAITING'
     } else if (matchObj.user2.user.id === db.User.me.id) {
