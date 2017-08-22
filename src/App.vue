@@ -205,6 +205,11 @@ form:not(:last-child) {
 .has-addons, .is-grouped {
   margin-bottom: 0 !important;
 }
+.has-addons .button {
+  margin-left: 1px !important;
+  // border-top-right-radius: 0 !important;
+  // border-bottom-right-radius: 0 !important;
+}
 
 /* Tabs */
 .tabs.is-toggle li.is-active a {

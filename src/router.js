@@ -6,6 +6,11 @@ import VueRouter from 'vue-router'
 function dbReady (to, from, next) {
   db.ready(() => next())
 }
+// function initUserData () {
+//   M.initUserData().then((result) => {
+//     console.log('InitUserData ' + result)
+//   })
+// }
 
 // function logMal (to, from, next) {
 //   console.log(to)

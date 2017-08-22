@@ -214,7 +214,8 @@ export default {
   created () {
     console.log(db.User.me.username)
     // this.displayName = db.User.me.displayName
-    M.initUserData().then(() => {
+    M.initUserData().then((result) => {
+      console.log(result)
       this.initiateDashboard()
     })
     // Einzelne SwopCard hat folgende Einträge:
@@ -301,6 +302,7 @@ export default {
       M.getMySwopCards()
         .then((swopCards) => {
           this.mySwopCards = swopCards // Zuweisen der geladenen SwopCards auf lokales Array
+          console.log('SwopCards geladen' + this.mySwopCards)
           if (this.mySwopCards.length === 0) { // Check auf Inhalt
             this.noSwopCards = true
           } else {
@@ -375,6 +377,10 @@ export default {
     logMal: function (event) {
       // Testfunktion, die man an alle Events dranhängen kann, um sie zu loggen
       console.log(event)
+    },
+    beforeRouteEnter: function (to, from, next) {
+      this.initiateDashboard()
+      next()
     }
   }
 }
