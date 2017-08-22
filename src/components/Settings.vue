@@ -14,7 +14,7 @@
             <p class="subtitle">Dieser Name wird Deinem swop-Partner angezeigt.</p>
             <b-field>
               <div class="control has-icons-left is-expanded" v-on:keyup="showNameButton">
-                <b-input type="text" v-model="name" placeholder="Dein Name"></b-input>
+                <input class="input" type="text" v-model="name" v-on:keyup.enter="changeName" placeholder="Dein Name"></b-input>
                   <span class="icon is-small is-left">
                     <i class="fa fa-user"></i>
                   </span>
@@ -34,8 +34,8 @@
                 <p class="subtitle">Deine <strong>Uni-Mail Adresse</strong> lautet: {{ loginEmail }}</p>
                 <p class="subtitle">Du kannst eine weitere Mail-Adresse hinzufügen. Benachrichtigungen aus dieser App werden dann zusätzlich an diese Mail geschickt. Du kannst Dich weiterhin <strong>nur</strong> mit deiner Uni-Mail einloggen.</p>
                 <b-field>
-                  <div class="control has-icons-left is-expanded" v-on:keyup.enter="mailValidator" v-on:keyup="showMailButton">
-                      <b-input v-model="email" placeholder="Deine Mail-Adresse"></b-input>
+                  <div class="control has-icons-left is-expanded" v-on:keyup="showMailButton">
+                      <input class="input" v-model="email" v-on:keyup.enter="mailValidator" placeholder="Deine Mail-Adresse"></b-input>
                       <span class="icon is-small is-left">
                         <i class="fa fa-envelope"></i>
                       </span>
