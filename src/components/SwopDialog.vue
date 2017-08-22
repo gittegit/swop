@@ -438,32 +438,24 @@ export default {
         position: 'is-top'
       })
     },
-    onFailure (cp) {
+    onFailure (cp) { // Fehleranzeige (nach Frontend- und Backendvalidierung)
+      var messageString
       if (cp === 'courseFromNotSet') {
-        this.$toast.open({
-          message: 'Bitte wähle Deine Veranstaltung aus.',
-          type: 'is-danger',
-          position: 'is-top'
-        })
+        messageString = 'Bitte wähle Deine Veranstaltung aus.'
       } else if (cp === 'courseTitleToArrayEmpty') {
-        this.$toast.open({
-          message: 'Bitte gib mindestens eine Wunschveranstaltung an.',
-          type: 'is-danger',
-          position: 'is-top'
-        })
+        messageString = 'Bitte gib mindestens eine Wunschveranstaltung an.'
       } else if (cp === 'courseGroupToArrayEmpty') {
-        this.$toast.open({
-          message: 'Bitte gib mindestens eine Wunschgruppe an.',
-          type: 'is-danger',
-          position: 'is-top'
-        })
+        messageString = 'Bitte gib mindestens eine Wunschgruppe an.'
+      } else if (cp === null) {
+        messageString = 'Oops, irgendentwas scheint schief gelaufen zu sein.'
       } else {
-        this.$toast.open({
-          message: 'Oops, irgendentwas scheint schief gelaufen zu sein. Swoppy ist jetzt traurig.',
-          type: 'is-danger',
-          position: 'is-top'
-        })
+        messageString = cp + '!'
       }
+      this.$toast.open({
+        message: messageString,
+        type: 'is-danger',
+        position: 'is-top'
+      })
     },
     // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     // –––––––––––––––––––––––––––––– AUTOCOMPLETE ––––––––––––––––––––––––––––––––––––––
@@ -594,14 +586,27 @@ export default {
           this.createSearchedGroups()
           this.createSearchedCoursesSingle()
           M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
+          .then(() => {
+            this.stepsDone = []
+            this.activeStep = ''
+            this.$router.push('dashboard') // umleitung auf dashboard
+          }).catch((error) => {
+            var errormes = error.cause.Fehler
+            this.onFailure(errormes.substring(12, errormes.indexOf('","')))
+          })
         } else if (!this.hasGroupFrom) { // swopcard ohne gruppen abschicken
           this.createSearchedCourses()
           M.createSwopCard(this.searchedCourses, this.searchedGroups, this.courseTitleFrom.substring(0, this.courseTitleFrom.indexOf(' –')), this.courseGroupFrom)
+          .then(() => {
+            this.stepsDone = []
+            this.activeStep = ''
+            this.$router.push('dashboard') // umleitung auf dashboard
+          }).catch((error) => {
+            var errormes = error.cause.Fehler
+            this.onFailure(errormes.substring(12, errormes.indexOf('","')))
+          })
         }
-        this.stepsDone = []
-        this.activeStep = ''
         // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
-        this.$router.push('dashboard') // umleitung auf dashboard
       } else if (this.newCourse) { // 'Neuen Kurs erstellen' nach Kurserstellungs-Dialog
       // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
       // –––––––––––––––––––––––––––––––– ACTIONS ––––––––––––––––––––––––––––––––––––––
