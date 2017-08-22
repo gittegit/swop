@@ -31,6 +31,35 @@ class Modul {
   }
 
   /**
+  * Initialisiert die User Daten einmal zu Begin
+  * @returns {Promise}
+  */
+  initUserData () {
+    return db.User.load(db.User.me.id, {depth: 3})
+      .then((user) => {
+        this.parseAndSaveUserData(user)
+      })
+  }
+
+  parseAndSaveUserData (currentUser) {
+    this.user = currentUser
+    const swopTemp = new Map()
+    const matchesTemp = new Map()
+    currentUser.swopCards.forEach((swopCard) => {
+      console.log('schleife: ', swopCard)
+      swopTemp.set(swopCard.id, swopCard)
+      if (swopCard.match) matchesTemp.set(swopCard.match.id, swopCard.match)
+    })
+    this.swopCards = swopTemp
+    this.matches = matchesTemp
+  }
+
+  parseAndSaveRestrictedUserInfoData (restrictedUserInfo) {
+    this.user.restrictedUserInfo.name = restrictedUserInfo.name
+    this.user.restrictedUserInfo.email = restrictedUserInfo.email
+  }
+
+  /**
   Loggt den User ein
   @param username: der username (Emailadresse) des Users
   @param pw: password des Users
@@ -77,9 +106,6 @@ class Modul {
     return this.user.username
   }
 
-  getRestrictedUserInfoFromPartner (matchId) {
-    // TODO: implementiert
-  }
   /**
    * updates the displayName of the user
    * @param displayName
@@ -88,17 +114,28 @@ class Modul {
   updateUsername (displayName) {
     // return db.modules.post('updateDisplayName', {displayName: displayName})
     return db.modules.post('UserService', {route: 'UPDATE_DISPLAY_NAME', displayName: displayName})
+      .then((val) => {
+        this.parseAndSaveRestrictedUserInfoData(val.success.updatedRestrictedUserInfo)
+        return new Promise(function (resolve, reject) {
+          resolve(val)
+        })
+      })
   }
 
   /**
-   * updates the email of the user, but it is not the login email
+   * Updatet die Email an die die Swopbenachrichtigungen geschickt werden und
    * @param email
    * @returns {Promise.<*>}
    */
   updateEmail (email) {
     email = email.toLowerCase()
-    // return db.modules.post('updateEmail', {email: email})
     return db.modules.post('UserService', {route: 'UPDATE_EMAIL', email: email})
+      .then((val) => {
+        this.parseAndSaveRestrictedUserInfoData(val.success.updatedRestrictedUserInfo)
+        return new Promise(function (resolve, reject) {
+          resolve(val)
+        })
+      })
   }
 
   /**
@@ -152,7 +189,6 @@ class Modul {
   @return Promise
   */
   createSwopCard (searchedCourses, searchedGroups, courseId, group) {
-    let promiseValue
     return db.modules.post('SwopCardService', {
       route: 'CREATE_SWOP_CARD',
       searchedCourses: searchedCourses,
@@ -161,16 +197,22 @@ class Modul {
       group: group
     })
     .then((val) => {
-      console.log('Swopcard erstellt', val) // TODO: WTF WTF WTF
-      promiseValue = val
-      return this.loadUserData()
-    })
-    .then(() => {
-      console.log('Swopcard erstellt', this.swopCards)
+      this.parseAndSaveUserData(val.success.user)
       return new Promise(function (resolve, reject) {
-        resolve(promiseValue)
+        resolve(val)
       })
     })
+    // .then((val) => {
+    //   console.log('Swopcard erstellt', val) // TODO: WTF WTF WTF
+    //   promiseValue = val
+    //   return this.loadUserData()
+    // })
+    // .then(() => {
+    //   console.log('Swopcard erstellt', this.swopCards)
+    //   return new Promise(function (resolve, reject) {
+    //     resolve(promiseValue)
+    //   })
+    // })
   }
 
   /**
@@ -201,46 +243,22 @@ class Modul {
     })
   }
 
-  // /**
-  //  * load a swopcard object by its id
-  //  * @param swopCardId
-  //  */
-  // loadSwopCardById (swopCardId) {
-  //   return db.SwopCard.load(swopCardId)
-  // }
-  //
-  // /**
-  //  * get all swopCards from the current User
-  //  * @returns Set
-  //  */
-  // getMySwopCards () {
-  //   // var currentUser = db.User.me
-  //   return db.User.load(db.User.me.id, {depth: 1}).then((currentUser) => {
-  //     return Array.from(currentUser.swopCards)
-  //   })
-  // }
-
   /**
    * Deletes a swopcard by its given id
    * @param id of the swopCard
    * @returns {Promise.<*>}
    */
   deleteSwopCard (id) {
-    let promiseValue
     return db.modules.post('SwopCardService', {
       route: 'DELETE_SWOP_CARD',
       id: id
     })
-      .then((s) => {
-        promiseValue = s
-        return this.loadUserData()
+    .then((val) => {
+      this.parseAndSaveUserData(val.success.user)
+      return new Promise(function (resolve, reject) {
+        resolve(val)
       })
-      .then(() => {
-        console.log('Swopcard geloescht', this.swopCards)
-        return new Promise(function (resolve, reject) {
-          resolve(promiseValue)
-        })
-      })
+    })
   }
 
   /**
