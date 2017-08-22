@@ -86,8 +86,8 @@ class Modul {
    * @returns {Promise.<*>}
    */
   updateUsername (displayName) {
-    return db.modules.post('updateDisplayName', {displayName: displayName})
-    // return db.modules.post('UserService', {route: 'DELETE_USER'})
+    // return db.modules.post('updateDisplayName', {displayName: displayName})
+    return db.modules.post('UserService', {route: 'UPDATE_DISPLAY_NAME', displayName: displayName})
   }
 
   /**
@@ -96,8 +96,9 @@ class Modul {
    * @returns {Promise.<*>}
    */
   updateEmail (email) {
-    return db.modules.post('updateEmail', {email: email})
-    // return db.modules.post('UserService', {route: 'DELETE_USER'})
+    email = email.toLowerCase()
+    // return db.modules.post('updateEmail', {email: email})
+    return db.modules.post('UserService', {route: 'UPDATE_EMAIL', email: email})
   }
 
   /**
