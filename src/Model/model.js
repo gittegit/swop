@@ -14,36 +14,37 @@ class Modul {
   * Lädt alle nötigen Userdaten, damit man lokal mit ihnen arbeiten kann
   * @return {Promise}
   */
-  loadUserData () {
-    if (!db.User.me) return
-    return db.User.load(db.User.me.id, {depth: 3})
-      .then((currentUser) => {
-        this.user = currentUser
-        const swopTemp = new Map()
-        const matchesTemp = new Map()
-        currentUser.swopCards.forEach((swopCard) => {
-          swopTemp.set(swopCard.id, swopCard)
-          if (swopCard.match) matchesTemp.set(swopCard.match.id, swopCard.match)
-        })
-        this.swopCards = swopTemp
-        this.matches = matchesTemp
-      })
-  }
+  // loadUserData () {
+  //   if (!db.User.me) return
+  //   return db.User.load(db.User.me.id, {depth: 3})
+  //     .then((currentUser) => {
+  //       this.user = currentUser
+  //       const swopTemp = new Map()
+  //       const matchesTemp = new Map()
+  //       currentUser.swopCards.forEach((swopCard) => {
+  //         swopTemp.set(swopCard.id, swopCard)
+  //         if (swopCard.match) matchesTemp.set(swopCard.match.id, swopCard.match)
+  //       })
+  //       this.swopCards = swopTemp
+  //       this.matches = matchesTemp
+  //     })
+  // }
 
   /**
   * Initialisiert die User Daten einmal zu Begin
   * @returns {Promise}
   */
   initUserData () {
-    if (!this.user || !this.matches || !this.swopCards) {
+    if (this.user || this.matches || this.swopCards) {
       return new Promise(function (resolve, reject) {
-        resolve('Töfte')
+        resolve('Userdaten waren schon initialisiert')
       })
+    } else {
+      return db.User.load(db.User.me.id, {depth: 3})
+        .then((user) => {
+          this.parseAndSaveUserData(user)
+        })
     }
-    return db.User.load(db.User.me.id, {depth: 3})
-      .then((user) => {
-        this.parseAndSaveUserData(user)
-      })
   }
 
   parseAndSaveUserData (currentUser) {
@@ -51,7 +52,6 @@ class Modul {
     const swopTemp = new Map()
     const matchesTemp = new Map()
     currentUser.swopCards.forEach((swopCard) => {
-      console.log('schleife: ', swopCard)
       swopTemp.set(swopCard.id, swopCard)
       if (swopCard.match) matchesTemp.set(swopCard.match.id, swopCard.match)
     })
@@ -204,6 +204,7 @@ class Modul {
     .then((val) => {
       this.parseAndSaveUserData(val.success.user)
       return new Promise(function (resolve, reject) {
+        console.log('M nach erstellung von Swopcard', M)
         resolve(val)
       })
     })
@@ -242,10 +243,19 @@ class Modul {
    * @returns {Promise} containing the Swopcards as an Array
    */
   getMySwopCards () {
-    const swoppies = Array.from(this.swopCards.values())
-    return new Promise(function (resolve, reject) {
-      resolve(swoppies)
-    })
+    if (!this.swopCards) {
+      this.initUserData().then(() => {
+        const swoppies = Array.from(this.swopCards.values())
+        return new Promise(function (resolve, reject) {
+          resolve(swoppies)
+        })
+      })
+    } else {
+      const swoppies = Array.from(this.swopCards.values())
+      return new Promise(function (resolve, reject) {
+        resolve(swoppies)
+      })
+    }
   }
 
   /**
@@ -376,6 +386,5 @@ class Modul {
 }
 
 const M = new Modul()
-if (db.User.me) M.loadUserData()
 
 module.exports = M
