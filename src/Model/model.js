@@ -104,7 +104,7 @@ class Modul {
    * Deletes the user for EVER
    * @returns {*|{value}}
    */
-  delete () {
+  deleteUser () {
     return db.modules.post('UserService', {route: 'DELETE_USER'})
   }
 

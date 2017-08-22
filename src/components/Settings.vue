@@ -307,7 +307,7 @@ export default {
         cancelText: 'Abbrechen',
         type: 'is-danger',
         onConfirm: (value) => {
-          m.delete().then((result) => {
+          m.deleteUser().then((result) => {
             this.swopLogout()
           }).catch((error) => {
             console.log(error)
