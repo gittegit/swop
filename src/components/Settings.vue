@@ -98,7 +98,7 @@
             <!-- Button (Account löschen & Logout) -->
             <p class="flex-center flex-center-left">
               <a class="has-text-secondary is-white font-klein margin-right" v-on:click="deleteAccount">Account löschen</a>
-              <a class="button is-primary has-icon-right" v-on:click="swopLogout">LogOut<i class="fa fa-sign-out icon-margin"></i></a>
+              <a class="button is-primary has-icon-right" v-on:click="swopLogout">Ausloggen<i class="fa fa-sign-out icon-margin"></i></a>
             </p>
         </div>
 <!-- Form zu Ende -->

@@ -20,7 +20,7 @@
 
                   <!-- Beginn einer einzelnen Karte -->
                   <!-- im v-if wird die Filtrierung der Karten vorgenommen und dann darüber iteriert -->
-                  <!-- Ist eine Karte ein match, so wird eine Klasse hinzugefügt, die die Karte abhebt -->
+                  <!-- Ist eine Karte ein match, so wird eine Klasse hinzugefügt, die die Karte optisch abhebt -->
                   <div v-if="hasMatch(swopCard) === activeTab || activeTab === 'ALL'" v-for="swopCard in mySwopCards" class="swop-card card" :class="{'swop-accepted':swopCard.match}">
 
                       <!-- Kartenheader -->
