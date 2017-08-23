@@ -424,28 +424,34 @@ export default {
     setNewCourseId () {
       this.hasNewCourseIdSet = true
     },
-    onSuccess () {
+    onSuccess (sm) {
+      var successMess
+      if (sm === 'courseCreated') {
+        successMess = 'Deine Veranstaltung wurde erfolgreich erstellt!'
+      } else if (sm === 'swopCardCreated') {
+        successMess = 'Deine Tauschkarte wurde erfolgreich erstellt!'
+      }
       this.$toast.open({
-        message: 'Die Veranstaltung wurde erfolgreich erstellt!',
+        message: successMess,
         type: 'is-success',
         position: 'is-top'
       })
     },
     onFailure (cp) { // Fehleranzeige (nach Frontend- und Backendvalidierung)
-      var messageString
+      var errorMes
       if (cp === 'courseFromNotSet') {
-        messageString = 'Bitte wähle Deine Veranstaltung aus.'
+        errorMes = 'Bitte wähle Deine Veranstaltung aus.'
       } else if (cp === 'courseTitleToArrayEmpty') {
-        messageString = 'Bitte gib mindestens eine Wunschveranstaltung an.'
+        errorMes = 'Bitte gib mindestens eine Wunschveranstaltung an.'
       } else if (cp === 'courseGroupToArrayEmpty') {
-        messageString = 'Bitte gib mindestens eine Wunschgruppe an.'
+        errorMes = 'Bitte gib mindestens eine Wunschgruppe an.'
       } else if (cp === null) {
-        messageString = 'Oops, irgendentwas scheint schief gelaufen zu sein.'
+        errorMes = 'Oops, irgendentwas scheint schief gelaufen zu sein.'
       } else {
-        messageString = cp + '!'
+        errorMes = cp + '.'
       }
       this.$toast.open({
-        message: messageString,
+        message: errorMes,
         type: 'is-danger',
         position: 'is-top'
       })
@@ -581,6 +587,7 @@ export default {
           .then(() => {
             this.stepsDone = []
             this.activeStep = ''
+            this.onSuccess('swopCardCreated')
             this.$router.push('dashboard') // umleitung auf dashboard
           }).catch((error) => {
             var errormes = error.cause.message.message
@@ -592,6 +599,7 @@ export default {
           .then(() => {
             this.stepsDone = []
             this.activeStep = ''
+            this.onSuccess('swopCardCreated')
             this.$router.push('dashboard') // umleitung auf dashboard
           }).catch((error) => {
             var errormes = error.cause.message.message
@@ -605,7 +613,7 @@ export default {
             .then(() => {
               this.initiateAC()
               this.newCourse = false // schließen des Formulars/Dialogs
-              this.onSuccess()
+              this.onSuccess('courseCreated')
             }).catch((error) => {
               var errormes = error.cause.message
               this.onFailure(errormes)
@@ -620,7 +628,7 @@ export default {
             .then(() => {
               this.initiateAC()
               this.newCourse = false // schließen des Formulars/Dialogs
-              this.onSuccess()
+              this.onSuccess('courseCreated')
             }).catch((error) => {
               var errormes = error.cause.message
               this.onFailure(errormes)
@@ -752,6 +760,9 @@ border-color: #0F75BC !important;
 
 .white-modal .is-white {
   color: #F39016;
+}
+.modal .container {
+  width: auto !important;
 }
 
 .modal-background {
