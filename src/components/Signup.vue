@@ -83,7 +83,7 @@
           <p class="help is-danger">{{swopError}}</p>
           <div class="spacer"></div>
           <div class="field">
-            <b-checkbox v-model="checkBoxChecked">Ich habe die <a @click="toggleModal()">Allgemeinen Gurkenbedingungen</a> gelesen und akzeptiere diese</b-checkbox>
+            <b-checkbox v-model="checkBoxChecked">Ich habe die <a @click="toggleModal()">Allgemeinen Gurkenbedingungen</a> gelesen und akzeptiere diese.</b-checkbox>
             <p v-if="checkError" class="help is-danger">Akzeptiere die Allgemeinen Gurkenbedingungen.</p>
           </div>
           </form>
