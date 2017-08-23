@@ -10,7 +10,7 @@
 
           <!-- Hier kann man seinen Displaynamen ändern -->
           <form class="change-name">
-            <h4 class="title is-6">Namen ändern</h4>
+            <h4 class="title is-6">Name ändern</h4>
             <p class="subtitle">Dieser Name wird Deinem Tauschpartner angezeigt.</p>
             <b-field>
               <div class="control has-icons-left is-expanded" v-on:keyup="showNameButton">
@@ -32,8 +32,8 @@
 
           <!-- Hier kann man eine neue Mail-Adresse angeben und ändern -->
             <form class="add-email">
-                <h4 class="title is-6">Deine zusätzliche Mail-Adressen</h4>
-                <p class="help">Du kannst eine weitere Mail-Adresse hinzufügen. Benachrichtigungen aus dieser App nicht mehr an {{ loginEmail }} gesendet, sondern an Deine zusätzliche Mail-Adresse. Du kannst Dich weiterhin <strong>nur</strong> mit Deiner verifizierten Uni-Mail einloggen.</p>
+                <h4 class="title is-6">Zusätzliche Mail-Adresse</h4>
+                <p class="help">Wenn Du eine zusätzliche Mail-Adresse hinterlegst, werden Benachrichtigungen aus swop nur noch an diese Adresse gesendet. Einloggen kannst Du dich aber weiterhin <strong>nur</strong> mit Deiner verifizierten Uni-Mail (<strong>{{ loginEmail }}</strong>).</p>
                 <b-field>
                   <div class="control has-icons-left is-expanded" v-on:keyup="showMailButton">
                       <input class="input" v-model="email" v-on:keyup.enter="mailValidator" placeholder="Deine Mail-Adresse"></b-input>
@@ -53,7 +53,7 @@
                 </b-field>
                 <!-- Fehlermeldungen / Success-Meldung -->
                 <p class="help is-success">{{mailSuccess}}</p>
-                <p v-if="mailError" class="help is-danger">Gib bitte eine korrekte Mail-Adresse an.</p>
+                <p v-if="mailError" class="help is-danger">Bitte gib eine korrekte Mail-Adresse an.</p>
             </form>
 
             <!-- Hier kann man sein Passwort ändern -->
