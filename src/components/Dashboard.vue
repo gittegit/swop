@@ -212,7 +212,9 @@ export default {
     }
   },
   created () {
-    console.log(db.User.me.username)
+    if (!db.User.me) {
+      this.$router.push('/')
+    }
     // this.displayName = db.User.me.displayName
     M.initUserData().then((result) => {
       console.log(result)
@@ -427,8 +429,12 @@ export default {
       console.log(event)
     },
     beforeRouteEnter: function (to, from, next) {
-      this.initiateDashboard()
-      next()
+      if (db.User.me !== null) {
+        next()
+        this.initiateDashboard()
+      } else {
+        next('/')
+      }
     }
   }
 }

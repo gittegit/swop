@@ -53,7 +53,9 @@ export default {
     }
   },
   created () {
-    console.log(db.User.me)
+    if (!db.User.me) {
+      this.$router.push('/')
+    }
   }
 }
 </script>
