@@ -50,7 +50,7 @@ class Modul {
   }
 
   parseAndSaveRestrictedUserInfoData (restrictedUserInfo) {
-    this.user.restrictedUserInfo.name = restrictedUserInfo.name
+    this.user.restrictedUserInfo.name = restrictedUserInfo.displayName
     this.user.restrictedUserInfo.email = restrictedUserInfo.email
   }
 
