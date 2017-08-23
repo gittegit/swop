@@ -351,16 +351,7 @@ export default {
         })
     },
     refreshHard: function () {
-      M.refreshHard().then(() => {
-        this.initiateDashboard()
-      }).catch((error) => {
-        console.log(error)
-        var errorMessage = error.cause.message
-        this.$toast.open({
-          duration: 5000,
-          message: errorMessage,
-          type: 'is-danger'})
-      })
+      document.location.reload()
     },
     checkWaitingEmpty: function (swopCards) {
       var result = true
