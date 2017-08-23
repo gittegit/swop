@@ -11,6 +11,17 @@ class Modul {
   }
 
   /**
+  * Zieht User Daten vom Server, auch wenn schon etwas geladen war
+  *
+  */
+  refreshHard () {
+    return db.User.load(db.User.me.id, {depth: 3})
+      .then((user) => {
+        this.parseAndSaveUserData(user)
+      })
+  }
+
+  /**
   * Initialisiert die User Daten einmal zu Begin
   * @returns {Promise}
   */
@@ -20,10 +31,7 @@ class Modul {
         resolve('Userdaten waren schon initialisiert')
       })
     } else {
-      return db.User.load(db.User.me.id, {depth: 3})
-        .then((user) => {
-          this.parseAndSaveUserData(user)
-        })
+      return this.refreshHard()
     }
   }
 
@@ -234,7 +242,7 @@ class Modul {
   getMySwopCards () {
     const swoppies = Array.from(this.swopCards.values())
     swoppies.sort(function (a, b) {
-      return a.createdAt.getTime() - b.createdAt.getTime()
+      return b.createdAt.getTime() - a.createdAt.getTime()
     })
     return new Promise(function (resolve, reject) {
       // console.log('getMySwopCards 3')
