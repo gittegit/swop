@@ -11,26 +11,6 @@ class Modul {
   }
 
   /**
-  * Lädt alle nötigen Userdaten, damit man lokal mit ihnen arbeiten kann
-  * @return {Promise}
-  */
-  // loadUserData () {
-  //   if (!db.User.me) return
-  //   return db.User.load(db.User.me.id, {depth: 3})
-  //     .then((currentUser) => {
-  //       this.user = currentUser
-  //       const swopTemp = new Map()
-  //       const matchesTemp = new Map()
-  //       currentUser.swopCards.forEach((swopCard) => {
-  //         swopTemp.set(swopCard.id, swopCard)
-  //         if (swopCard.match) matchesTemp.set(swopCard.match.id, swopCard.match)
-  //       })
-  //       this.swopCards = swopTemp
-  //       this.matches = matchesTemp
-  //     })
-  // }
-
-  /**
   * Initialisiert die User Daten einmal zu Begin
   * @returns {Promise}
   */
@@ -208,7 +188,6 @@ class Modul {
     })
     .then((val) => {
       const parsedValue = JSON.parse(JSON.stringify(val))
-      // console.log('ParsedValue', parsedValue)
       this.parseAndSaveUserData(parsedValue.success.user)
       this.getMySwopCards().then((e) => {
         return new Promise(function (resolve, reject) {
@@ -253,9 +232,14 @@ class Modul {
    * @returns {Promise} containing the Swopcards as an Array
    */
   getMySwopCards () {
-    // console.log('swopcards in getMySwopCards', this.swopCards)
     const swoppies = Array.from(this.swopCards.values())
-    // console.log('getMySwopCards 2')
+    swoppies.sort(function (a, b) {
+      if (a < b) {
+        return 1
+      } else {
+        return -1
+      }
+    })
     return new Promise(function (resolve, reject) {
       // console.log('getMySwopCards 3')
       resolve(swoppies)
