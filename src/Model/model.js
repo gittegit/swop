@@ -234,11 +234,7 @@ class Modul {
   getMySwopCards () {
     const swoppies = Array.from(this.swopCards.values())
     swoppies.sort(function (a, b) {
-      if (a < b) {
-        return 1
-      } else {
-        return -1
-      }
+      return a.createdAt.getTime() - b.createdAt.getTime()
     })
     return new Promise(function (resolve, reject) {
       // console.log('getMySwopCards 3')
