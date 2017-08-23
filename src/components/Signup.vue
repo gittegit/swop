@@ -11,8 +11,26 @@
 
       <!-- Inhalt / Formulare -->
       <div class="columns is-centered">
+        <div v-if="registrationCompleted" class="column is-8 is-narrow is-form">
+          <div class="task-description-title">
+            <h4 class="title has-text-centered">Bestätigungs-Mail gesendet</h4>
+          </div>
+
+          <div class="task-description">
+            <p class="description has-text-centered">Wir haben Dir eine E-Mail an <strong>{{ username }}</strong> geschickt. Bitte bestätige Deine Registrierung, indem Du auf den Link klickst.</p>
+          </div>
+          <div class="spacer"></div>
+          <div class="spacer"></div>
+          <p class="has-text-centered">Keine Mail erhalten?</p>
+          <div class="spacer"></div>
+          <p class="has-text-centered"><a class="button is-primary" @click="registerPossible">Mail erneut senden</a></p>
+          <div class="spacer"></div>
+          <p class="has-text-centered"><router-link :to="{name: 'dashboard'}" class="is-white font-klein">Ich habe den Link bereits bestätigt.</router-link></p>
+        </div>
+
+
         <!-- Logo + Text -->
-        <div class="column is-8 is-narrow is-form">
+        <div v-else class="column is-8 is-narrow is-form">
 
           <div class="task-description-title">
             <h4 class="title has-text-centered">Registrieren</h4>
@@ -123,6 +141,7 @@ export default {
       mailSent: false,
       modalOpen: false,
       checkBoxChecked: false,
+      registrationCompleted: false,
 
       isDanger: false,
       nameError: false,
@@ -150,6 +169,7 @@ export default {
         this.checkError = true
       } else {
         this.checkError = false
+        this.registrationCompleted = true
         this.register()
       }
     },
