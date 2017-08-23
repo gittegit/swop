@@ -33,7 +33,7 @@
           <!-- Hier kann man eine neue Mail-Adresse angeben und ändern -->
             <form class="add-email">
                 <h4 class="title is-6">Zusätzliche Mail-Adresse</h4>
-                <p class="help">Wenn Du eine zusätzliche Mail-Adresse hinterlegst, werden Benachrichtigungen aus swop nur noch an diese Adresse gesendet. Einloggen kannst Du dich aber weiterhin <strong>nur</strong> mit Deiner verifizierten Uni-Mail (<strong>{{ loginEmail }}</strong>).</p>
+                <p class="help">Wenn Du eine zusätzliche Mail-Adresse hinterlegst, werden Benachrichtigungen aus swop nur noch an diese Adresse gesendet. Einloggen kannst Du Dich aber weiterhin <strong>nur</strong> mit Deiner verifizierten Uni-Mail (<strong>{{ loginEmail }}</strong>).</p>
                 <b-field>
                   <div class="control has-icons-left is-expanded" v-on:keyup="showMailButton">
                       <input class="input" v-model="email" v-on:keyup.enter="mailValidator" placeholder="Deine Mail-Adresse"></b-input>
