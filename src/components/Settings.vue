@@ -11,7 +11,7 @@
           <!-- Hier kann man seinen Displaynamen ändern -->
           <form class="change-name">
             <h4 class="title is-6">Namen ändern</h4>
-            <p class="subtitle">Dieser Name wird Deinem swop-Partner angezeigt.</p>
+            <p class="subtitle">Dieser Name wird Deinem Tauschpartner angezeigt.</p>
             <b-field>
               <div class="control has-icons-left is-expanded" v-on:keyup="showNameButton">
                 <input class="input" type="text" v-model="name" v-on:keyup.enter="changeName" placeholder="Dein Name"></b-input>
@@ -32,9 +32,8 @@
 
           <!-- Hier kann man eine neue Mail-Adresse angeben und ändern -->
             <form class="add-email">
-                <h4 class="title is-6">Deine Mail-Adressen</h4>
-                <p class="subtitle">Deine <strong>Uni-Mail Adresse</strong> lautet: {{ loginEmail }}</p>
-                <p class="subtitle">Du kannst eine weitere Mail-Adresse hinzufügen. Benachrichtigungen aus dieser App werden dann zusätzlich an diese Mail geschickt. Du kannst Dich weiterhin <strong>nur</strong> mit deiner Uni-Mail einloggen.</p>
+                <h4 class="title is-6">Deine zusätzliche Mail-Adressen</h4>
+                <p class="help">Du kannst eine weitere Mail-Adresse hinzufügen. Benachrichtigungen aus dieser App nicht mehr an {{ loginEmail }} gesendet, sondern an Deine zusätzliche Mail-Adresse. Du kannst Dich weiterhin <strong>nur</strong> mit Deiner verifizierten Uni-Mail einloggen.</p>
                 <b-field>
                   <div class="control has-icons-left is-expanded" v-on:keyup="showMailButton">
                       <input class="input" v-model="email" v-on:keyup.enter="mailValidator" placeholder="Deine Mail-Adresse"></b-input>
@@ -92,7 +91,7 @@
                 </b-field>
                 <!-- Fehlermeldungen / Success-Meldung / Button -->
                 <p v-if="passwordSuccess" class="help is-success">Dein Passwort wurde erfolgreich geändert!</p>
-                <p v-if="passwordErrorDifferent" class="help is-danger">Dein Passwort konnte nicht geändert werden. Überprüfe ob sich Dein neues und Dein alter Passwort unterscheiden.</p>
+                <p v-if="passwordErrorDifferent" class="help is-danger">Dein Passwort konnte nicht geändert werden. Überprüfe, ob sich Dein neues und Dein altes Passwort unterscheiden.</p>
                 <!-- <p v-if="passwordEmpty" class="help is-danger">Du musst ein neues Passwort eingeben.</p> -->
                 <p class="help is-danger">{{passwordError}}</p>
                 <p v-if="passwordButton" class="has-text-right"><a class="button is-primary" v-on:click="PasswordValidator">Passwort bestätigen</a></p>

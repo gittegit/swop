@@ -41,7 +41,7 @@
           <form class="signUp">
             <b-field>
               <p class="control has-icons-left ">
-                <input v-model.trim="name" class="input" :class="{'is-danger': nameError}" v-on:keyup.enter="nextInput(name)" type="text" placeholder="Deine Name" name="name" required>
+                <input v-model.trim="name" class="input" :class="{'is-danger': nameError}" v-on:keyup.enter="nextInput(name)" type="text" placeholder="Dein Name" name="name" required>
                 <span class="icon is-small is-left">
                   <i class="fa fa-user"></i>
                 </span>
