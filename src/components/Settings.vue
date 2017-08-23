@@ -26,6 +26,7 @@
                     <a class="button is-primary" v-on:click="changeName"><i class="fa fa-check"></i></a>
                 </div>
             </b-field>
+            <!-- Success-Meldung -->
             <p class="help is-success">{{nameSuccess}}</p>
           </form>
 
@@ -51,6 +52,7 @@
                         <a class="button is-primary" v-on:click="mailClear"><i class="fa fa-trash"></i></a>
                     </div>
                 </b-field>
+                <!-- Fehlermeldungen / Success-Meldung -->
                 <p class="help is-success">{{mailSuccess}}</p>
                 <p v-if="mailError" class="help is-danger">Gib bitte eine korrekte Mail-Adresse an.</p>
             </form>
@@ -117,11 +119,12 @@ export default {
   name: 'settings',
   data () {
     return {
+      // Display Name
       name: null,
       showDisabledNameButton: true,
       showNameCheckButton: false,
       nameSuccess: null,
-
+      // Mail
       email: null,
       loginEmail: null,
       showDisabledMailCheckButton: true,
@@ -129,7 +132,7 @@ export default {
       showMailClearButton: false,
       mailSuccess: null,
       mailError: false,
-
+      // Passwort
       aPassword: null,
       nPassword: null,
       bPassword: null,
@@ -139,6 +142,7 @@ export default {
       // passwordEmpty: false,
       passwordButton: false,
       isDanger: false,
+      // alles andere
       isLoggedIn: null
     }
   },
