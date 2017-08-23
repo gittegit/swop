@@ -68,7 +68,7 @@
 
                               <!-- FALL 1: Die Karte ist ACCEPTED - beide Partner haben bestätigt -->
                               <div class="swop-match-info" v-if="swopCard.status === 'ACCEPTED'">
-                                  <p>Du tauschst deinen Platz mit <strong>{{ getMatchPartner(swopCard.match.id).displayName }}</strong></p>
+                                  <p>Du tauschst Deinen Platz mit <strong>{{ getMatchPartner(swopCard.match.id).displayName }}</strong></p>
                                   <form class="swop-partner-mail">
                                       <div class="field has-addons">
                                           <div class="control has-icons-left is-expanded">
