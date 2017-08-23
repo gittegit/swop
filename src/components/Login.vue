@@ -86,7 +86,8 @@ export default {
   },
   methods: {
     logIn () {
-      db.User.login(this.username, this.password).then(_ => {
+      var lowerCaseUser = this.username.toLowerCase()
+      db.User.login(lowerCaseUser, this.password).then(_ => {
         this.$parent.isLoggedIn = true
         router.push('dashboard')
       }).catch((error) => {
