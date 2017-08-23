@@ -147,7 +147,7 @@
                           </div>
                       </div>
                   </div>
-                  <div class="refresh margin-top"><p class="has-text-centered"><a @click="initiateDashboard()" class="button is-outlined has-text-lightgrey"><i class="fa fa-refresh font-klein margin-right"></i> Aktualisieren</a></p></div>
+                  <div class="refresh margin-top animated fadeIn"><p class="has-text-centered"><a @click="refreshHard()" class="button is-outlined has-text-lightgrey"><i class="fa fa-refresh font-klein margin-right"></i> Aktualisieren</a></p></div>
               </div>
           </div>
           <!-- / Inhalt -->
@@ -277,7 +277,19 @@ export default {
       // Löscht eine swopCard anhand ihrere id
       M.deleteSwopCard(swopCard).then(() => {
         console.log(M)
+        this.$toast.open({
+          message: 'Der swop wurde gelöscht.',
+          type: 'is-success',
+          position: 'is-top'
+        })
         this.initiateDashboard()
+      }).catch((error) => {
+        console.log(error)
+        var errorMessage = error.cause.message
+        this.$toast.open({
+          duration: 5000,
+          message: errorMessage,
+          type: 'is-danger'})
       })
     },
     getSwopCardMatchStatus: function (swopCard) {
@@ -286,12 +298,29 @@ export default {
     acceptMatch: function (swopCard) {
       M.acceptMatch(swopCard).then((result) => {
         console.log(result)
+        this.$toast.open({
+          message: 'Der Match wurde bestätigt.',
+          type: 'is-success',
+          position: 'is-top'
+        })
         this.initiateDashboard()
+      }).catch((error) => {
+        console.log(error)
+        var errorMessage = error.cause.message
+        this.$toast.open({
+          duration: 5000,
+          message: errorMessage,
+          type: 'is-danger'})
       })
     },
     declineMatch: function (swopCard) {
       M.declineMatch(swopCard).then((result) => {
         console.log(result)
+        this.$toast.open({
+          message: 'Der Match wurde abgebrochen.',
+          type: 'is-success',
+          position: 'is-top'
+        })
         this.initiateDashboard()
       })
     },
@@ -310,7 +339,26 @@ export default {
           }
           var random = this.getRandom(0, this.begruessungen.length) // Würfel eine Begruessung zurecht
           this.Begruessung = this.begruessungen[random] + ' ' + M.getDisplayName() // Setze Begrüßung zusammen
+        }).catch((error) => {
+          console.log(error)
+          var errorMessage = error.cause.message
+          this.$toast.open({
+            duration: 5000,
+            message: errorMessage,
+            type: 'is-danger'})
         })
+    },
+    refreshHard: function () {
+      M.refreshHard().then(() => {
+        this.initiateDashboard()
+      }).catch((error) => {
+        console.log(error)
+        var errorMessage = error.cause.message
+        this.$toast.open({
+          duration: 5000,
+          message: errorMessage,
+          type: 'is-danger'})
+      })
     },
     checkWaitingEmpty: function (swopCards) {
       var result = true
