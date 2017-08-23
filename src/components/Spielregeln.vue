@@ -22,7 +22,7 @@
                     </li>
                     <li>
                       <strong>Jeder Deiner Tauschkarten und Matches ist für maximal 2 Wochen im System</strong><br>
-                      Dies geschiet aus Fairnessgründen und weil Ummeldephasen oft nicht länger dauern. Danach musst Du einen neuen swop erstellen.
+                      Dies geschiet aus Fairnessgründen und weil Ummeldephasen oft nicht länger dauern. Danach musst Du einen neue Tauschkarte erstellen.
                     </li>
                     <li>
                       <strong>Erzähl uns weiter!</strong><br>
