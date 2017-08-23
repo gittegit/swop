@@ -88,7 +88,7 @@
                   </div>
                 </b-field>
                 <!-- Fehlermeldungen / Success-Meldung / Button -->
-                <p v-if="passwordSuccess" class="help is-success">Deine Passwort wurde erfolgreich geändert!</p>
+                <p v-if="passwordSuccess" class="help is-success">Dein Passwort wurde erfolgreich geändert!</p>
                 <p v-if="passwordErrorDifferent" class="help is-danger">Dein Passwort konnte nicht geändert werden. Überprüfe ob sich Dein neues und Dein alter Passwort unterscheiden.</p>
                 <!-- <p v-if="passwordEmpty" class="help is-danger">Du musst ein neues Passwort eingeben.</p> -->
                 <p class="help is-danger">{{passwordError}}</p>
