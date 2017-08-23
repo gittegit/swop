@@ -29,7 +29,7 @@
         <form class="signUp">
           <div class="field">
             <p class="control has-icons-left ">
-              <input v-model.trim="username" class="input" :class="{'is-danger': LoginError}" type="mail" placeholder="Deine Uni-Mail" name="username" required>
+              <input v-model.trim="username" class="input" :class="{'is-danger': LoginError}" v-on:keyup.enter="nextInput" type="mail" placeholder="Deine Uni-Mail" name="username" required>
               <span class="icon is-small is-left">
                       <i class="fa fa-envelope"></i>
                     </span>
@@ -38,7 +38,7 @@
 
           <div class="field has-addons is-expanded">
             <p class="control has-icons-left is-expanded">
-              <input v-model="password" class="input" :class="{'is-danger': LoginError}" type="password" placeholder="Dein swop-Passwort" name="password" required>
+              <input v-model="password" id="password" class="input" :class="{'is-danger': LoginError}" v-on:keyup.enter="logIn" type="password" placeholder="Dein swop-Passwort" name="password" required>
               <span class="icon is-small is-left">
                         <i class="fa fa-lock"></i>
               </span>
@@ -92,8 +92,10 @@ export default {
       }).catch((error) => {
         console.log(error)
         this.LoginError = error.cause.message
-        console.log(error.cause.message)
       })
+    },
+    nextInput () {
+      document.getElementById('password').focus()
     }
   },
   beforeRouteEnter (to, from, next) {

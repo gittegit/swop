@@ -28,7 +28,7 @@
           <form class="signUp">
             <b-field>
               <p class="control has-icons-left ">
-                <input v-model.trim="name" class="input" :class="{'is-danger': nameError}" type="text" placeholder="Deine Name" name="name" required>
+                <input v-model.trim="name" class="input" :class="{'is-danger': nameError}" v-on:keyup.enter="nextInput(name)" type="text" placeholder="Deine Name" name="name" required>
                 <span class="icon is-small is-left">
                   <i class="fa fa-user"></i>
                 </span>
@@ -38,7 +38,7 @@
 
             <b-field>
               <p class="control has-icons-left ">
-                <input v-model.trim="username" class="input" :class="{'is-danger': swopError}" type="mail" placeholder="Deine Uni-Mail" name="username" required>
+                <input v-model.trim="username" id="username" class="input" :class="{'is-danger': swopError}" v-on:keyup.enter="nextInput(username)" type="mail" placeholder="Deine Uni-Mail" name="username" required>
                 <span class="icon is-small is-left">
                   <i class="fa fa-envelope"></i>
                 </span>
@@ -48,7 +48,7 @@
 
             <b-field>
               <p class="control has-icons-left">
-                <input v-model="password" class="input" type="password" placeholder="Dein swop-Passwort" name="password" required>
+                <input v-model="password" id="password" class="input" v-on:keyup.enter="nextInput(password)" type="password" placeholder="Dein swop-Passwort" name="password" required>
                 <span class="icon is-small is-left">
                   <i class="fa fa-lock"></i>
                 </span>
@@ -58,7 +58,7 @@
             <b-field>
             <div v-on:keyup="confirmPasswordValidator">
               <p class="control has-icons-left">
-                <input v-model="bPassword" class="input" v-bind:class="{ dangerInput : isDanger }" type="password" placeholder="Bestätige Dein swop-Passwort" name="bPassword" required>
+                <input v-model="bPassword" id="bPassword" class="input" v-bind:class="{ dangerInput : isDanger }" v-on:keyup.enter="registerPossible" type="password" placeholder="Bestätige Dein swop-Passwort" name="bPassword" required>
                 <span class="icon is-small is-left">
                   <i class="fa fa-lock"></i>
                 </span>
@@ -135,13 +135,11 @@ export default {
   methods: {
     register () {
       M.register(this.name, this.username, this.password).then((result) => {
-        console.log(result)
         this.mailSent = true
 //        router.push('me')
       }).catch((error) => {
         console.log(error)
         this.swopError = error.cause.message
-        console.log(this.swopError)
       })
     },
     registerPossible () {
@@ -169,6 +167,16 @@ export default {
     toggleModal () {
       this.modalOpen = !this.modalOpen
       this.checkBoxChecked = false
+    },
+
+    nextInput (myInput) {
+      if (myInput === this.name) {
+        document.getElementById('username').focus()
+      } else if (myInput === this.username) {
+        document.getElementById('password').focus()
+      } else if (myInput === this.password) {
+        document.getElementById('bPassword').focus()
+      }
     }
 
   },

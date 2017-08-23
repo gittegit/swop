@@ -60,7 +60,7 @@
 
                 <b-field>
                     <p class="control has-icons-left ">
-                      <input class="input" type="password" v-model="aPassword" :class="{'is-danger': passwordError}" v-on:keyup.enter="next(aPassword)" placeholder="Dein altes Passwort"></input>
+                      <input class="input" type="password" v-model="aPassword" :class="{'is-danger': passwordError}" v-on:keyup.enter="nextInput(aPassword)" placeholder="Dein altes Passwort"></input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
@@ -70,7 +70,7 @@
 
                 <b-field>
                     <p class="control has-icons-left">
-                        <input class="input" id="nPassword" type="password" v-model="nPassword" :class="{'is-danger': passwordErrorDifferent }" v-on:keyup.enter="next(nPassword)" placeholder="Dein neues Passwort"></input>
+                        <input class="input" id="nPassword" type="password" v-model="nPassword" :class="{'is-danger': passwordErrorDifferent }" v-on:keyup.enter="nextInput(nPassword)" placeholder="Dein neues Passwort"></input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
@@ -254,6 +254,7 @@ export default {
     * Testen, dass neues Passwort geschrieben wurde (emptyPasswordValidator)
     * neues Passwort bestätigen (confirmPasswordValidator)
     * altes Passwort mit der Datenbank abgleichen und neues Passwort setzen (PasswordValidator)
+    * in das nächste Input springen (nextInput)
     */
     differentPasswordValidator () {
       if (this.aPassword === this.nPassword) {
@@ -300,7 +301,7 @@ export default {
         this.passwordSuccess = false
       }
     },
-    next (myInput) {
+    nextInput (myInput) {
       if (myInput === this.aPassword) {
         document.getElementById('nPassword').focus()
       } else if (myInput === this.nPassword) {
