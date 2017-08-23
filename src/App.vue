@@ -362,6 +362,9 @@ a.navbar-item .fa-cog {
 .font-klein {
   font-size: 0.75rem;
 }
+.checkbox input[type=checkbox] + .check {
+  min-width: 1.25em;
+}
 
 /* -----------------------------------------
 05.      COMPONENT-SPEZIFISCHE STYLES
@@ -487,5 +490,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 .autocomplete input {
   border-bottom-right-radius: 0px !important;
   border-top-right-radius: 0px !important;
+}
+
+
+/* -----------------------------------------
+06.          RESPONSIVE STYLING
+------------------------------------------*/
+@media only screen and(max-width: 450px) {
+  .main-content {
+    display: block !important;
+    padding: 2rem 1rem !important;
+  }
 }
 </style>

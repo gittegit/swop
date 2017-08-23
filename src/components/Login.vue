@@ -112,7 +112,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .main-content {
-  padding: 0 1rem !important;
+  padding: 0 1rem;
   display: flex;
   align-items: center;
   height: 100vh;
@@ -128,9 +128,19 @@ export default {
   border-color: #ffffff;
   box-shadow: 0px 40px 20px -20px rgba(#000000, 0.05);
 }
-@media only screen and (min-width: 400px) {
+@media only screen and (min-width: 450px) {
   .login-logo {
     width: 50%;
+  }
+  .main-content {
+    padding: 6rem 1rem !important;
+    display: block !important;
+    height: 100vh;
+    overflow-y: scroll !important;
+    background-color: #F39016;
+  }
+  .is-form {
+    margin-bottom: 3rem !important;
   }
 }
 </style>

@@ -213,7 +213,7 @@ export default {
 
 <style lang="scss" scoped>
 .main-content {
-  padding: 0 1rem !important;
+  padding: 0 1rem;
   display: flex;
   align-items: center;
   height: 100vh;
@@ -222,9 +222,19 @@ export default {
 .login-logo {
   width: 70%;
 }
-@media only screen and (min-width: 400px) {
+@media only screen and (min-width: 450px) {
   .login-logo {
     width: 50%;
+  }
+  .main-content {
+    padding: 3rem 1rem !important;
+    display: block !important;
+    height: 100vh;
+    overflow-y: scroll !important;
+    background-color: #F39016;
+  }
+  .is-form {
+    margin-bottom: 3rem !important;
   }
 }
 .is-form {
