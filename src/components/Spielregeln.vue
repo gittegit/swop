@@ -14,15 +14,15 @@
                   <ol>
                     <li>
                       <strong>Geh sensibel mit den Daten Deiner Partner um.</strong><br>
-                      Hinter jedem swop steckt auch eine andere Person. Bitte stelle nichts anderes mit der E-Mail des anderen an als für die Kontaktaufnahme.
+                      Hinter jedem Match steckt auch eine andere Person. Bitte stelle nichts anderes mit der E-Mail des anderen an als das Nutzen für die Kontaktaufnahme.
                     </li>
                     <li>
                       <strong>Schaue regelmäßig in Deine Mails.</strong><br>
-                      Du hast insgesamt 2 Tage um einen <strong class="has-text-secondary">swop</strong> zu bestätigen. Nach 2 Tagen ohne Bestätigung verfällt dieser und du musst einen neuen anlegen.
+                      Du hast insgesamt 2 Tage um einen Match zu bestätigen. Nach 2 Tagen ohne Bestätigung verfällt dieser und Du musst einen neuen anlegen.
                     </li>
                     <li>
-                      <strong>Jeder Deiner swops ist für maximal 2 Wochen im System</strong><br>
-                      Dies geschiet aus Fairnessgründen und weil Ummeldephasen oft nicht länger dauern. Danach musst Du einen neuen swop erstellen.
+                      <strong>Jeder Deiner Tauschkarten und Matches ist für maximal 2 Wochen im System</strong><br>
+                      Dies geschiet aus Fairnessgründen und weil Ummeldephasen oft nicht länger dauern. Danach musst Du einen neue Tauschkarte erstellen.
                     </li>
                     <li>
                       <strong>Erzähl uns weiter!</strong><br>

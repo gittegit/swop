@@ -38,7 +38,7 @@
                               <!-- Liste der Kurse -->
                               <div class="swop-status-courses">
                                   <div class="swop-status-course-from">
-                                      <p class="help"><span class="swop-change">Swop</span> <span class="swop-course-id">{{ swopCard.course.id.substring(11) }}</span> <span v-if="swopCard.myGroup != ''"><span v-if="swopCard.myGroup != null" class="swop-course-group my-group">Gruppe {{swopCard.myGroup}}</span></span>
+                                      <p class="help"><span class="swop-change">Tausche</span> <span class="swop-course-id">{{ swopCard.course.id.substring(11) }}</span> <span v-if="swopCard.myGroup != ''"><span v-if="swopCard.myGroup != null" class="swop-course-group my-group">Gruppe {{swopCard.myGroup}}</span></span>
                                       </p>
                                       <p class="is-title is-size-5 course-title">{{swopCard.course.name}}</p>
                                   </div>
@@ -68,7 +68,7 @@
 
                               <!-- FALL 1: Die Karte ist ACCEPTED - beide Partner haben bestätigt -->
                               <div class="swop-match-info" v-if="swopCard.status === 'ACCEPTED'">
-                                  <p>Du swopst deinen Platz mit <strong>{{ getMatchPartner(swopCard.match.id).displayName }}</strong></p>
+                                  <p>Du tauschst deinen Platz mit <strong>{{ getMatchPartner(swopCard.match.id).displayName }}</strong></p>
                                   <form class="swop-partner-mail">
                                       <div class="field has-addons">
                                           <div class="control has-icons-left is-expanded">
@@ -96,7 +96,7 @@
                                   </div>
                                   <!-- Der andere hat bestätigt, du selbst musst noch accepten -->
                                   <div v-else>
-                                      <p>Super! Wir haben einen swop-Partner für Dich! Bitte akzeptiere den swop oder, wenn du es Dir anders überlegt hast, brich ihn ab.</p>
+                                      <p>Super! Wir haben einen Tauschpartner für Dich! Bitte akzeptiere den Match oder, wenn du es Dir anders überlegt hast, brich ihn ab.</p>
                                       <p class="has-text-centered display-flex"><a class="button is-outlined is-primary margin-right" @click="declineMatch(swopCard.match.id)"><span class="margin-right"><i class="fa fa-times-circle" aria-hidden="true"></i></span>Abbrechen</a><a class="button is-primary"
                                               @click="acceptMatch(swopCard.match.id)"><span class="margin-right"><i class="fa fa-check-circle" aria-hidden="true"></i></span>Bestätigen</a></p>
                                   </div>
@@ -129,7 +129,7 @@
                       <!-- Keine Swopcards -->
                       <div v-if="noSwopCards">
                           <h2 class="title is-size-3">{{Begruessung}}!</h2>
-                          <p>Du hast noch keinen laufenden swops. Starte, indem du unter "Neue Anfrage" einen neuen swop erstellst. Deine laufenden swops werden dir dann hier angezeigt. <strong>Viel Spaß!</strong></p>
+                          <p>Du hast noch keinen laufenden Tauschkarten. Starte, indem du unter "Neue Anfrage" einen neue Karte erstellst. Deine laufenden Karten werden Dir dann hier angezeigt. <strong>Viel Spaß!</strong></p>
                       </div>
 
                       <!-- Swopcards vorhanden, aber in gewählter Kategorie nicht -->
@@ -137,13 +137,13 @@
                           <!-- Keine Ausstehenden Karten / activeTab checkt ob es Matches gibt -->
                           <div class="is-form" v-if="checkWaitingEmpty(mySwopCards) && this.activeTab === false">
                               <h3 class="title is-size-4">Keine ausstehenden swops!</h3>
-                              <p>Wow, Du hast nur Matches! Diese findest du unter "Matches" oder "Alle".</p>
+                              <p>Wow, Du hast nur Matches! Diese findest du unter "Match" oder "Alle".</p>
                           </div>
 
                           <!-- Keine Matches / activeTab gibt an, ob es Matches gibt-->
                           <div class="is-form" v-if="checkMatchEmpty(mySwopCards) && this.activeTab === true">
                               <h3 class="title is-size-4">Leider noch keine Matches.</h3>
-                              <p>Wir haben noch keinen swop matchen können. Gedulde Dich und bleib' auf Empfang!</p>
+                              <p>Wir haben noch keine Deiner Karten matchen können. Gedulde Dich und bleib' auf Empfang!</p>
                           </div>
                       </div>
                   </div>

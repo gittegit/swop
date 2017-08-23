@@ -17,13 +17,8 @@
           </div>
 
           <div class="task-description">
-            <p class="description has-text-centered">Wir haben Dir eine E-Mail an <strong>{{ username }}</strong> geschickt. Bitte bestätige Deine Registrierung, indem Du auf den Link klickst.</p>
+            <p class="description has-text-centered">Wir haben Dir eine E-Mail an <strong>{{ username }}</strong> geschickt. Bitte bestätige Deine Registrierung, indem Du auf den darin enthaltenden Link klickst.</p>
           </div>
-          <div class="spacer"></div>
-          <div class="spacer"></div>
-          <p class="has-text-centered">Keine Mail erhalten?</p>
-          <div class="spacer"></div>
-          <p class="has-text-centered"><a class="button is-primary" @click="registerPossible">Mail erneut senden</a></p>
           <div class="spacer"></div>
           <p class="has-text-centered"><router-link :to="{name: 'dashboard'}" class="is-white font-klein">Ich habe den Link bereits bestätigt.</router-link></p>
         </div>
