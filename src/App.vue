@@ -457,6 +457,9 @@ a.navbar-item .fa-cog {
 .swop-accepted .card-footer .card-footer-item {
   border-color: $white !important;
 }
+.card-footer .help {
+  margin-top: 0 !important;
+}
 .floating-footer {
   position: fixed;
   left: 0;

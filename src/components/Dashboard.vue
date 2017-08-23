@@ -92,7 +92,7 @@
 
                                   <!-- Du selbst hast Accepted, der andere muss noch bestätigen -->
                                   <div v-if="getSwopCardMatchStatus(swopCard.match.id)[0] === 'ACCEPTED'">
-                                      <p>Du hast Diesen Match bestätigt. Sobald Dein Partner ebenfalls bestätigt, wird Dir hier seine Mailadresse angezeigt.</p>
+                                      <p>Du hast Diesen Match bestätigt. Sobald Dein Tauschpartner ebenfalls bestätigt, wird Dir hier seine Mailadresse angezeigt.</p>
                                   </div>
                                   <!-- Der andere hat bestätigt, du selbst musst noch accepten -->
                                   <div v-else>
@@ -109,7 +109,7 @@
 
                               <!-- Fall 4: Deine Karte hat noch keinen Partner -->
                               <div class="swop-no-match-info" v-if="swopCard.status === 'WAITING'">
-                                  <p>Leider haben wir noch keinen Partner für Dich gefunden. Bleib' aber ständig auf Empfang, denn das kann sich jederzeit ändern!</p>
+                                  <p>Leider haben wir noch keinen Tauschpartner für Dich gefunden. Bleib' aber ständig auf Empfang, denn das kann sich jederzeit ändern!</p>
                               </div>
 
                           </div>
@@ -129,7 +129,7 @@
                       <!-- Keine Swopcards -->
                       <div v-if="noSwopCards">
                           <h2 class="title is-size-3">{{Begruessung}}!</h2>
-                          <p>Du hast noch keinen laufenden Tauschkarten. Starte, indem Du unter "Neue Anfrage" einen neue Karte erstellst. Deine laufenden Karten werden Dir dann hier angezeigt. <strong>Viel Spaß!</strong></p>
+                          <p>Du hast noch keinen laufenden Tauschkarten. Starte, indem Du unter "Neue Tauschanfrage" einen neue Karte erstellst. Deine laufenden Karten werden Dir dann hier angezeigt. <strong>Viel Spaß!</strong></p>
                       </div>
 
                       <!-- Swopcards vorhanden, aber in gewählter Kategorie nicht -->
@@ -162,7 +162,7 @@
                                   <span class="icon">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                           </span>
-                                  <span>Neue Anfrage</span>
+                                  <span>Neue Tauschanfrage</span>
                               </router-link>
                           </p>
                       </div>
@@ -280,7 +280,7 @@ export default {
       M.deleteSwopCard(swopCard).then(() => {
         console.log(M)
         this.$toast.open({
-          message: 'Der swop wurde gelöscht.',
+          message: 'Die Tauschkarte wurde gelöscht.',
           type: 'is-success',
           position: 'is-top'
         })
