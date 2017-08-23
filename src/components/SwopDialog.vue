@@ -264,8 +264,7 @@
                   <!-- Button-Leiste -->
                   <button-group>
                     <div slot="backItem">
-                      <router-link v-if="firstStepActive" @click="back" :to="backLink">{{backItem}}</router-link>
-                      <div v-if="!firstStepActive" @click="back">{{backItem}}</div>
+                      <div @click="back">{{backItem}}</div>
                     </div>
                     <div slot="forwardItem" @click="forward">{{forwardItem}}</div>
                   </button-group>
@@ -377,14 +376,19 @@ export default {
     // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     addCourseTo () { // wunschveranstaltung(en) hinzufügen
       if (this.coursesAC.name === this.coursesAC.selected) {
-        var lastCourseName = this.coursesAC.name
-        this.courseTitleToArray.push({
-          courseName: lastCourseName,
-          courseIndex: this.courseCounter++
-        })
-        this.coursesAC.name = ''
-        this.courseTitleTo = ''
-        this.coursesAC.selected = ''
+        if (this.coursesAC.name === 'Deine Veranstaltung ist nicht dabei?') {
+          this.createCourse()
+        } else {
+          var lastCourseName = this.coursesAC.name
+          this.courseTitleToArray.push({
+            courseName: lastCourseName,
+            courseIndex: this.courseCounter++
+          })
+          this.coursesAC.name = ''
+          this.courseTitleTo = ''
+          this.coursesAC.selected = ''
+          this.courseToSelected = false
+        }
       }
     },
     courseToIsAdded (courseCounter) {
@@ -420,8 +424,13 @@ export default {
     // –––––––––––––––––––––––––– MODAL KURSERSTELLUNG ––––––––––––––––––––––––––––––––––
     // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     createCourse () { // navigation zu modal
-      this.courseTitleFrom = null
-      this.newCourse = true // öffnen des modals
+      if (this.activeStep === 'st') {
+        this.courseTitleFrom = null
+        this.newCourse = true // öffnen des modal
+      } else if (this.activeStep === 'nd') {
+        this.courseTitleTo = null
+        this.newCourse = true
+      }
       this.forwardItem = 'Veranstaltung erstellen' // buttongroup forwarditem setzen
       this.backItem = 'Abbrechen' // buttongroup backitem setzen
     },
@@ -523,13 +532,12 @@ export default {
       } else if (this.activeStep === 'nd') {
         if (this.coursesAC.selected === null) {
           this.courseToSelected = false
-        } else if (this.coursesAC.selected !== null || '') {
+        } else if (this.coursesAC.selected !== null) {
+          this.courseToSelected = true
           this.coursesAC.name = this.coursesAC.selected
           this.coursesAC.selected === null
-          this.courseToSelected = true
-          if (this.coursesAC.selected === 'Deine Veranstaltung ist nicht dabei?') {
-            this.coursesAC.name = ''
-            this.createCourse() // öffnen des kurserstellungs-modals
+          if (this.coursesAC.name === 'Deine Veranstaltung ist nicht dabei?') {
+            this.createCourse()
           }
         }
       }
@@ -644,6 +652,9 @@ export default {
       }
     },
     back () {
+      if (this.newCourse) {
+        this.newCourse = false
+      }
       if (this.activeStep === 'nd') { // step 2 zu step 1
         // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
         this.activeStep = 'st' // navdot setzen
