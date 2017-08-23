@@ -270,19 +270,6 @@ class Modul {
   }
 
   /**
-   * updates the Match object with the new status from the current user, which is logged In
-   * @param matchId
-   * @param {String} newStatus: only ACCEPTED or DECLINED allowed
-   * @returns {Promise.<*>}
-   */
-  updateMatchStatus (matchId, newStatus) {
-    return db.modules.post('updateMatchStatus', {
-      id: matchId,
-      status: newStatus
-    })
-  }
-
-  /**
     * Überprüft LOKAL ob der User zu einem gegebenen Match den Status verändern
     * kann, also ob der User den Match schon accepted oder declined hat
     * @return {boolean} true, if the user has not accepted/declined yet, false
@@ -346,7 +333,11 @@ class Modul {
    * @returns {Promise.<*>}
    */
   acceptMatch (matchId) {
-    return db.modules.post('acceptMatch', {id: matchId})
+    // return db.modules.post('acceptMatch', {id: matchId})
+    return db.modules.post('MatchService', {
+      route: 'ACCEPT_MATCH',
+      id: matchId
+    })
     .then((val) => {
       this.parseAndSaveUserData(val.success.user)
       return new Promise(function (resolve, reject) {
@@ -361,8 +352,11 @@ class Modul {
    * @returns {Promise.<*>}
    */
   declineMatch (matchId) {
-    return db.modules.post('declineMatch', {id: matchId})
-    .then((val) => {
+    // return db.modules.post('declineMatch', {id: matchId})
+    return db.modules.post('MatchService', {
+      route: 'DECLINE_MATCH',
+      id: matchId
+    }).then((val) => {
       this.parseAndSaveUserData(val.success.user)
       return new Promise(function (resolve, reject) {
         resolve(val)
