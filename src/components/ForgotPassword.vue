@@ -37,7 +37,7 @@
           </div>
         </form>
         <!-- Registierungsbutton -->
-        <p class="has-text-right flex-center"><router-link :to="{name: 'login'}" class="is-white font-klein margin-right">Zurück zum Login </router-link><a class="button is-primary" @click="sendLink()">Link senden</a></p>
+        <p class="has-text-right flex-center"><router-link :to="{name: 'login'}" class="is-white font-klein margin-right">Zurück zum Login </router-link><a target="_blank" href="https://trello.com/b/wxGo2plv/baqend-roadmap" class="button is-primary">Link senden</a></p>
       </div>
 
     </div>
