@@ -333,6 +333,9 @@ a.navbar-item.router-link-active:after {
   margin: 0 auto;
   font-size: 30px;
 }
+a.navbar-item .fa-cog {
+  transform: scale(1.16);
+}
 .checkbox input[type=checkbox]:checked + .check{
   background: $primary url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Cpath d='M.04.627L.146.52.43.804.323.91zm.177.177L.854.167.96.273.323.91z' fill='%23fff'/%3E%3C/svg%3E") no-repeat 50%;
   border-color: $primary;
@@ -472,5 +475,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   .floating-footer {
     padding-bottom: 3rem;
   }
+}
+.refresh {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+/* 05-02 - SWOP-DIALOG ------------------*/
+.autocomplete input {
+  border-bottom-right-radius: 0px !important;
+  border-top-right-radius: 0px !important;
 }
 </style>

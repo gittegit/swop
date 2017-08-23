@@ -147,7 +147,7 @@
                           </div>
                       </div>
                   </div>
-                  <!-- Ende einer Karte -->
+                  <div class="refresh margin-top"><p class="has-text-centered"><a @click="initiateDashboard()" class="button is-outlined has-text-lightgrey"><i class="fa fa-refresh font-klein margin-right"></i> Aktualisieren</a></p></div>
               </div>
           </div>
           <!-- / Inhalt -->
