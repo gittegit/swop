@@ -60,7 +60,7 @@
 
                 <b-field>
                     <p class="control has-icons-left ">
-                      <input class="input" type="password" v-model="aPassword" :class="{'is-danger': passwordError}" placeholder="Dein altes Passwort"></input>
+                      <input class="input" type="password" v-model="aPassword" :class="{'is-danger': passwordError}" v-on:keyup.enter="next(aPassword)" placeholder="Dein altes Passwort"></input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
@@ -70,7 +70,7 @@
 
                 <b-field>
                     <p class="control has-icons-left">
-                        <input class="input" type="password" v-model="nPassword" :class="{'is-danger': passwordErrorDifferent }" placeholder="Dein neues Passwort"></input>
+                        <input class="input" id="nPassword" type="password" v-model="nPassword" :class="{'is-danger': passwordErrorDifferent }" v-on:keyup.enter="next(nPassword)" placeholder="Dein neues Passwort"></input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
@@ -80,7 +80,7 @@
                 <b-field>
                   <div v-on:keyup="confirmPasswordValidator">
                     <p class="control has-icons-left">
-                        <input class="input" type="password" v-bind:class="{ dangerInput : isDanger }" v-model="bPassword" placeholder="Bestätige Dein neues Passwort"></input>
+                        <input class="input" id="bPassword" type="password" v-bind:class="{ dangerInput : isDanger }" v-model="bPassword" placeholder="Bestätige Dein neues Passwort"></input>
                         <span class="icon is-small is-left">
                           <i class="fa fa-lock"></i>
                         </span>
@@ -287,7 +287,6 @@ export default {
       if (this.differentPasswordValidator() && this.confirmPasswordValidator()) {
         m.changePassword(this.aPassword, this.nPassword)
         .then((result) => {
-          console.log(result)
           this.passwordSuccess = true
           this.aPassword = null
           this.nPassword = null
@@ -299,6 +298,13 @@ export default {
         })
       } else {
         this.passwordSuccess = false
+      }
+    },
+    next (myInput) {
+      if (myInput === this.aPassword) {
+        document.getElementById('nPassword').focus()
+      } else if (myInput === this.nPassword) {
+        document.getElementById('bPassword').focus()
       }
     },
 
