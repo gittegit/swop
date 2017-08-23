@@ -292,9 +292,6 @@ export default {
       courseCounter: 0,
       groupAdding: '',
       groupCounter: 0,
-      // –––––––––––––––––––––––––––––––––––– STEP 3 ––––––––––––––––––––––––––––––––––––––
-      // –––––––––––––––––––––––––––––––  HILFSVARIABLEN  –––––––––––––––––––––––––––––––––
-
       // –––––––––––––––––––––––––––– KURSTERSTELLUNGS-MODAL ––––––––––––––––––––––––––––––
       newCourse: false,
       newCourseTitle: '',
