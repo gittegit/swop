@@ -18,7 +18,7 @@
                     </li>
                     <li>
                       <strong>Schaue regelmäßig bei swop vorbei.</strong><br>
-                      Du hast insgesamt 2 Tage um einen Match mit Deinem Tauschpartner zu bestätigen – länger wollen wir Euch nicht zappeln lassen. Nach zwei Tagen ohne Deine Bestätigung verfällt Deine Tauschanfrage und Du musst eine neue anlegen.
+                      Du hast insgesamt zwei Tage um einen Match mit Deinem Tauschpartner zu bestätigen – länger wollen wir Euch nicht zappeln lassen. Nach zwei Tagen ohne Deine Bestätigung verfällt Deine Tauschanfrage und Du musst eine neue anlegen.
                     </li>
                     <li>
                       <strong>Jeder Deiner Tauschkarten und Matches wird für maximal zwei Wochen gespeichert.</strong><br>
