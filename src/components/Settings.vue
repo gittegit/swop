@@ -108,7 +108,7 @@
 </template>
 
 <script type="text/babel">
-// import db from 'baqend'
+import db from 'baqend'
 import router from '../router'
 import m from '../Model/model.js'
 
@@ -142,6 +142,9 @@ export default {
   },
 
   created () {
+    if (!db.User.me) {
+      this.$router.push('/')
+    }
     m.initUserData().then(() => {
       // Display-Namen holen
       this.name = m.getDisplayName()
