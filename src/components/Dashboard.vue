@@ -96,7 +96,7 @@
                                   </div>
                                   <!-- Der andere hat bestätigt, du selbst musst noch accepten -->
                                   <div v-else>
-                                      <p>Super! Wir haben einen Tauschpartner für Dich! Bitte akzeptiere den Match oder, wenn du es Dir anders überlegt hast, brich ihn ab.</p>
+                                      <p>Super! Wir haben einen Tauschpartner für Dich! Bitte akzeptiere den Match oder, wenn Du es Dir anders überlegt hast, brich ihn ab.</p>
                                       <p class="has-text-centered display-flex"><a class="button is-outlined is-primary margin-right" @click="declineMatch(swopCard.match.id)"><span class="margin-right"><i class="fa fa-times-circle" aria-hidden="true"></i></span>Abbrechen</a><a class="button is-primary"
                                               @click="acceptMatch(swopCard.match.id)"><span class="margin-right"><i class="fa fa-check-circle" aria-hidden="true"></i></span>Bestätigen</a></p>
                                   </div>
@@ -129,7 +129,7 @@
                       <!-- Keine Swopcards -->
                       <div v-if="noSwopCards">
                           <h2 class="title is-size-3">{{Begruessung}}!</h2>
-                          <p>Du hast noch keinen laufenden Tauschkarten. Starte, indem du unter "Neue Anfrage" einen neue Karte erstellst. Deine laufenden Karten werden Dir dann hier angezeigt. <strong>Viel Spaß!</strong></p>
+                          <p>Du hast noch keinen laufenden Tauschkarten. Starte, indem Du unter "Neue Anfrage" einen neue Karte erstellst. Deine laufenden Karten werden Dir dann hier angezeigt. <strong>Viel Spaß!</strong></p>
                       </div>
 
                       <!-- Swopcards vorhanden, aber in gewählter Kategorie nicht -->
@@ -137,7 +137,7 @@
                           <!-- Keine Ausstehenden Karten / activeTab checkt ob es Matches gibt -->
                           <div class="is-form" v-if="checkWaitingEmpty(mySwopCards) && this.activeTab === false">
                               <h3 class="title is-size-4">Keine ausstehenden swops!</h3>
-                              <p>Wow, Du hast nur Matches! Diese findest du unter "Match" oder "Alle".</p>
+                              <p>Wow, Du hast nur Matches! Diese findest Du unter "Match" oder "Alle".</p>
                           </div>
 
                           <!-- Keine Matches / activeTab gibt an, ob es Matches gibt-->
