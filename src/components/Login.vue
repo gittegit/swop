@@ -5,7 +5,7 @@
     <div class="columns is-centered">
       <div class="column is-8 is-narrow">
         <h1 class="has-text-centered"><img class="login-logo" src="../assets/swop-logo-invert.svg"></h1>
-        <h2 class="subtitle has-text-centered has-text-white">Swop ist Dein Tool zum Finden eines Tauschpartners für Deine Uni-Veranstaltungen.</h2>
+        <h2 class="subtitle has-text-centered has-text-white">Swop ist das Tauschtool für Deine Uni-Veranstaltungen.</h2>
         <div class="spacer"></div>
       </div>
     </div>
@@ -20,7 +20,7 @@
         </div>
 
         <div class="task-description">
-          <p class="description has-text-centered">Logge Dich mit deiner Uni-Mail ein.</p>
+          <p class="description has-text-centered">Logge Dich mit Deiner Uni-Mail ein.</p>
         </div>
 
         <div class="spacer"></div>

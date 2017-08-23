@@ -1,4 +1,4 @@
-<template>
+createAutocomplete<template>
 <div class="main-content">
   <div class="container">
 
@@ -99,7 +99,7 @@
 
             <div class="floatingItems">
               <div v-for="(courseTitleToItem, index) in courseTitleToArray" ref="crs" :key="courseTitleToItem.courseIndex">
-                <a class="button is-primary is-floating" @click="removeCourse(index)">
+                <a class="button is-primary is-floating" @click="removeCourseTo(index)">
                 <span>{{courseItemName(index)}}</span>
                 <span class="icon is-small">
                   <i class="fa fa-times"></i>
@@ -336,10 +336,17 @@ export default {
   },
 
   methods: {
+
     // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    // –––––––––––––––––––––––––––– INHALTE SWOPCARD  –––––––––––––––––––––––––––––––––––
+    // ––––––––––––––––––––––––––––– HILFSFUNKTIONEN  –––––––––––––––––––––––––––––––––––
     // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    addCourseTo () { // wunschveranstaltung(en) hinzufügen
+
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // ––––––––––––––––––––––––––– VERANSTALTUNGSANGABE  ––––––––––––––––––––––––––––––––
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+    // –––––––––––––––––––––––––––––––––––– STEP 2 ––––––––––––––––––––––––––––––––––––––
+    addCourseTo () { // Wunschveranstaltung(en) zu Liste hinzufügen
       if (this.coursesAC.name === this.coursesAC.selected) {
         if (this.coursesAC.name === 'Deine Veranstaltung ist nicht dabei?') {
           this.createCourse()
@@ -356,13 +363,21 @@ export default {
         }
       }
     },
-    courseToIsAdded (courseCounter) {
-      return true
-    },
-    removeCourse (index) {
+    removeCourseTo (index) {
       this.courseTitleToArray.splice(index, 1)
       this.courseCounter = (-1) + this.courseCounter
     },
+
+    // ––––––––––––––––––––––––––––– HILFSFUNKTIONEN  –––––––––––––––––––––––––––––––––––
+    courseItemName (index) { // gibt Name der ausgewählten Veranstaltungen aus Liste wider
+      return this.courseTitleToArray[index].courseName
+    },
+    groupName (index) { // gibt Name der ausgewählten Gruppen aus Liste wider
+      return this.courseGroupToArray[index].groupName
+    },
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // –––––––––––––––––––––––––––––– GRUPPENANGABE –––––––––––––––––––––––––––––––––––––
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     addGroup () { // untergruppe(n) hinzufügen
       if (this.activeStep === 'st') { // in step 1
         this.hasGroupFrom = true
@@ -382,10 +397,11 @@ export default {
         this.courseGroupToArray.splice(index, 1)
       }
     },
+
     // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    // –––––––––––––––––––––––––– MODAL KURSERSTELLUNG ––––––––––––––––––––––––––––––––––
+    // –––––––––––––––––––––––– NEUE VERANSTALTUNG ERSTELLEN ––––––––––––––––––––––––––––
     // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    createCourse () { // navigation zu modal
+    createCourse () { // Navigation zu Kurserstellungs-Modal setzen
       if (this.activeStep === 'st') {
         this.courseTitleFrom = null
       } else if (this.activeStep === 'nd') {
@@ -401,7 +417,15 @@ export default {
     setNewCourseId () {
       this.hasNewCourseIdSet = true
     },
-    onSuccess (sm) {
+
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // ––––––––––––––––––––––––––– TAUSCHKARTE ERSTELLEN ––––––––––––––––––––––––––––––––
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // ––––––––––––––––––––––––––––––––– FEEDBACK –––––––––––––––––––––––––––––––––––––––
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    onSuccess (sm) { // Benachrichtigung über Erfolg von ausgeführten Aktionen
       var successMess
       if (sm === 'courseCreated') {
         successMess = 'Deine Veranstaltung wurde erfolgreich erstellt!'
@@ -414,7 +438,7 @@ export default {
         position: 'is-top'
       })
     },
-    onFailure (cp) { // Fehleranzeige (nach Frontend- und Backendvalidierung)
+    onFailure (cp) { // // Benachrichtigung über Fehlschlagen von ausgeführten Aktionen (nach Frontend- und Backendvalidierung)
       var errorMes
       if (cp === 'courseFromNotSet') {
         errorMes = 'Bitte wähle Deine Veranstaltung aus.'
@@ -436,26 +460,19 @@ export default {
     // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     // –––––––––––––––––––––––––––––– AUTOCOMPLETE ––––––––––––––––––––––––––––––––––––––
     // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    courseItemName (index) {
-      return this.courseTitleToArray[index].courseName
-    },
-    groupName (index) {
-      return this.courseGroupToArray[index].groupName
-    },
-    getCourseId (courseid) { // reine id aus id-directory aus db
-      courseid = courseid.substring(11)
-      return courseid
-    },
-    // Befüllen des Daten-Objektes mit courseItem für Autocomplete
-    createcoursesAC () {
+    createAutocomplete () {
       for (var course in this.coursesArray) {
         this.coursesAC.data.push(this.coursesArray[course].courseItem)
       }
-      if (!this.created) {
+      if (!this.created) { // Alternativen-Item wird nur einmal zur Liste hinzugefügt
         this.coursesAC.data.push('Deine Veranstaltung ist nicht dabei?')
       }
     },
-    // Befüllen des Arrays mit courseItem und courseid
+    // ––––––––––––––––––––––––––––– HILFSFUNKTIONEN  –––––––––––––––––––––––––––––––––––
+    getCourseId (courseid) { // Filtert reine ID aus ID-Directory aus DB
+      courseid = courseid.substring(11)
+      return courseid
+    },
     createCoursesArray () {
       for (var course in this.courses) {
         this.courseid = this.getCourseId(this.courses[course].id)
@@ -465,7 +482,7 @@ export default {
           courseid: this.courseid
         })
       }
-      this.createcoursesAC()
+      this.createAutocomplete()
     },
     createSearchedGroups () {
       for (var i = 0; i < this.courseGroupToArray.length; i++) {
