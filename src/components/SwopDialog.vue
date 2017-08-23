@@ -587,6 +587,7 @@ export default {
         }
       } else if (this.newCourse) {
         this.courses = []
+        this.newCourseId = this.removeSpaces(this.newCourseId)
         if (this.activeStep === 'st') {
           M.createCourse(this.newCourseTitle, this.newCourseId)
             .then(() => {
@@ -645,6 +646,10 @@ export default {
         this.forwardItem = 'Weiter' // buttongroup forwarditem setzen
         this.stepsDone.splice(2, 1) // step 3 aus absolvierten steps entfernen
       }
+    },
+    removeSpaces (string) {
+      string = string.replace(/\s/g, '-')
+      return string
     },
     initiateAC () {
       M.getAllCourses() // Initiales Laden aller Kurse aus der DB zur Suche
