@@ -13,7 +13,7 @@
         <!-- ––––––––––––––––––––– ANZEIGER STEPWISE-NAVIGATION ––––––––––––––––––––––––– -->
         <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
         <ul class="nav-dots-container">
-          <li class="nav-dot" :class="{ 'active': activeStep == 'st', 'done': stepsDone.length > 0}" @click="activeStep = 'st'"></li>
+          <li class="nav-dot" :class="{ 'active': activeStep == 'st', 'done': stepsDone.length > 0}" ></li>
           <li class="nav-dot" :class="{ 'active': activeStep == 'nd', 'done': stepsDone.length > 1}" ></li>
           <li class="nav-dot" :class="{ 'active': activeStep == 'rd', 'done': stepsDone.length > 2}" ></li>
         </ul>
@@ -74,7 +74,7 @@
 
           <div v-if="hasGroupFromSet">
             <a class="button is-secondary" @click="hasGroupFrom=false, hasGroupFromSet=false, canHaveCourseGroupTo=false, courseGroupFrom='', courseGroupToArray = new Array()">
-                <span>{{courseGroupFrom}}</span>
+                <span>Gruppe: {{courseGroupFrom}}</span>
                 <span class="icon is-small">
                   <i class="fa fa-times"></i>
                 </span>
@@ -130,7 +130,7 @@
             <div class="floatingItems">
               <div v-for="(courseGroupToItem, index) in courseGroupToArray" ref="crs" :key="courseGroupToItem.groupIndex">
                 <a class="button is-secondary is-floating" @click="removeGroup(index)">
-                  <span>{{groupItemLabel(index)}}</span>
+                  <span>Gruppe: {{groupName(index)}}</span>
                   <span class="icon is-small">
                     <i class="fa fa-times"></i>
                   </span>
@@ -180,7 +180,7 @@
               </span>
             </span>
             </br>
-            </br>
+          </br>
             wechseln?
           </p>
         </div>
@@ -310,14 +310,6 @@ export default {
         name: '',
         selected: null
       },
-      // –––––––––––––––––––––––––––––– NAVIGATION NAVDOTS ––––––––––––––––––––––––––––––––
-      firstStepDone: true,
-      secondStepDone: false,
-      thirdStepDone: false,
-      // ––––––––––––––––––––––––––– NAVIGATION FORMULARINHALT ––––––––––––––––––––––––––––
-      firstStepActive: true,
-      secondStepActive: false,
-      thirdStepActive: false,
       // –––––––––––––––––––––––––––– NAVIGATION BUTTONGROUP ––––––––––––––––––––––––––––––
       forwardItem: 'Weiter',
       forwardLink: {
@@ -337,19 +329,15 @@ export default {
       newCourseId: '',
       // ––––––––––––––––––––––––––––– SWOPCARD-ATTRIBUTE –––––––––––––––––––––––––––––––––
       courseTitleFrom: '', // Titel der aktuellen Veranstaltung
-      courseIdFrom: '', // ID der aktuellen Veranstaltung
       courseTitleTo: '', // Titel der gewünschten Veranstaltung
-      courseIdTo: '', // ID der gewünschten Veranstaltung
       courseGroupFrom: '', // Untergruppe der aktuellen Veranstaltung
       courseGroupTo: '', // Zwischenspeichern der Untergruppe der gewünschten Veranstaltung (gesamte Liste in courseGroupToArray)
-      subgroupItem: '', // Zwischenspeichern der Subgruppe mit Präfix 'Gruppe:' für Anzeige in Button
       courseGroupToArray: [], // Array aller courseGroupTo-Strings
       courseTitleToArray: [], // Array aller courseTitleTo-Strings
       searchedGroups: [],
       searchedCourses: [],
       // –––––––––––––––– HILFSATTRIBUTE WECHSEL GRUPPE ODER VERANSTALTUNG –––––––––––––––––
       hasGroupFrom: false, // itital
-      hasCourseGroupTo: false, // initial
       canHaveCourseGroupTo: false, // initial
       groupCounter: 0,
       courseCounter: 0,
@@ -363,9 +351,7 @@ export default {
       hasGroupFromSet: false,
       search: '',
       selected: null,
-      msg: 'Welcome to Your Vue.js and Baqend App',
       isLoggedIn: null,
-      confirmationmodal: false,
       created: false
     }
   },
@@ -405,11 +391,9 @@ export default {
       } else if (this.activeStep === 'nd') { // in step 2
         this.courseGroupToArray.push({
           groupName: this.groupAdding,
-          groupItemLabel: 'Gruppe: ' + this.groupAdding,
           groupIndex: this.groupCounter++
         })
         this.groupAdding = ''
-        this.hasCourseGroupTo = true
       }
     },
     removeGroup (index) { // untergruppe entfernen
@@ -472,8 +456,8 @@ export default {
     courseItemName (index) {
       return this.courseTitleToArray[index].courseName
     },
-    groupItemLabel (index) {
-      return this.courseGroupToArray[index].groupItemLabel
+    groupName (index) {
+      return this.courseGroupToArray[index].groupName
     },
     getCourseId (courseid) { // reine id aus id-directory aus db
       courseid = courseid.substring(11)
@@ -614,16 +598,18 @@ export default {
             this.onFailure(errormes)
           })
         }
-        // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
-      } else if (this.newCourse) { // 'Neuen Kurs erstellen' nach Kurserstellungs-Dialog
-      // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
-      // –––––––––––––––––––––––––––––––– ACTIONS ––––––––––––––––––––––––––––––––––––––
+      } else if (this.newCourse) {
         this.courses = []
         if (this.activeStep === 'st') {
           M.createCourse(this.newCourseTitle, this.newCourseId)
             .then(() => {
               this.initiateAC()
-            }) // Erstellung des neuen Kurses
+              this.newCourse = false // schließen des Formulars/Dialogs
+              this.onSuccess()
+            }).catch((error) => {
+              var errormes = error.cause.message
+              this.onFailure(errormes)
+            })
           this.coursesAC.name = this.newCourseId.concat(' – ').concat(this.newCourseTitle)
           this.coursesAC.selected = this.coursesAC.name
           this.backItem = 'Abbrechen' // Anpassen der Buttongroup
@@ -633,7 +619,12 @@ export default {
           M.createCourse(this.newCourseTitle, this.newCourseId)
             .then(() => {
               this.initiateAC()
-            }) // Erstellung des neuen Kurses
+              this.newCourse = false // schließen des Formulars/Dialogs
+              this.onSuccess()
+            }).catch((error) => {
+              var errormes = error.cause.message
+              this.onFailure(errormes)
+            })
           this.coursesAC.name = this.newCourseId.concat(' – ').concat(this.newCourseTitle)
           this.coursesAC.selected = this.coursesAC.name
           this.backItem = 'Zurück'
@@ -647,8 +638,6 @@ export default {
         this.newCourseTitle = ''
         this.newCourseId = ''
         this.forwardItem = 'Weiter' // Anpassen der Buttongroup
-        this.newCourse = false // schließen des Formulars/Dialogs
-        this.onSuccess()
       }
     },
     back () {
@@ -680,11 +669,11 @@ export default {
     }
   },
   computed: {
-    // forgiving formatting daten autocomplete –––––––––––––––––––––––––––––––––––––––––s
+    // Autocomplete Forgiving Formatting –––––––––––––––––––––––––––––––––––––––––––––
     filteredDataArray () {
       return this.coursesAC.data.filter((option) => {
-        if (option === 'Deine Veranstaltung ist nicht dabei?') { // Option für denn Fall, dass die gewüsnchte Veranstaltung noch nicht in der Liste ist
-          option = this.coursesAC.name // damit steht Deine Veranstaltung ist nicht dabei?' immer als Option zur Verfügung
+        if (option === 'Deine Veranstaltung ist nicht dabei?') { // Auswahloption falls die gesuchte Veranstaltung noch in in der Liste steht
+          option = this.coursesAC.name // damit steht die Option immer als Auswahloption im Autocomplete zur Verfügung
         }
         return option
         .toString()
@@ -697,31 +686,21 @@ export default {
     ButtonGroup
   },
   created () {
-    // db.Course.find()
+    if (!db.User.me) {
+      this.$router.push('/')
+    }
     this.initiateAC()
-    console.log(db.User.me.username)
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-@media only screen and (min-width: 768px) {
-    .is-form {
-        border: 1px solid #efefef;
-    }
-}
 
-.is-form {
-    padding: 5%;
-}
-
-/* Stepwise navigation */
+/* Stepwise-Navigation */
 .nav-dots-container {
     text-align: center;
     padding-bottom: 5%;
 }
-
 .nav-dots-container .nav-dot {
     display: inline-block;
     text-align: center;
@@ -731,8 +710,6 @@ export default {
     border-radius: 100%;
     margin-left: 5%;
     margin-right: 5%;
-    cursor: pointer;
-
 }
 .nav-dots-container .nav-dot.active {
     background: #F39016;
@@ -775,10 +752,6 @@ border-color: #0F75BC !important;
 
 .white-modal .is-white {
   color: #F39016;
-}
-
-.modal .container {
-  width: auto;
 }
 
 .modal-background {
