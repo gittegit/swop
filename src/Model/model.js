@@ -84,6 +84,7 @@ class Modul {
    * @returns {*|Promise.<model.User>}
    */
   register (displayName, username, password) {
+    username = username.toLowerCase()
     var restrictedUserInfo = new db.RestrictedUserInfo({email: username, displayName: displayName})
     return restrictedUserInfo.save().then(() => {
       return db.User.register(username, password)

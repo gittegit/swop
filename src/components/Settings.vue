@@ -26,6 +26,7 @@
                     <a class="button is-primary" v-on:click="changeName"><i class="fa fa-check"></i></a>
                 </div>
             </b-field>
+            <p class="help is-success">{{nameSuccess}}</p>
           </form>
 
           <!-- Hier kann man eine neue Mail-Adresse angeben und ändern -->
@@ -50,7 +51,7 @@
                         <a class="button is-primary" v-on:click="mailClear"><i class="fa fa-trash"></i></a>
                     </div>
                 </b-field>
-                <p v-if="mailSuccess" class="help is-success">Diese Mail-Adresse wurde erfolgreich hinzugefügt!</p>
+                <p class="help is-success">{{mailSuccess}}</p>
                 <p v-if="mailError" class="help is-danger">Gib bitte eine korrekte Mail-Adresse an.</p>
             </form>
 
@@ -88,7 +89,7 @@
                   </div>
                 </b-field>
                 <!-- Fehlermeldungen / Success-Meldung / Button -->
-                <p v-if="passwordSuccess" class="help is-success">Deine Passwort wurde erfolgreich geändert!</p>
+                <p v-if="passwordSuccess" class="help is-success">Dein Passwort wurde erfolgreich geändert!</p>
                 <p v-if="passwordErrorDifferent" class="help is-danger">Dein Passwort konnte nicht geändert werden. Überprüfe ob sich Dein neues und Dein alter Passwort unterscheiden.</p>
                 <!-- <p v-if="passwordEmpty" class="help is-danger">Du musst ein neues Passwort eingeben.</p> -->
                 <p class="help is-danger">{{passwordError}}</p>
@@ -119,13 +120,14 @@ export default {
       name: null,
       showDisabledNameButton: true,
       showNameCheckButton: false,
+      nameSuccess: null,
 
       email: null,
       loginEmail: null,
       showDisabledMailCheckButton: true,
       showMailCheckButton: false,
       showMailClearButton: false,
-      mailSuccess: false,
+      mailSuccess: null,
       mailError: false,
 
       aPassword: null,
@@ -177,6 +179,8 @@ export default {
     changeName () {
       m.updateUsername(this.name)
       .then((result) => {
+        console.log(result)
+        this.nameSuccess = result.success.message
         this.showNameCheckButton = false
         this.showDisabledNameButton = true
       }).catch((error) => {
@@ -198,7 +202,7 @@ export default {
     * Mailanzeige leeren (mailClear)
     */
     showMailButton () {
-      this.mailSuccess = false
+      this.mailSuccess = null
       this.mailError = false
       this.showDisabledMailCheckButton = false
       this.showMailCheckButton = true
@@ -214,7 +218,8 @@ export default {
         this.showMailClearButton = true
         m.updateEmail(this.email)
         .then((result) => {
-          this.mailSuccess = true
+          console.log(result)
+          this.mailSuccess = result.success.message
           this.mailError = false
         }).catch((error) => {
           console.log(error)
@@ -225,7 +230,7 @@ export default {
             type: 'is-danger'})
         })
       } else {
-        this.mailSuccess = false
+        this.mailSuccess = null
         this.mailError = true
         this.showDisabledMailCheckButton = true
         this.showMailCheckButton = false
@@ -239,7 +244,7 @@ export default {
           this.showMailClearButton = false
           this.showDisabledMailCheckButton = true
           this.email = null
-          this.mailSuccess = false
+          this.mailSuccess = null
         }).catch((error) => {
           console.log(error)
           var errorMessage = error.cause.message
