@@ -8,25 +8,25 @@
               <h4 class="title">Spielregeln</h4>
             </div>
             <div class="content gaming-rules">
-                  <p><img class="float-right animated jello" src="../assets/swoppy.svg">Mit swop bieten wir Dir eine Möglichkeit, mit der Du ganz einfach einen Tauschpartner Plätze in Uni-Veranstaltungen finden kannst. Dies geschieht <strong>absolut kostenlos</strong>.
-                    Im Gegenzug erwarten wir nur von Dir, Dich an folgende Spielregeln zu halten:
+                  <p><img class="float-right animated jello" src="../assets/swoppy.svg">swop bietet Dir die Möglichkeit, einen Tauschpartner für Deinen Platz in einer Uni-Veranstaltung zu finden. swop ist <strong>komplett kostenlos</strong>.
+                    Damit das so bleiben kann, müssen sich alle swop-Mitglieder an folgende Spielregeln halten:
                   </p>
                   <ol>
                     <li>
-                      <strong>Geh sensibel mit den Daten Deiner Partner um.</strong><br>
-                      Hinter jedem Match steckt auch eine andere Person. Bitte stelle nichts anderes mit der E-Mail des anderen an als das Nutzen für die Kontaktaufnahme.
+                      <strong>Geh sensibel mit den Daten Deiner Tauschpartner um.</strong><br>
+                      Hinter jedem Match steckt eine echte Person. Bitte nutze die Mail-Adresse Deines Tauschpartners ausschließlich zur Kontaktaufnahme für den Tausch Eurer Veranstaltungsplätze.
                     </li>
                     <li>
-                      <strong>Schaue regelmäßig in Deine Mails.</strong><br>
-                      Du hast insgesamt 2 Tage um einen Match zu bestätigen. Nach 2 Tagen ohne Bestätigung verfällt dieser und Du musst einen neuen anlegen.
+                      <strong>Schaue regelmäßig bei swop vorbei.</strong><br>
+                      Du hast insgesamt 2 Tage um einen Match mit Deinem Tauschpartner zu bestätigen – länger wollen wir Euch nicht zappeln lassen. Nach zwei Tagen ohne Deine Bestätigung verfällt Deine Tauschanfrage und Du musst eine neue anlegen.
                     </li>
                     <li>
-                      <strong>Jeder Deiner Tauschkarten und Matches ist für maximal 2 Wochen im System</strong><br>
-                      Dies geschiet aus Fairnessgründen und weil Ummeldephasen oft nicht länger dauern. Danach musst Du einen neue Tauschkarte erstellen.
+                      <strong>Jeder Deiner Tauschkarten und Matches wird für maximal zwei Wochen gespeichert.</strong><br>
+                      Damit stellen wir sicher, dass alles aktuell bleibt. Länger dauert die Ummeldephase sowieso nicht.
                     </li>
                     <li>
-                      <strong>Erzähl uns weiter!</strong><br>
-                      Wir würden uns freuen, wenn Du swop auch Deinen Kommilitonen zeigen würdest. Denn je mehr Studenten swop benutzen, desto größer sind die Chancen einen Partner zu finden.
+                      <strong>Gefällt Dir swop?</strong><br>
+                      Wir würden uns freuen, wenn Du swop auch Deinen Kommilitonen zeigst. Je mehr Studenten swop benutzen, desto größer ist die Chence, einen Tauschpartner zu finden.
                     </li>
                   </ol>
               </div>

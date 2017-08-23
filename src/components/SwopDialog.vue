@@ -5,7 +5,10 @@
     <!-- Inhalt / Formulare -->
     <div class="columns is-centered">
       <div class="column is-9 is-narrow is-form">
-        <h1 class="title is-3 has-text-centered">Dein swop</h1>
+      <div>
+        <h1 v-if="activeStep === 'rd'" class="title is-3 has-text-centered">Deine Tauschanfrage</h1>
+        <h1 v-else class="title is-3 has-text-centered">Neue Tauschanfrage</h1>
+      </div>
 
         <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
         <!-- ––––––––––––––––––––– ANZEIGER STEPWISE-NAVIGATION ––––––––––––––––––––––––– -->
@@ -205,7 +208,7 @@
                   <!-- Input Name-->
                   <b-field class="has-addons" v-if="!hasNewCourseTitleSet">
                     <div class="control is-expanded is-grouped">
-                      <b-input placeholder="Vollständiger Name der Veranstaltung" v-model="newCourseTitle" @keyup.native="hasNewCourseTitle=true" @keyup.native.enter="setNewCourseTitle(), jump()"></b-input>
+                      <b-input placeholder="Vollständiger Name der Veranstaltung" v-model="newCourseTitle" @keyup.native="hasNewCourseTitle=true" @keyup.native.enter="setNewCourseTitle(), jump('id')" autofocus></b-input>
                     </div>
                     <div :class="{'control': true}">
                       <a :class="{'is-primary': true, 'button': true}" :disabled="!hasNewCourseTitle" @click="setNewCourseTitle"><i class="fa fa-check"></i></a>
@@ -226,7 +229,7 @@
                   <!-- Input ID -->
                   <b-field class="has-addons" v-if="!hasNewCourseIdSet">
                     <div class="control is-expanded is-grouped">
-                      <b-input id="next" placeholder="ID der Veranstaltung" v-model="newCourseId" @keyup.native="hasNewCourseId=true" @keyup.native.enter="setNewCourseId()"></b-input>
+                      <b-input id="id" placeholder="ID der Veranstaltung" v-model="newCourseId" @keyup.native="hasNewCourseId=true" @keyup.native.enter="setNewCourseId()"></b-input>
                     </div>
                     <div :class="{'control': true}">
                       <a :class="{'is-primary': true, 'button': true}" :disabled="!hasNewCourseId" @click="setNewCourseId"><i class="fa fa-check"></i></a>
@@ -385,11 +388,10 @@ export default {
     createCourse () { // navigation zu modal
       if (this.activeStep === 'st') {
         this.courseTitleFrom = null
-        this.newCourse = true // öffnen des modal
       } else if (this.activeStep === 'nd') {
         this.courseTitleTo = null
-        this.newCourse = true
       }
+      this.newCourse = true
       this.forwardItem = 'Veranstaltung erstellen' // buttongroup forwarditem setzen
       this.backItem = 'Abbrechen' // buttongroup backitem setzen
     },
@@ -513,8 +515,10 @@ export default {
         this.courseFromSet = true
       }
     },
-    jump () { // fokus auf nächstes feld in kurserstellungs-modal
-      document.getElementById('next').focus()
+    jump (to) { // fokus auf nächstes feld in kurserstellungs-modal
+      if (to === 'id') {
+        document.getElementById('id').focus()
+      }
     },
     // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     // ––––––––––––––––––––––––––––––– NAVIGATION  ––––––––––––––––––––––––––––––––––––––
@@ -542,7 +546,7 @@ export default {
         if (this.courseTitleToArray.length !== 0 || this.courseGroupToArray.length !== 0) {
           // ––––––––––––––––––––––––––––––– NAVIGATION –––––––––––––––––––––––––––––––––––––
           this.activeStep = 'rd' // navdot setzen
-          this.forwardItem = 'Partner finden!' // buttongroup forwarditem setzen
+          this.forwardItem = 'Tauschpartner finden!' // buttongroup forwarditem setzen
           this.stepsDone.push('nd') // step 2 zu absolvierten steps hinzufügen
           // –––––––––––––––––––––––––––––––– ACTIONS ––––––––––––––––––––––––––––––––––––––
           this.courseTitleTo = this.coursesAC.name
@@ -691,12 +695,12 @@ export default {
     height: 8px;
     background: #FBDDB8;
     border-radius: 100%;
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 2%;
+    margin-right: 2%;
 }
 .nav-dots-container .nav-dot.active {
     background: #F39016;
-    transform: scale(1.5);
+    transform: scale(1.618);
 }
 
 .nav-dots-container .nav-dot.done {
