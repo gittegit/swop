@@ -92,7 +92,7 @@
         </div>
       </div>
   </div>
-
+  <!-- AGB Modal -->
   <div class="modal" :class="{'is-active': modalOpen}">
   <div class="modal-background"></div>
   <div class="modal-content">
@@ -146,6 +146,9 @@ export default {
   },
 
   methods: {
+    /*
+    * Registrierung eines Users
+    */
     register () {
       M.register(this.name, this.username, this.password).then((result) => {
         this.mailSent = true
@@ -168,6 +171,9 @@ export default {
       }
     },
 
+    /*
+    * Bestätigen des Passworts
+    */
     confirmPasswordValidator () {
       if (this.password !== this.bPassword) {
         this.isDanger = true
@@ -178,11 +184,17 @@ export default {
       }
     },
 
+    /*
+    * Anzeigen des AGB-Modals
+    */
     toggleModal () {
       this.modalOpen = !this.modalOpen
       this.checkBoxChecked = false
     },
 
+    /*
+    * in das nächste Inputfeld springen
+    */
     nextInput (myInput) {
       if (myInput === this.name) {
         document.getElementById('username').focus()
