@@ -22,11 +22,11 @@
                     </li>
                     <li>
                       <strong>Jeder Deiner Tauschkarten und Matches wird für maximal zwei Wochen gespeichert.</strong><br>
-                      Damit stellen wir sicher, dass alles aktuell bleibt. Länger dauert die Ummeldephase sowieso nicht.
+                      Damit stellen wir sicher, dass Du wir Dich nur mit aktuell interessierten Tauschpartnern matchen.
                     </li>
                     <li>
                       <strong>Gefällt Dir swop?</strong><br>
-                      Wir würden uns freuen, wenn Du swop auch Deinen Kommilitonen zeigst. Je mehr Studenten swop benutzen, desto größer ist die Chence, einen Tauschpartner zu finden.
+                      Wir würden uns freuen, wenn Du swop auch Deinen Kommilitonen zeigst. Je mehr Studenten swop benutzen, desto größer ist die Chance, einen Tauschpartner zu finden.
                     </li>
                   </ol>
               </div>

@@ -129,7 +129,7 @@
                       <!-- Keine Swopcards -->
                       <div v-if="noSwopCards">
                           <h2 class="title is-size-3">{{Begruessung}}!</h2>
-                          <p>Du hast noch keinen laufenden Tauschkarten. Starte, indem Du unter "Neue Tauschanfrage" einen neue Karte erstellst. Deine laufenden Karten werden Dir dann hier angezeigt. <strong>Viel Spaß!</strong></p>
+                          <p>Du hast noch keinen laufenden Tauschkarten. Starte, indem Du unter "Neue Tauschanfrage" einen neue Tauschkarte erstellst.<strong>Viel Spaß beim Swoppen!</strong></p>
                       </div>
 
                       <!-- Swopcards vorhanden, aber in gewählter Kategorie nicht -->
@@ -143,7 +143,7 @@
                           <!-- Keine Matches / activeTab gibt an, ob es Matches gibt-->
                           <div class="is-form" v-if="checkMatchEmpty(mySwopCards) && this.activeTab === true">
                               <h3 class="title is-size-4">Leider noch keine Matches.</h3>
-                              <p>Wir haben noch keine Deiner Karten matchen können. Gedulde Dich und bleib' auf Empfang!</p>
+                              <p>Wir haben noch keine Deiner Tauschkarten matchen können. Gedulde Dich und bleib' auf Empfang!</p>
                           </div>
                       </div>
                   </div>
