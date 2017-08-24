@@ -157,8 +157,8 @@
         <div v-if="activeStep === 'rd'">
           <p class="has-text-centered"> Du möchtest von
 
-            <strong>{{courseTitleFrom}}<span v-if="courseGroupFrom !== ''">, Gruppe {{courseGroupFrom}}</span></strong>
-            nach
+            <strong>{{courseTitleFrom}}<span v-if="courseGroupFrom !== ''">, Gruppe {{courseGroupFrom}}</span></strong></br>
+            nach </br>
             <span v-for="courseTitleTo in courseTitleToArray">
               <strong>{{courseTitleTo.courseName}}</strong>
               <span v-if="courseTitleTo.courseIndex !== (-1 + courseTitleToArray.length)"> oder</span>
@@ -172,7 +172,7 @@
               </strong>
                 <span v-if="courseGroupTo.groupIndex !== (-1 + courseGroupToArray.length)"> oder
               </span>
-            </span>
+            </span></br>
             wechseln?
           </p>
         </div>
