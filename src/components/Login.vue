@@ -38,7 +38,7 @@
 
           <div class="field has-addons is-expanded">
             <p class="control has-icons-left is-expanded">
-              <input v-model="password" id="password" class="input" :class="{'is-danger': LoginError}" v-on:keyup.enter="logIn" type="password" placeholder="Dein swop-Passwort" name="password" required>
+              <input v-model="password" id="password" class="input" :class="{'is-danger': LoginError}" v-on:keyup.enter="logIn" type="password" placeholder="Dein Passwort" name="password" required>
               <span class="icon is-small is-left">
                         <i class="fa fa-lock"></i>
               </span>
@@ -52,7 +52,7 @@
           <p class="help is-danger">{{LoginError}}</p>
         </form>
         <!-- Registierungsbutton -->
-        <p class="has-text-right flex-center"><router-link :to="{name: 'signup'}" class="is-white font-klein margin-right">Noch kein swop-Mitglied? </router-link><a class="button is-primary" @click="logIn">Einloggen</a></p>
+        <p class="has-text-right flex-center"><router-link :to="{name: 'signup'}" class="is-white font-klein margin-right">Noch kein Mitglied? </router-link><a class="button is-primary" @click="logIn">Einloggen</a></p>
       </div>
 
     </div>
