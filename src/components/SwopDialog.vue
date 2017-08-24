@@ -26,8 +26,7 @@
         <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
         <div v-if="activeStep === 'st'">
-          <h4 class="description is-5 has-text-centered">Aus welcher Veranstaltung möchtest Du <strong>heraus</strong> wechseln?</h4></br>
-          </br>
+          <h4 class="description is-5 has-text-centered">Aus welcher Veranstaltung möchtest Du <strong>heraus</strong> wechseln?</h4>
           <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
           <!-- –––––––––––––––––––––– AUTOCOMPLETE VERANSTALTUNG –––––––––––––––––––––––––– -->
           <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -56,7 +55,7 @@
           <p v-if="!hasGroupFrom" :class="{ 'help': true, 'small-link': true}" @click="addGroup">
             + Untergruppe hinzufügen
           </p>
-          </br>
+
 
           <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
           <!-- ––––––––––––––––––––––––––––– GRUPPE HINZUFÜGEN –––––––––––––––––––––––––––– -->
@@ -92,7 +91,7 @@
         <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
         <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
         <div v-if="activeStep === 'nd'">
-          <h4 class="description is-5 has-text-centered">In welche Veranstaltung möchtest Du <strong>hinein</strong> wechseln?</h4></br></br>
+          <h4 class="description is-5 has-text-centered">In welche Veranstaltung möchtest Du <strong>hinein</strong> wechseln?</h4>
 
           <!-- –––––––––––– FALL A: KEINE GRUPPE –> MEHRERE VERANSTALTUNGEN ––––––––––––– -->
           <div v-if="!hasGroupFrom">
@@ -123,7 +122,7 @@
 
             <p class="control is-expanded">
               <input :class="{'input': true, 'courseIsSet': true}" type="text" v-model="courseTitleFrom" readonly>
-            </p></br>
+            </p>
 
             <div class="floatingItems">
               <div v-for="(courseGroupToItem, index) in courseGroupToArray" ref="crs" :key="courseGroupToItem.groupIndex">
@@ -156,13 +155,13 @@
         <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
         <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
         <div v-if="activeStep === 'rd'">
-          <p class="has-text-centered"> Du möchtest von </br>
-            </br>
-            <strong>{{courseTitleFrom}}<span v-if="courseGroupFrom !== ''">, Gruppe {{courseGroupFrom}}</span></strong></br></br>
-            nach </br></br>
+          <p class="has-text-centered"> Du möchtest von
+
+            <strong>{{courseTitleFrom}}<span v-if="courseGroupFrom !== ''">, Gruppe {{courseGroupFrom}}</span></strong>
+            nach
             <span v-for="courseTitleTo in courseTitleToArray">
               <strong>{{courseTitleTo.courseName}}</strong>
-              <span v-if="courseTitleTo.courseIndex !== (-1 + courseTitleToArray.length)"> oder</span></br>
+              <span v-if="courseTitleTo.courseIndex !== (-1 + courseTitleToArray.length)"> oder</span>
             </span>
             <span v-if="hasGroupFrom">
               <strong>{{courseTitleTo}},</strong>
@@ -173,10 +172,10 @@
               </strong>
                 <span v-if="courseGroupTo.groupIndex !== (-1 + courseGroupToArray.length)"> oder
               </span>
-            </span></br></br>
+            </span>
             wechseln?
           </p>
-        </div></br></br>
+        </div>
         <!-- ––––––––––––––––––––––– BUTTON GROUP (NAVIGATION) –––––––––––––––––––––––––– -->
         <button-group>
           <div slot="backItem">
@@ -203,7 +202,7 @@
 
                 <div class="box white-modal">
 
-                  <h4 class="description is-5 has-text-centered">Erstelle hier eine neue Veranstaltung</h4></br>
+                  <h4 class="description is-5 has-text-centered">Erstelle hier eine neue Veranstaltung</h4>
 
                   <!-- Input Name-->
                   <b-field class="has-addons" v-if="!hasNewCourseTitleSet">
@@ -224,7 +223,7 @@
                             <i class="fa fa-pencil-square-o"></i>
                           </a>
                     </p>
-                  </div></br>
+                  </div>
 
                   <!-- Input ID -->
                   <b-field class="has-addons" v-if="!hasNewCourseIdSet">
@@ -245,7 +244,7 @@
                           <i class="fa fa-pencil-square-o"></i>
                         </a>
                     </p>
-                  </div></br>
+                  </div>
 
                   <!-- Button-Leiste -->
                   <button-group>
