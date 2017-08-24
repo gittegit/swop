@@ -145,7 +145,9 @@ export default {
 }
 @media only screen and (max-width: 450px) {
   .main-content {
-    padding: 2rem 0.75rem 3rem 0.75rem !important;
+    display: block !important;
+    overflow-y: scroll !important;
+    padding: 2rem 0.75rem 8rem 0.75rem !important;
   }
   .main-content .column {
     padding-top: 1.5rem;

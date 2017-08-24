@@ -213,9 +213,8 @@
                       <a :class="{'is-primary': true, 'button': true}" :disabled="!hasNewCourseTitle" @click="setNewCourseTitle"><i class="fa fa-check"></i></a>
                     </div>
                   </b-field>
-                  <div class="spacer large"></div>
 
-                  <div class="field has-addons" v-if="hasNewCourseTitleSet">
+                  <div class="field has-addons margin-top" v-if="hasNewCourseTitleSet">
                     <p class="control is-expanded">
                       <input :class="{'input': true, 'courseIsSet': true}" type="text" v-model="newCourseTitle" readonly>
                     </p>
@@ -227,7 +226,7 @@
                   </div>
 
                   <!-- Input ID -->
-                  <b-field class="has-addons" v-if="!hasNewCourseIdSet">
+                  <b-field class="has-addons margin-top" v-if="!hasNewCourseIdSet">
                     <div class="control is-expanded is-grouped">
                       <b-input id="id" placeholder="ID der Veranstaltung" v-model="newCourseId" @keyup.native="hasNewCourseId=true" @keyup.native.enter="setNewCourseId()"></b-input>
                     </div>
@@ -236,7 +235,7 @@
                     </div>
                   </b-field>
 
-                  <div class="field has-addons" v-if="hasNewCourseIdSet">
+                  <div class="field has-addons margin-top" v-if="hasNewCourseIdSet">
                     <p class="control is-expanded">
                       <input :class="{'input': true, 'courseIsSet': true}" type="text" v-model="newCourseId" readonly>
                     </p>
