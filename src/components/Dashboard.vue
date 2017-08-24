@@ -38,14 +38,14 @@
                               <!-- Liste der Kurse -->
                               <div class="swop-status-courses">
                                   <div class="swop-status-course-from">
-                                      <p class="help"><span class="swop-change">Tausche</span> <span class="swop-course-id">{{ swopCard.course.id.substring(11) }}</span> <span v-if="swopCard.myGroup != ''"><span v-if="swopCard.myGroup != null" class="swop-course-group my-group">Gruppe {{swopCard.myGroup}}</span></span>
+                                      <p class="help"><span class="swop-change">Tausche</span> <span class="swop-course-id">{{ swopCard.course.id.substring(11) }}</span> <span v-if="swopCard.myGroup != ''"><span v-if="swopCard.myGroup != null" class="swop-course-group my-group">Gr<span class="hide-mobile">uppe</span><span class="hide-desktop">.</span> {{swopCard.myGroup}}</span></span>
                                       </p>
                                       <p class="is-title is-size-5 course-title">{{swopCard.course.name}}</p>
                                   </div>
 
                                   <div class="swop-status-course-to">
                                       <p class="help"><span class="swop-change">Gegen</span> <span class="swop-course-id"><span class="searched-group-entry" v-for="courseId in Array.from(swopCard.searchedCourses)">{{ courseId.id.substring(11) }}</span></span>
-                                          <span class="swop-course-group"><span class="searched-group-entry groups" v-for="group in Array.from(swopCard.searchedGroups)">Gruppe {{ group }}</span></span>
+                                          <span class="swop-course-group"><span class="searched-group-entry groups" v-for="group in Array.from(swopCard.searchedGroups)">Gr<span class="hide-mobile">uppe</span><span class="hide-desktop">.</span> {{ group }}</span></span>
                                       </p>
                                       <p class="is-title is-size-5 course-title"><span class="searched-group-entry" v-for="course in Array.from(swopCard.searchedCourses)">{{ course.name }}</span></p>
                                   </div>
@@ -118,7 +118,7 @@
 
                       <!-- Kartenfooter mit Löschfunktion und Datum -->
                       <footer class="card-footer">
-                          <p class="card-footer-item help">{{getStringDay(swopCard.createdAt) }}. {{getStringMonth(swopCard.createdAt)}} — {{getStringTime(swopCard.createdAt)}} Uhr</p>
+                          <p class="card-footer-item help">{{getStringDay(swopCard.createdAt) }}. {{getStringMonth(swopCard.createdAt)}} — {{getStringTime(swopCard.createdAt)}}<span class="hide-mobile"> Uhr</span></p>
                           <a class="card-footer-item" v-on:click="deleteSwopCard(swopCard.id)"><span class="icon"><i class="fa fa-trash" aria-hidden="true"></i></span> Löschen</a>
                       </footer>
                       <!-- / Kartenfooter -->
@@ -158,7 +158,7 @@
                   <div class="columns is-centered">
                       <div class="column is-half is-narrow">
                           <p class="has-text-centered">
-                              <router-link :to="{name: 'swop-dialog'}" class="button is-secondary has-icon is-medium">
+                              <router-link :to="{name: 'swop-dialog'}" class="button is-secondary has-icon is-medium neue-anfrage">
                                   <span class="icon">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                           </span>

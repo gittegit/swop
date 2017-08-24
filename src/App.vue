@@ -486,6 +486,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   margin-top: 3rem;
   margin-bottom: 3rem;
 }
+.tabs.is-toggle li:last-child a, .tabs.is-toggle li:first-child a {
+  border-radius: 0 !important;
+}
 /* 05-02 - SWOP-DIALOG ------------------*/
 .autocomplete input {
   border-bottom-right-radius: 0px !important;
@@ -497,9 +500,83 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 06.          RESPONSIVE STYLING
 ------------------------------------------*/
 @media only screen and(max-width: 450px) {
+  /* -- General -- */
   .main-content {
     display: block !important;
-    padding: 2rem 1rem !important;
+    padding: 6rem 0;
+  }
+  .hide-mobile {
+    display: none !important;
+  }
+  .is-form {
+    padding: 1rem;
+  }
+  .task-description-title .title {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .title.is-3 {
+    font-size: 1.5rem !important;
+  }
+  /* -- Login Screen --*/
+  .button.forget-password {
+    font-size: 0.75rem !important;
+    padding: 1.05rem 0.5rem !important;
+    margin-left: -1px !important;
+  }
+  /* -- Navigation -- */
+  // .navbar-item i {
+  //   font-size: 1.25rem !important;
+  // }
+  /* -- Dashboard --*/
+  .neue-anfrage {
+    font-size: 1rem !important;
+  }
+  .neue-anfrage i {
+    font-size: 1rem !important;
+  }
+  .swop-card .card-header {
+    padding: 0.75rem 0 0.75rem 0.75rem !important;
+  }
+  a.card-footer-item {
+    font-size: 0.75rem !important;
+  }
+  a.card-footer-item i {
+    font-size: 1rem !important;
+  }
+  .card-content p {
+    font-size: 0.75rem !important;
+  }
+  .card-content {
+    padding: 1rem !important;
+  }
+  .swop-status-icon {
+    margin-right: 15px !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    flex-basis: 40px !important;
+  }
+  .swop-status-icon img {
+    max-width: 60% !important;
+  }
+  /* --- Swop Dialog -- */
+  .dropdown-item {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem !important;
+  }
+  .nav-dot {
+    margin: 0 5% !important;
+  }
+  /* -- Spielregeln -- */
+  img.float-right {
+    height: 5rem !important;
+  }
+
+}
+@media only screen and (min-width: 451px) {
+  .hide-desktop {
+    display: none !important;
   }
 }
 </style>
