@@ -128,7 +128,7 @@ export default {
   border-color: #ffffff;
   box-shadow: 0px 40px 20px -20px rgba(#000000, 0.05);
 }
-@media only screen and (min-width: 450px) {
+@media only screen and (min-width: 451px) {
   .login-logo {
     width: 50%;
   }
@@ -141,6 +141,22 @@ export default {
   }
   .is-form {
     margin-bottom: 3rem !important;
+  }
+}
+@media only screen and (max-width: 450px) {
+  .main-content {
+    padding: 2rem 0.75rem 3rem 0.75rem !important;
+  }
+  .main-content .column {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem !important;
+  }
+  .subtitle {
+    margin-bottom: 0 !important;
   }
 }
 </style>

@@ -46,4 +46,10 @@ img { width: 100% }
 .font-klein {
   font-size: 0.75rem !important;
 }
+
+@media only screen and (min-width: 451px) {
+  .flex-center {
+    margin-top: 3rem !important;
+  }
+}
 </style>

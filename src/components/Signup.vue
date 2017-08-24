@@ -221,7 +221,7 @@ export default {
 .login-logo {
   width: 70%;
 }
-@media only screen and (min-width: 450px) {
+@media only screen and (min-width: 451px) {
   .login-logo {
     width: 50%;
   }
@@ -236,6 +236,28 @@ export default {
     margin-bottom: 3rem !important;
   }
 }
+@media only screen and (max-width: 450px) {
+  .main-content {
+    padding: 2rem 0.75rem 5rem 0.75rem !important;
+  }
+  .main-content .column {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem !important;
+  }
+  .subtitle {
+    margin-bottom: 0 !important;
+  }
+  .message p, .message .content {
+    font-size: 1rem !important;
+  }
+  a {
+    text-decoration: none !important;
+  }
+}
 .is-form {
   border-color: #ffffff;
   box-shadow: 0px 40px 20px -20px rgba(#000000, 0.05);
@@ -243,5 +265,8 @@ export default {
 
 .dangerInput {
   border-color: #ff0000 !important;
+}
+a {
+  text-decoration: none !important;
 }
 </style>

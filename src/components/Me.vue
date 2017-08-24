@@ -64,7 +64,7 @@ export default {
 
 <style lang="scss" scoped>
 .main-content {
-  padding: 0 1rem !important;
+  padding: 12rem 1rem 0 1rem !important;
   display: flex;
   align-items: center;
   height: 100vh;

@@ -118,7 +118,7 @@
 
                       <!-- Kartenfooter mit Löschfunktion und Datum -->
                       <footer class="card-footer">
-                          <p class="card-footer-item help">{{getStringDay(swopCard.createdAt) }}. {{getStringMonth(swopCard.createdAt)}} — {{getStringTime(swopCard.createdAt)}}<span class="hide-mobile"> Uhr</span></p>
+                          <p class="card-footer-item help">{{getStringDay(swopCard.createdAt) }}. {{getStringMonth(swopCard.createdAt)}} — {{getStringTime(swopCard.createdAt)}}<span class="hide-mobile">&nbsp;Uhr</span></p>
                           <a class="card-footer-item" v-on:click="deleteSwopCard(swopCard.id)"><span class="icon"><i class="fa fa-trash" aria-hidden="true"></i></span> Löschen</a>
                       </footer>
                       <!-- / Kartenfooter -->
@@ -136,7 +136,7 @@
                       <div v-else>
                           <!-- Keine Ausstehenden Karten / activeTab checkt ob es Matches gibt -->
                           <div class="is-form" v-if="checkWaitingEmpty(mySwopCards) && this.activeTab === false">
-                              <h3 class="title is-size-4">Keine ausstehenden swops!</h3>
+                              <h3 class="title is-size-4">Keine ausstehenden Tauschanfragen!</h3>
                               <p>Wow, Du hast nur Matches! Diese findest Du unter "Match" oder "Alle".</p>
                           </div>
 

@@ -62,7 +62,7 @@
           <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
           <div v-if="hasGroupFrom && !hasGroupFromSet">
-            <div class="field has-addons">
+            <div class="field has-addons margin-bottom margin-top">
               <p class="control is-expanded">
                 <input :class="{'input': true, 'group': true}" type="text" placeholder="Deine aktuelle Untergruppe" @keyup.enter="hasGroupFromSet=true" v-model="courseGroupFrom">
               </p>
@@ -74,7 +74,7 @@
             </div>
           </div>
 
-          <div v-if="hasGroupFromSet">
+          <div class="margin-top margin-bottom" v-if="hasGroupFromSet">
             <a class="button is-secondary" @click="hasGroupFrom=false, hasGroupFromSet=false, courseGroupFrom='', courseGroupToArray = new Array()">
                 <span>Gruppe: {{courseGroupFrom}}</span>
                 <span class="icon is-small">
@@ -124,7 +124,7 @@
               <input :class="{'input': true, 'courseIsSet': true}" type="text" v-model="courseTitleFrom" readonly>
             </p>
 
-            <div class="floatingItems">
+            <div class="floatingItems margin-top">
               <div v-for="(courseGroupToItem, index) in courseGroupToArray" ref="crs" :key="courseGroupToItem.groupIndex">
                 <a class="button is-secondary is-floating" @click="removeGroup(index)">
                   <span>Gruppe: {{groupName(index)}}</span>
@@ -135,7 +135,7 @@
               </div>
             </div>
 
-            <div class="field has-addons">
+            <div class="field has-addons margin-top">
               <p class="control is-expanded">
                 <input :class="{'input': true, 'group': true}" type="text" placeholder="Deine Wunsch-Untergruppe" @keyup.enter="addGroup" v-model="groupAdding">
               </p>
@@ -161,7 +161,7 @@
             <p>nach</p>
             <p><span v-for="courseTitleTo in courseTitleToArray">
               <strong>{{courseTitleTo.courseName}}</strong>
-              <span v-if="courseTitleTo.courseIndex !== (-1 + courseTitleToArray.length)"> oder</span>
+              <span v-if="courseTitleTo.courseIndex !== (-1 + courseTitleToArray.length)"> oder </span>
             </span></p>
             <p><span v-if="hasGroupFrom">
               <strong>{{courseTitleTo}},</strong>
@@ -205,7 +205,7 @@
                   <h4 class="description is-5 has-text-centered">Erstelle hier eine neue Veranstaltung</h4>
 
                   <!-- Input Name-->
-                  <b-field class="has-addons" v-if="!hasNewCourseTitleSet">
+                  <b-field class="has-addons margin-bottom" v-if="!hasNewCourseTitleSet">
                     <div class="control is-expanded is-grouped">
                       <b-input placeholder="Vollständiger Name der Veranstaltung" v-model="newCourseTitle" @keyup.native="hasNewCourseTitle=true" @keyup.native.enter="setNewCourseTitle(), jump('id')" autofocus></b-input>
                     </div>
@@ -213,6 +213,7 @@
                       <a :class="{'is-primary': true, 'button': true}" :disabled="!hasNewCourseTitle" @click="setNewCourseTitle"><i class="fa fa-check"></i></a>
                     </div>
                   </b-field>
+                  <div class="spacer large"></div>
 
                   <div class="field has-addons" v-if="hasNewCourseTitleSet">
                     <p class="control is-expanded">
@@ -383,7 +384,7 @@ export default {
         this.courseTitleTo = null
       }
       this.newCourse = true
-      this.forwardItem = 'Veranstaltung erstellen' // buttongroup forwarditem setzen
+      this.forwardItem = 'Erstellen' // buttongroup forwarditem setzen
       this.backItem = 'Abbrechen' // buttongroup backitem setzen
     },
     setNewCourseTitle () {
@@ -732,6 +733,11 @@ border-color: #0F75BC !important;
 
 .modal-background {
   background-color: rgba(0, 0, 0, 0.4);
+}
+@media only screen and (min-width: 451px) {
+.is-5.description{
+  margin-bottom: 2rem;
+}
 }
 
 </style>

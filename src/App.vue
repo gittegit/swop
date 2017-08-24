@@ -187,6 +187,9 @@ input:focus {
   padding-left: 1rem;
   padding-right: 1rem;
 }
+.modal-background {
+  background-color: rgba(0, 0, 0, 0.4);
+}
 @media only screen and(min-width: 768px) {
   .main-content .container {
     padding-left: 0 !important;
@@ -209,6 +212,12 @@ form:not(:last-child) {
   margin-left: 1px !important;
   // border-top-right-radius: 0 !important;
   // border-bottom-right-radius: 0 !important;
+}
+.margin-top {
+  margin-top: 1.5rem;
+}
+.margin-bottom {
+  margin-bottom: 1.5rem;
 }
 
 /* Tabs */
@@ -244,6 +253,9 @@ form:not(:last-child) {
 .spacer {
   height: 0.75rem;
 }
+.spacer.large {
+  height: 1.5rem;
+}
 .flex-center {
   display: flex;
   align-items: center;
@@ -254,9 +266,6 @@ form:not(:last-child) {
 }
 .margin-right {
   margin-right: 0.75rem;
-}
-.modal-background {
-  background-color: rgba($primary, 0.8);
 }
 .message-header {
   background-color: $secondary;
@@ -494,6 +503,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   border-bottom-right-radius: 0px !important;
   border-top-right-radius: 0px !important;
 }
+.swop-uebersicht p {
+  margin: 0.5rem 0;
+}
 /* 05-03 - SPIELREGELN -------------------*/
 img.float-right {
   height: 8rem;
@@ -523,6 +535,12 @@ img.float-right {
   }
   .title.is-3 {
     font-size: 1.5rem !important;
+  }
+  .margin-top {
+    margin-top: 1.5rem;
+  }
+  .margin-bottom {
+    margin-bottom: 1.5rem;
   }
   /* -- Login Screen --*/
   .button.forget-password {
@@ -566,6 +584,34 @@ img.float-right {
   .swop-status-icon img {
     max-width: 60% !important;
   }
+  .card-content .button, {
+    font-size: 0.75rem !important;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  .card-content .button i {
+    font-size: 1rem !important;
+  }
+  .card-content .control.has-icons-left .input {
+    font-size: 1rem !important;
+    padding-left: 1.75rem !important;
+  }
+  .card-content .control.has-icons-left .input.is-medium ~ .icon {
+    font-size: 0.75rem !important;
+    margin-top: 0.25rem;
+    margin-left: 0.125rem;
+  }
+  .card-content .clipboard-button {
+    padding: 1.05rem 0.5rem !important;
+  }
+  .card-content .display-flex {
+    margin: 1rem 0 !important;
+  }
+  // .button.margin-right {
+  //   margin-right: 0 !important;
+  //   margin-bottom: 1rem;
+  //   margin-top: 0.25rem;
+  // }
   /* --- Swop Dialog -- */
   .dropdown-item {
     padding: 0.375rem 0.75rem;
@@ -587,9 +633,11 @@ img.float-right {
   .swop-uebersicht {
     margin: 2rem 0;
   }
-  .swop-uebersicht strong {
-    display: block;
+  .swop-uebersicht p {
     margin: 0.5rem 0;
+  }
+  .modal-content {
+    margin: 0 !important;
   }
   /* -- Spielregeln -- */
   img.float-right {
