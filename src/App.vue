@@ -494,7 +494,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   border-bottom-right-radius: 0px !important;
   border-top-right-radius: 0px !important;
 }
-
+/* 05-03 - SPIELREGELN -------------------*/
+img.float-right {
+  height: 8rem;
+  float: right;
+  margin: -3rem 0rem 1rem 2rem;
+  display: inline-block;
+}
 
 /* -----------------------------------------
 06.          RESPONSIVE STYLING
@@ -568,9 +574,27 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   .nav-dot {
     margin: 0 5% !important;
   }
+  .description.is-5 {
+      margin: 1.5rem 0 !important;
+  }
+  .nav-dots-container {
+    margin: 1rem 0 !important;
+    padding-bottom: 0 !important;
+  }
+  .flex-center {
+    margin-top: 3rem;
+  }
+  .swop-uebersicht {
+    margin: 2rem 0;
+  }
+  .swop-uebersicht strong {
+    display: block;
+    margin: 0.5rem 0;
+  }
   /* -- Spielregeln -- */
   img.float-right {
-    height: 5rem !important;
+    height: 4rem !important;
+    margin: -1rem 1rem 1rem 0 !important;
   }
 
 }

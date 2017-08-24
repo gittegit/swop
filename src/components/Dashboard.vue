@@ -459,9 +459,12 @@ export default {
     padding-top: 10rem;
   }
 }
-@media only screen and (max-width: 375px) {
+@media only screen and (max-width: 450px) {
   .course-title {
     font-size: 1rem !important;
+  }
+  .main-content {
+    padding: 8rem 0 !important;
   }
 }
 .swop-status-icon img {

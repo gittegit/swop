@@ -62,11 +62,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-  img.float-right {
-    height: 8rem !important;
-    float: right;
-    margin: -3rem 0rem 1rem 2rem;
-    display: inline-block;
-  }
+
 
 </style>

@@ -155,26 +155,26 @@
         <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
         <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
         <div v-if="activeStep === 'rd'">
-          <p class="has-text-centered"> Du möchtest von
-
-            <strong>{{courseTitleFrom}}<span v-if="courseGroupFrom !== ''">, Gruppe {{courseGroupFrom}}</span></strong></br>
-            nach </br>
-            <span v-for="courseTitleTo in courseTitleToArray">
+          <div class="has-text-centered swop-uebersicht">
+            <p>Du möchtest von</p>
+            <p><strong>{{courseTitleFrom}}<span v-if="courseGroupFrom !== ''">, Gruppe {{courseGroupFrom}}</span></strong></p>
+            <p>nach</p>
+            <p><span v-for="courseTitleTo in courseTitleToArray">
               <strong>{{courseTitleTo.courseName}}</strong>
               <span v-if="courseTitleTo.courseIndex !== (-1 + courseTitleToArray.length)"> oder</span>
-            </span>
-            <span v-if="hasGroupFrom">
+            </span></p>
+            <p><span v-if="hasGroupFrom">
               <strong>{{courseTitleTo}},</strong>
-            </span>
-            <span v-for="courseGroupTo in courseGroupToArray">
+            </span></p>
+            <p><span v-for="courseGroupTo in courseGroupToArray">
               <strong>
                 Gruppe {{courseGroupTo.groupName}}
               </strong>
                 <span v-if="courseGroupTo.groupIndex !== (-1 + courseGroupToArray.length)"> oder
               </span>
-            </span></br>
-            wechseln?
-          </p>
+            </span></p>
+            <p>wechseln?</p>
+          </div>
         </div>
         <!-- ––––––––––––––––––––––– BUTTON GROUP (NAVIGATION) –––––––––––––––––––––––––– -->
         <button-group>
