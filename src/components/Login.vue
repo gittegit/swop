@@ -44,7 +44,7 @@
               </span>
             </p>
             <p class="control">
-              <router-link :to="{name: 'passwort-vergessen'}"class="button is-outlined has-text-primary">
+              <router-link :to="{name: 'passwort-vergessen'}"class="button is-outlined has-text-primary forget-password">
                 Vergessen?
               </router-link>
             </p>
