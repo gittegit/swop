@@ -1,5 +1,4 @@
 <template>
-<!-- Wird Später statt Hello.vue als Startpunkt verwendet -->
 <div class="main-content">
   <div class="container">
     <div class="columns is-centered">
@@ -62,8 +61,6 @@ export default {
   },
   created () {
     this.$parent.isLoggedIn = false
-    console.log(this.$parent.isLoggedIn)
-    console.log(db.user)
   },
   computed: {
     isValid () {

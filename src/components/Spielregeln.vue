@@ -7,6 +7,7 @@
             <div class="task-description-title">
               <h4 class="title">Spielregeln</h4>
             </div>
+            <!-- Spielregeln -->
             <div class="content gaming-rules">
                   <p><img class="float-right animated jello" src="../assets/swoppy.svg">swop bietet Dir die Möglichkeit, einen Tauschpartner für Deinen Platz in einer Uni-Veranstaltung zu finden. swop ist <strong>komplett kostenlos</strong>.
                     Damit das so bleiben kann, müssen sich alle swop-Mitglieder an folgende Spielregeln halten:
@@ -30,7 +31,7 @@
                     </li>
                   </ol>
               </div>
-
+              <!-- Support -->
               <p class="has-text-centered">Noch Fragen?</p>
               <div class="spacer"></div>
               <p class="has-text-centered"><a target="_blank" href="https://rickrolled.fr/" class="button is-primary">Kontaktiere den Support</a></p>
@@ -48,7 +49,6 @@ export default {
   name: 'spielregeln',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js and Baqend App',
       isLoggedIn: null
     }
   },
@@ -61,7 +61,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-
-
-</style>
+<style scoped lang="scss"></style>

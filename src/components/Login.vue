@@ -1,5 +1,4 @@
 <template>
-<!-- Wird Später statt Hello.vue als Startpunkt verwendet -->
 <div class="main-content">
   <div class="container">
     <div class="columns is-centered">
