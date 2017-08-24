@@ -11,7 +11,7 @@
           <!-- Hier kann man seinen Displaynamen ändern -->
           <form class="change-name">
             <h4 class="title is-6">Name ändern</h4>
-            <p class="subtitle">Dieser Name wird Deinem Tauschpartner angezeigt.</p>
+            <p class="help hasPadding">Dieser Name wird Deinem Tauschpartner angezeigt.</p>
             <b-field>
               <div class="control has-icons-left is-expanded" v-on:keyup="showNameButton">
                 <input class="input" type="text" v-model="name" v-on:keyup.enter="changeName" placeholder="Dein Name"></b-input>
@@ -33,7 +33,7 @@
           <!-- Hier kann man eine neue Mail-Adresse angeben und ändern -->
             <form class="add-email">
                 <h4 class="title is-6">Zusätzliche Mail-Adresse</h4>
-                <p class="help">Wenn Du eine zusätzliche Mail-Adresse hinterlegst, werden Benachrichtigungen aus swop nur noch an diese Adresse gesendet. Einloggen kannst Du Dich aber weiterhin <strong>nur</strong> mit Deiner verifizierten Uni-Mail (<strong>{{ loginEmail }}</strong>).</p>
+                <p class="help hasPadding">Wenn Du eine zusätzliche Mail-Adresse hinterlegst, werden Benachrichtigungen aus swop nur noch an diese Adresse gesendet. Einloggen kannst Du Dich aber weiterhin <strong>nur</strong> mit Deiner verifizierten Uni-Mail (<strong>{{ loginEmail }}</strong>).</p>
                 <b-field>
                   <div class="control has-icons-left is-expanded" v-on:keyup="showMailButton">
                       <input class="input" v-model="email" v-on:keyup.enter="mailValidator" placeholder="Deine Mail-Adresse"></b-input>
@@ -369,6 +369,10 @@ export default {
 
 .icon-margin {
   margin-left: 0.5rem;
+}
+
+.hasPadding {
+  padding-bottom: 0.5rem;
 }
 
 </style>
