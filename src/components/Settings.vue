@@ -99,13 +99,32 @@
 
             <!-- Button (Account löschen & Logout) -->
             <p class="flex-center flex-center-left">
-              <a class="has-text-secondary is-white font-klein margin-right" v-on:click="deleteAccount">Account löschen</a>
+              <a class="has-text-secondary is-white font-klein margin-right" v-on:click="toggleModal">Account löschen</a>
               <a class="button is-primary has-icon-right" v-on:click="swopLogout">Ausloggen<i class="fa fa-sign-out icon-margin"></i></a>
             </p>
         </div>
 <!-- Form zu Ende -->
     </div>
   </div>
+
+<div class="modal" :class="{'is-active': modalOpen}">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <article class="message is-medium">
+    <div class="message-header">
+      <p>Account löschen</p>
+    </div>
+      <div class="message-body content">
+        <p>Bist Du Dir sicher, dass Du Deinen Account <strong>löschen</strong> willst? Diese Aktion kann nicht rückgängig gemacht werden.</p>
+        <p class="has-text-right flex-center">
+          <a class="is-white font-klein margin-right" v-on:click="toggleModal">Abbrechen</a>
+          <a class="button is-secondary" v-on:click="deleteAccount">Löschen</a>
+        </p>
+      </div>
+    </article>
+  </div>
+</div>
+
 </div>
 </template>
 
@@ -142,6 +161,7 @@ export default {
       passwordButton: false,
       isDanger: false,
       // alles andere
+      modalOpen: false,
       isLoggedIn: null
     }
   },
@@ -323,25 +343,20 @@ export default {
     /*
     * Hier wird der Account gelöscht.
     */
+    toggleModal () {
+      this.modalOpen = !this.modalOpen
+    },
     deleteAccount () {
-      this.$dialog.confirm({
-        title: 'Account löschen',
-        message: 'Bist Du Dir sicher, dass Du Deinen Account <strong>löschen</strong> willst? Diese Aktion kann nicht rückgängig gemacht werden.',
-        confirmText: 'Löschen',
-        cancelText: 'Abbrechen',
-        type: 'is-danger',
-        onConfirm: (value) => {
-          m.deleteUser().then((result) => {
-            this.swopLogout()
-          }).catch((error) => {
-            console.log(error)
-            var errorMessage = error.cause
-            this.$toast.open({
-              duration: 5000,
-              message: errorMessage,
-              type: 'is-danger'})
-          })
-        }
+      m.deleteUser().then((result) => {
+        this.swopLogout()
+      }).catch((error) => {
+        this.toggleModal()
+        console.log(error)
+        var errorMessage = error.cause
+        this.$toast.open({
+          duration: 5000,
+          message: errorMessage,
+          type: 'is-danger'})
       })
     },
 
