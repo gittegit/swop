@@ -202,12 +202,10 @@ export default {
     changeName () {
       m.updateUsername(this.name)
       .then((result) => {
-        console.log(result)
         this.nameSuccess = result.success.message
         this.showNameCheckButton = false
         this.showDisabledNameButton = true
       }).catch((error) => {
-        console.log(error)
         var errorMessage = error.cause.message
         this.$toast.open({
           duration: 5000,
@@ -241,11 +239,9 @@ export default {
         this.showMailClearButton = true
         m.updateEmail(this.email)
         .then((result) => {
-          console.log(result)
           this.mailSuccess = result.success.message
           this.mailError = false
         }).catch((error) => {
-          console.log(error)
           var errorMessage = error.cause.message
           this.$toast.open({
             duration: 5000,
@@ -269,7 +265,6 @@ export default {
           this.email = null
           this.mailSuccess = null
         }).catch((error) => {
-          console.log(error)
           var errorMessage = error.cause.message
           this.$toast.open({
             duration: 5000,
@@ -295,14 +290,6 @@ export default {
         return true
       }
     },
-  /*  emptyPasswordValidator () {
-      if (this.nPassword === '') {
-        this.passwordEmpty = true
-      } else {
-        this.passwordEmpty = false
-        return true
-      }
-    }, */
     confirmPasswordValidator () {
       if (this.nPassword !== this.bPassword) {
         this.isDanger = true
@@ -315,7 +302,6 @@ export default {
       }
     },
     PasswordValidator () {
-    //  if (this.differentPasswordValidator() && this.emptyPasswordValidator() && this.confirmPasswordValidator()) {
       if (this.differentPasswordValidator() && this.confirmPasswordValidator()) {
         m.changePassword(this.aPassword, this.nPassword)
         .then((result) => {
@@ -325,7 +311,6 @@ export default {
           this.bPassword = null
           this.passwordButton = false
         }).catch((error) => {
-          console.log(error)
           this.passwordError = error.cause.message
         })
       } else {
@@ -341,7 +326,8 @@ export default {
     },
 
     /*
-    * Hier wird der Account gelöscht.
+    * Modal aktiv setzen (toggleModal)
+    * Hier wird der Account gelöscht (deleteAccount)
     */
     toggleModal () {
       this.modalOpen = !this.modalOpen
@@ -351,7 +337,6 @@ export default {
         this.swopLogout()
       }).catch((error) => {
         this.toggleModal()
-        console.log(error)
         var errorMessage = error.cause
         this.$toast.open({
           duration: 5000,
