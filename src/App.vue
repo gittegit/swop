@@ -170,7 +170,7 @@ a.has-text-lightgrey:hover {
 .button.is-outlined:hover {
   color: $primary;
 }
-input:focus {
+input:focus, .input:focus, .input.is-focused, .input:active, .input.is-active, .textarea:focus, .textarea.is-focused, .textarea:active, .textarea.is-active {
   border-color: $primary !important;
 }
 .main-content {
