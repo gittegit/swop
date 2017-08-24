@@ -85,6 +85,9 @@ export default {
     }
   },
   methods: {
+    /*
+    * Einloggen eines User
+    */
     logIn () {
       var lowerCaseUser = this.username.toLowerCase()
       db.User.login(lowerCaseUser, this.password).then(_ => {
