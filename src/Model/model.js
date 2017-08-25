@@ -10,9 +10,9 @@ import db from 'baqend'
 */
 class Modul {
   constructor () {
-    this.swopCards //{Map}
-    this.user //{Object}
-    this.matches //{Map}
+    this.swopCards // {Map}
+    this.user // {Object}
+    this.matches // {Map}
     // db.connect('restless-bolt-1') Wird momentan in der main.js geladen
   }
 
