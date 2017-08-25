@@ -26,9 +26,9 @@ class Modul {
     return db.User.load(db.User.me.id, {depth: 3})
       .then((user) => {
         this.parseAndSaveUserData(user)
-        return new Promise(function (resolve, reject) {
-          ({message: 'Userdaten wurden neu geladen'})
-        })
+      //   return new Promise(function (resolve, reject) {
+      //     ({message: 'Userdaten wurden neu geladen'})
+      //   })
       })
   }
 
