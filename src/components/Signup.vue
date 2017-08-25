@@ -154,7 +154,6 @@ export default {
         this.mailSent = true
 //        router.push('me')
       }).catch((error) => {
-        console.log(error)
         this.swopError = error.cause.message
       })
     },

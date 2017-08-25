@@ -75,8 +75,6 @@ export default {
   },
   created () {
     this.$parent.isLoggedIn = false
-    console.log(this.$parent.isLoggedIn)
-    console.log(db.user)
   },
   computed: {
     isValid () {
