@@ -370,7 +370,7 @@ export default {
 
     // –––––––––––––––––––––––––––––––––––– STEP 2 ––––––––––––––––––––––––––––––––––––––
     addCourseTo () { // Wunschveranstaltung(en) zu Liste hinzufügen
-      if (this.coursesAC.name === this.coursesAC.selected) {
+      if (this.coursesAC.name === this.coursesAC.selected && this.coursesAC.name !== '') {
         if (this.coursesAC.name === 'Deine Veranstaltung ist nicht dabei?') {
           this.openCourseCreation()
         } else {
