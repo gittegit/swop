@@ -49,7 +49,7 @@ class Modul {
   /**
   * Aktualisiert die lokalen Userdaten, d.h. this.user, this.swopCards und
   * this.matches
-  * @param {currentUser} User mit den zuaktualisierenden Daten
+  * @param {User} currentUser mit den zuaktualisierenden Daten
   */
   parseAndSaveUserData (currentUser) {
     this.user = currentUser
@@ -68,7 +68,7 @@ class Modul {
   /**
   * Aktualisiert die lokalen restrictedUserInfo Daten, d.h. Emailadresse und
   * Displaynamen
-  * @param {restrictedUserInfo} restrictedUserInfo die die zuaktualisierenden
+  * @param {RestrictedUserInfo} restrictedUserInfo die die zuaktualisierenden
   * Daten enthält
   */
   parseAndSaveRestrictedUserInfoData (restrictedUserInfo) {
@@ -78,8 +78,8 @@ class Modul {
 
   /**
   * Loggt den User ein
-  * @param {username} String der username (Emailadresse) des Users
-  * @param {pw} String Passwort des Users
+  * @param {String} username String der username (Emailadresse) des Users
+  * @param {String} pw Passwort des Users
   * @return {Promise}
   */
   login (username, pw) {
@@ -100,9 +100,9 @@ class Modul {
 
   /**
    * Registriert einen neuen User
-   * @param {displayName} String der gewünschte Displayname des Users
-   * @param {username} String die Emailadresse des Users
-   * @param {password} String das gewünschte Passwort des Users
+   * @param {String} displayName der gewünschte Displayname des Users
+   * @param {String} username die Emailadresse des Users
+   * @param {String} password das gewünschte Passwort des Users
    * @returns {Promise|Object}
    */
   register (displayName, username, password) {
@@ -142,7 +142,7 @@ class Modul {
 
   /**
    * Updatet den Displaynamen des aktuellen Users.
-   * @param {email} String der gewünschte neue Name
+   * @param {String} email der gewünschte neue Name
    * @returns {Promise|JSON} welches angibt ob die Aktion erfolgreich war und das
    * aktualisierte RestrictedUserInfo Objekt enthält
    */
@@ -159,7 +159,7 @@ class Modul {
   /**
    * Updatet die Email an die die Swopbenachrichtigungen geschickt werden in
    * der RestrictedUserInfo.
-   * @param {email} String die gewünschte neue Email
+   * @param {String} email die gewünschte neue Email
    * @returns {Promise|JSON} welches angibt ob die Aktion erfolgreich war und das
    * aktualisierte RestrictedUserInfo Objekt enthält
    */
@@ -195,8 +195,8 @@ class Modul {
 
   /**
    * Erstellt einen neuen Kurs
-   * @param {name} String Name der zuerstellenden Veranstaltung
-   * @param {courseId} String Veranstaltungsid der
+   * @param  {String} name Name der zuerstellenden Veranstaltung
+   * @param  {String} courseId Veranstaltungsid der zuerstellenden Veranstaltung
    * @returns {Promise|JSON}
    */
   createCourse (name, courseId) {
@@ -218,11 +218,11 @@ class Modul {
 
   /**
   * Erstellt eine neue Swopcard und speichert Sie in der Datenbank ab
-  * @param {searchedCourses} Array Ids als Strings der Kurse die gesucht werden
-  * @param {searchedGroups} Array Gruppennamen als Strings der Gruppen die
+  * @param {Array} searchedCourses  Ids als Strings der Kurse die gesucht werden
+  * @param {Array} searchedGroups Gruppennamen als Strings der Gruppen die
   * gesucht werden, wenn keine gesucht werden leeres Array [] übergeben
-  * @param {courseId} String die Id des Veranstaltung aus der User raus will
-  * @param {group|String} String die Gruppe in der sich der User befindet, wenn
+  * @param {String} courseId die Id des Veranstaltung aus der User raus will
+  * @param {String} group die Gruppe in der sich der User befindet, wenn
   * keine Gruppen existiert leeren String "" übergeben.
   * @return {Promise|JSON} welches angibt ob die Aktion erfolgreich war und das
   * aktualisierte User Objekt enthält
@@ -251,7 +251,7 @@ class Modul {
 
   /**
   * Gibt eine bestimmte SwopCard aus
-  * @param {swopCardId} String: Id der SwopCard, die ausgegeben werdne soll
+  * @param {String} swopCardId Id der SwopCard, die ausgegeben werdne soll
   * @returns {SwopCard}
   */
   getSwopCard (swopCardId) {
@@ -296,7 +296,7 @@ class Modul {
   /**
   * Überprüft ob der User zu einem gegebenen Match den Status verändern
   * kann, also ob der User den Match schon akzeptiert oder abgelehnt hat.
-  * @param {matchId} String die Id des Matches für die überprüft werden soll,
+  * @param {String} matchId die Id des Matches für die überprüft werden soll,
   * ob der Status mittels des aktuellen Users änderbar ist.
   * @return {boolean} true, falls der User noch nicht akzeptiert/abgelehnt
   * hat, sonst false.
@@ -316,7 +316,7 @@ class Modul {
 
   /**
   * Gibt die aktuellen Stati beider User eines Matches aus.
-  * @param {matchId} String die Id des Matches für die beide Stati ausgegeben
+  * @param {String} matchId die Id des Matches für die beide Stati ausgegeben
   *  werden sollen.
   * @return {String[]} wobei der erste Eintrag der Match Status des eigenen
   * Users ist und der zweite der Match Status des anderen Users ist.
@@ -337,7 +337,7 @@ class Modul {
   /**
   * Gibt das RestrictedUserInfo Objekt des anderen Users eines Matches aus,
   * sofern dieses schon vom MatchService gesetzt wurde.
-  * @param {matchId} String die Id des Matches für die das RUI des anderen
+  * @param {String} matchId die Id des Matches für die das RUI des anderen
   * Users ausgegeben werden soll
   * @returns {RestrictedUserInfo} ({displayName: String, email: String})
   */
@@ -356,7 +356,7 @@ class Modul {
 
   /**
    * Akzeptiert den Match zu einer gegebenen MatchId vom aktuellen User aus ab
-   * @param {matchId} String die Id des Matches
+   * @param {String} matchId die Id des Matches
    * @returns {Promise|JSON} welches angibt ob die Aktion erfolgreich war und das
    * aktualisierte User Objekt enthält
    */
@@ -375,7 +375,7 @@ class Modul {
 
   /**
    * Lehnt den Match zu einer gegebenen MatchId vom aktuellen User aus ab
-   * @param {matchId} String die Id des Matches
+   * @param {String} matchId die Id des Matches
    * @returns {Promise|JSON} welches angibt ob die Aktion erfolgreich war und das
    * aktualisierte User Objekt enthält
    */
