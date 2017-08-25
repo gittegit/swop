@@ -9,7 +9,7 @@
                   <!-- Tab Navigation -->
                   <div class="card-tabs tabs is-toggle is-fullwidth is-small">
                       <ul>
-                          <li v-for="swopCardTab in swopCardTabs" :class="{'is-active':swopCardTab.active}" v-on:click="manageCards(swopCardTab); logMal(swopCardTab.statusMessage)">
+                          <li v-for="swopCardTab in swopCardTabs" :class="{'is-active':swopCardTab.active}" v-on:click="manageCards(swopCardTab);">
                               <a>
                                   <span>{{ swopCardTab.statusMessage }}</span>
                               </a>
@@ -184,14 +184,12 @@ export default {
   name: 'dashboard',
   data () {
     return {
-      // copyData: 'test',
-      isLoggedIn: null,
-      activeTab: 'ALL',
-      copyData: '',
-      noSwopCards: null,
-      testing: false,
-      open: null,
-      swopCardTabs: [
+      isLoggedIn: null, // Nutzer eingelogged?
+      activeTab: 'ALL', // Aktueller Tab
+      copyData: '', // Zwischenablage
+      noSwopCards: null, // Variable für nicht vorhandene Swopcards
+      open: null, // Variable für geöffnete Karte
+      swopCardTabs: [ // Tabs Zustände
         {
           statusMessage: 'Ausstehend',
           active: false
@@ -205,25 +203,26 @@ export default {
           active: false
         }
       ],
-      mySwopCards: [],
-      begruessungen: ['Tagchen', 'Guten Tag', 'Servus', 'Moin', 'Hallo', 'Hi', 'Hey', 'Na'],
-      displayName: 'swop-Mitglied',
-      Begruessung: 'Hey swop-Mitglied'
+      mySwopCards: [], // Array, das mit Daten vom Baqend befüttert wird
+      begruessungen: ['Tagchen', 'Guten Tag', 'Servus', 'Moin', 'Hallo', 'Hi', 'Hey', 'Na'], // Begrüßungen für den Fall, dass man keine Karten hat
+      displayName: 'swop-Mitglied', // Variable Display Name
+      Begruessung: 'Hey swop-Mitglied' // Fallback Begrüßung, Falls es keinen Display Namen gibt
     }
   },
   created () {
-    if (!db.User.me) {
+    if (!db.User.me) { // wenn nicht eingelogged, leite auf Login Screen weiter
       this.$router.push('/')
     }
-    // this.displayName = db.User.me.displayName
-    M.initUserData().then((result) => {
-      console.log(result)
+    // Z E N T R U M:
+    // Initiierung des Dashboards
+    M.initUserData().then(() => {
       this.initiateDashboard()
     })
-    // Einzelne SwopCard hat folgende Einträge:
-    // acl, course, createdAt, createdBy, id, match, myGroup, searchedCourses, searchedGroups, status, updatedAt, version
   },
   methods: {
+    /*
+      Manage Cards übernimmt die Logik des Filterns der Karten
+    */
     manageCards: function (event) {
       // Toggle die Active Klassen der Tabs erstmal auf false
       for (var swopCardTab in this.swopCardTabs) {
@@ -241,6 +240,9 @@ export default {
         this.activeTab = 'ALL'
       }
     },
+    /*
+      Hilfsfunktion, die wiedergibt, ob Karte ein Match ist
+    */
     hasMatch: function (swopCard) {
       var result
       if (swopCard.match !== null) {
@@ -250,6 +252,7 @@ export default {
       }
       return result
     },
+    // SUCCESS Message für Copy-to-Clipboard Funktion
     onSuccess: function () {
       this.$toast.open({
         message: 'Mail wurde in die Zwischenablage kopiert!',
@@ -257,6 +260,7 @@ export default {
         position: 'is-top'
       })
     },
+    // ERROR Message für Copy-to-Clipboard Funktion
     onError: function () {
       this.$toast.open({
         duration: 5000,
@@ -265,6 +269,7 @@ export default {
         type: 'is-danger'
       })
     },
+    // Frontend-Funktion, die Karte öffnet oder schließt
     toggleOpen: function (swopCard) {
       // Öffne eine angeklickte Swopcard. Schließe alle geöffneten dabei
       if (this.open === null) {
@@ -275,10 +280,10 @@ export default {
         this.open = null
       }
     },
+    // Swopkarte löschen
     deleteSwopCard: function (swopCard) {
       // Löscht eine swopCard anhand ihrere id
       M.deleteSwopCard(swopCard).then(() => {
-        console.log(M)
         this.$toast.open({
           message: 'Die Tauschkarte wurde gelöscht.',
           type: 'is-success',
@@ -286,7 +291,6 @@ export default {
         })
         this.initiateDashboard()
       }).catch((error) => {
-        console.log(error)
         var errorMessage = error.cause.message
         this.$toast.open({
           duration: 5000,
@@ -294,12 +298,13 @@ export default {
           type: 'is-danger'})
       })
     },
+    // Hilfsfunktion zum erfragen des Matchstatuses einer Karte
     getSwopCardMatchStatus: function (swopCard) {
       return M.getMatchStatus(swopCard)
     },
+    // Match akzeptieren
     acceptMatch: function (swopCard) {
-      M.acceptMatch(swopCard).then((result) => {
-        console.log(result)
+      M.acceptMatch(swopCard).then(() => {
         this.$toast.open({
           message: 'Der Match wurde bestätigt.',
           type: 'is-success',
@@ -307,7 +312,6 @@ export default {
         })
         this.initiateDashboard()
       }).catch((error) => {
-        console.log(error)
         var errorMessage = error.cause.message
         this.$toast.open({
           duration: 5000,
@@ -315,9 +319,9 @@ export default {
           type: 'is-danger'})
       })
     },
+    // Match abbrechen
     declineMatch: function (swopCard) {
-      M.declineMatch(swopCard).then((result) => {
-        console.log(result)
+      M.declineMatch(swopCard).then(() => {
         this.$toast.open({
           message: 'Der Match wurde abgebrochen.',
           type: 'is-success',
@@ -326,14 +330,18 @@ export default {
         this.initiateDashboard()
       })
     },
+    // Userdaten des Partners laden
     getMatchPartner: function (swopCard) {
       return M.getMatchUserDetail(swopCard)
     },
+    /*
+      Initiiere Dashboard
+      Lade Swopkarten über das Model aus baqend
+    */
     initiateDashboard: function () {
       M.getMySwopCards()
         .then((swopCards) => {
           this.mySwopCards = swopCards // Zuweisen der geladenen SwopCards auf lokales Array
-          console.log('SwopCards geladen' + this.mySwopCards)
           if (this.mySwopCards.length === 0) { // Check auf Inhalt
             this.noSwopCards = true
           } else {
@@ -342,7 +350,6 @@ export default {
           var random = this.getRandom(0, this.begruessungen.length) // Würfel eine Begruessung zurecht
           this.Begruessung = this.begruessungen[random] + ' ' + M.getDisplayName() // Setze Begrüßung zusammen
         }).catch((error) => {
-          console.log(error)
           var errorMessage = error.cause.message
           this.$toast.open({
             duration: 5000,
@@ -350,9 +357,11 @@ export default {
             type: 'is-danger'})
         })
     },
+    // Hard Refresh Hilfsfunktion
     refreshHard: function () {
       document.location.reload()
     },
+    // Hilfsfunktion zum abfragen, ob es keine ausstehenden Karten gibt
     checkWaitingEmpty: function (swopCards) {
       var result = true
       for (var swopCard in swopCards) {
@@ -363,6 +372,7 @@ export default {
       }
       return result
     },
+    // Hilfsfunktion zum checken, ob es keine Matches gibt
     checkMatchEmpty: function (swopCards) {
       var result = true
       for (var swopCard in swopCards) {
@@ -373,16 +383,18 @@ export default {
       }
       return result
     },
+    // Hilfsfunktion, die ein Set in ein Array umwandelt
     setToArray: function (set) {
-      console.log(Array.from(set))
       return Array.from(set)
     },
+    // Datums Hilfsfunktion
     getStringDay: function (date) {
       return date.getDate()
     },
+    // Monat Hilfsfunktion, gibt für entsprechende Monatszahl den Monat als Wort wieder
     getStringMonth: function (date) {
       // Monat in Klartext
-      date = date.getMonth() + 1
+      date = date.getMonth() + 1 // Januar = 0, selbst hier fängt der brave Informatiker bei 0 an
       switch (date) {
         case (1): return 'Januar'
         case (2): return 'Februar'
@@ -399,6 +411,7 @@ export default {
         default: return ''
       }
     },
+    // Hilfsfunktion, die eine 0 vor einstellige Minuten setzt
     getStringTime: function (date) {
       var plusZero = function (element) {
         element = element.toString()
@@ -410,15 +423,17 @@ export default {
       }
       return plusZero(date.getHours()) + ':' + plusZero(date.getMinutes())
     },
+    // Random Hilfsfunktion
     getRandom: function (min, max) {
       min = Math.ceil(min)
       max = Math.floor(max)
       return Math.floor(Math.random() * (max - min)) + min
     },
+    // Testfunktion, die man an alle Events im Template dranhängen kann, um sie zu loggen
     logMal: function (event) {
-      // Testfunktion, die man an alle Events dranhängen kann, um sie zu loggen
       console.log(event)
     },
+    // Funktion, die vor dem Betreten des Dashboard ausgeführt werden sollte
     beforeRouteEnter: function (to, from, next) {
       if (db.User.me !== null) {
         next()
