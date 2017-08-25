@@ -62,12 +62,23 @@
           <!-- –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
           <div v-if="hasGroupFrom && !hasGroupFromSet">
-            <div class="field has-addons margin-bottom margin-top">
+            <div v-if="courseGroupFrom === ''" class="field has-addons margin-bottom margin-top">
+              <!-- bei leerer Eingabe kann die Gruppe nicht gesetzt werden -->
+              <p class="control is-expanded">
+                <input :class="{'input': true, 'group': true}" type="text" placeholder="Deine aktuelle Untergruppe" @keyup.enter="onFailure('Du kannst keine leere Gruppe angeben')" v-model="courseGroupFrom">
+              </p>
+              <p class="control">
+                <a class="button is-secondary" @click="onFailure('Du kannst keine leere Gruppe angeben')" :disabled="courseGroupFrom === ''">
+                  <i class="fa fa-check"></i>
+                </a>
+              </p>
+            </div>
+            <div v-else class="field has-addons margin-bottom margin-top">
               <p class="control is-expanded">
                 <input :class="{'input': true, 'group': true}" type="text" placeholder="Deine aktuelle Untergruppe" @keyup.enter="hasGroupFromSet=true" v-model="courseGroupFrom">
               </p>
               <p class="control">
-                <a class="button is-secondary" @click="hasGroupFromSet=true" :disabled="courseGroupFrom === ''">
+                <a class="button is-secondary" @click="hasGroupFromSet=true">
                   <i class="fa fa-check"></i>
                 </a>
               </p>
@@ -135,7 +146,18 @@
               </div>
             </div>
 
-            <div class="field has-addons margin-top">
+            <div v-if="groupAdding === ''" class="field has-addons margin-top">
+              <!-- bei leerer Eingabe kann die Gruppe nicht gesetzt werden -->
+              <p class="control is-expanded">
+                <input :class="{'input': true, 'group': true}" type="text" placeholder="Deine Wunsch-Untergruppe" @keyup.enter="onFailure('Du kannst keine leere Gruppe angeben')" v-model="groupAdding">
+              </p>
+              <p class="control">
+                <a class="button is-secondary" @click="onFailure('Du kannst keine leere Gruppe angeben')" :disabled="groupAdding === ''">
+                  <i class="fa fa-plus"></i>
+                </a>
+              </p>
+            </div>
+            <div v-else class="field has-addons margin-top">
               <p class="control is-expanded">
                 <input :class="{'input': true, 'group': true}" type="text" placeholder="Deine Wunsch-Untergruppe" @keyup.enter="addGroup" v-model="groupAdding">
               </p>
